@@ -30,6 +30,24 @@
 
     对本项目来说，已合入的 `k230` machine 提供了 K230 QEMU 建模的上游基线。后续 RustSBI 适配、外设模型补全、安全实验支撑等工作，应尽量基于该上游实现继续演进，并按 QEMU 社区规范整理 patch 和测试结果。
 
+!!! important "K230 相关成果上游贡献"
+
+    完成 K230 QEMU 相关 Issue 后，请不要只停留在本仓库 PR 或 fork 仓库中。将可合入 QEMU 的改动整理为 patch series，直接发送到 `qemu-devel@nongnu.org` 和 `qemu-riscv@nongnu.org` 邮件列表，并根据 `scripts/get_maintainer.pl` 与 `MAINTAINERS` 抄送对应维护者和 reviewer。
+
+    [QEMU `MAINTAINERS`](https://gitlab.com/qemu-project/qemu/-/raw/master/MAINTAINERS) 是 QEMU 上游维护的子系统联系人索引，用来确认某个目录、文件或功能模块当前应该抄送哪些 maintainer、reviewer 和邮件列表。它比手写固定人员清单更可靠，因为维护者分工和邮件地址可能随上游变化。
+
+    阅读 `MAINTAINERS` 时重点关注以下字段：
+
+    | 字段 | 作用 |
+    | --- | --- |
+    | `M:` | Maintainer，负责对应子系统或机器模型的维护者，patch 通常需要抄送。 |
+    | `R:` | Reviewer，适合参与 review 的指定 reviewer 或长期贡献者。 |
+    | `L:` | Mailing list，相关公开邮件列表；K230 相关 QEMU patch 至少应发送到 `qemu-devel@nongnu.org` 和 `qemu-riscv@nongnu.org`。 |
+    | `F:` | File pattern，说明该条目覆盖哪些源码、测试或文档路径。 |
+    | `S:` | Status，说明该子系统维护状态，例如 maintained、supported、odd fixes 等。 |
+
+    实际发送 patch 前，建议在 QEMU 源码树中运行 `scripts/get_maintainer.pl <patchfile>`，用脚本根据改动文件自动生成最新收件人和抄送列表，再结合 `MAINTAINERS` 手动确认。
+
 !!! note "项目方向"
 
     项目仓库：[gevico/qemu-camp-2026-k230.git](https://github.com/gevico/qemu-camp-2026-k230.git)
@@ -63,16 +81,5 @@
     3. Commit message 使用 `subsystem: single line summary` 格式，说明改动原因；每个提交必须包含 `Signed-off-by: Your Name <email>`。
     4. 提交前运行 `scripts/checkpatch.pl <patchfile>`，并完成对应的构建、单元测试、QTest 或集成验证。
     5. 使用 `git format-patch` / `git send-email`、`b4` 或 `git-publish` 生成并发送邮件形式的 patch，不要以附件方式发送。
-    6. Patch 发送到 `qemu-devel@nongnu.org`，并通过 `MAINTAINERS` 或 `scripts/get_maintainer.pl` 抄送相关维护者。
+    6. Patch 发送到 `qemu-devel@nongnu.org` 和 `qemu-riscv@nongnu.org`，并通过 `MAINTAINERS` 或 `scripts/get_maintainer.pl` 抄送相关维护者。
     7. 保持参与 review，按反馈修订后使用 `v2`、`v3` 等版本号重新发送，并在 cover letter 或 patch 注释中说明版本变化。
-
-!!! info "本仓库贡献规范"
-
-    本仓库用于任务认领、阶段性协作和训练营成果沉淀。贡献代码或文档时请遵循以下规范：
-
-    1. 分支命名使用 `<type>/<scope>-<short-name>` 格式，例如 `docs/k230-rustsbi`、`feat/k230-gpio`、`fix/k230-uart`。
-    2. Commit message 使用 `<type>(<scope>): <summary>` 格式，例如 `docs(k230): update project directions`、`feat(k230): add gpio model skeleton`。
-    3. 常用 `type` 包括 `docs`、`feat`、`fix`、`test`、`refactor`、`ci`、`chore`；`summary` 使用简短英文描述，保持单行清晰。
-    4. 代码类提交建议带上 `Signed-off-by: Your Name <email>`，可使用 `git commit -s` 自动添加。
-    5. 一个 PR 聚焦一个任务或一个 Issue，避免把多个无关方向混在同一个 PR 中。
-    6. 提交 PR 前同步最新 `main` 分支并解决冲突，确保本地构建、格式检查和相关测试通过。
