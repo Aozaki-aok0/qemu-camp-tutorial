@@ -553,7 +553,8 @@ def load_workflow_text_for_run(
 
 
 def workflow_references_course_secret(workflow_text: str, direction: Direction) -> bool:
-    return f"secrets.{direction.course_secret}" in workflow_text or direction.course_secret in workflow_text
+    pattern = rf"secrets\s*\.\s*{re.escape(direction.course_secret)}\b"
+    return re.search(pattern, workflow_text) is not None
 
 
 def collect_repository(
@@ -651,7 +652,6 @@ def collect_repository(
                         "workflow does not reference the configured OpenCamp course secret",
                         run_url=run.get("html_url"),
                         run_time=run.get("run_started_at") or run.get("created_at"),
-                        kind="error",
                     ),
                 )
                 blocked.add(direction.key)
@@ -1379,6 +1379,39 @@ def self_test() -> None:
     assert len(diagnostics) == 1
     assert diagnostics[0].kind == "error"
     assert "Bad Gateway" in diagnostics[0].reason
+
+    records, diagnostics = collect_repository(
+        FakeGitHubClient(
+            [
+                {
+                    "id": 30,
+                    "name": "QEMU Camp 2026 CI",
+                    "event": "push",
+                    "head_branch": "main",
+                    "head_sha": "missing-secret",
+                    "path": ".github/workflows/classroom.yml",
+                    "run_started_at": "2026-06-17T02:00:00Z",
+                    "created_at": "2026-06-17T02:00:00Z",
+                    "html_url": "https://example.com/30",
+                }
+            ],
+            {
+                30: [{"id": 300, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+            },
+            {
+                300: log.encode("utf-8"),
+            },
+            workflow_text="courseId: ${{ secrets.OTHER_SECRET }}",
+        ),
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+    )
+    assert records == []
+    assert len(diagnostics) == 1
+    assert diagnostics[0].kind == "missing"
+    assert "course secret" in diagnostics[0].reason
 
 
 def parse_args() -> argparse.Namespace:
