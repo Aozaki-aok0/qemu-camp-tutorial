@@ -180,7 +180,7 @@ nav:
         - a. Prof Level Manual: tutorial/2025/ch4/prof-level-manual.md
         - b. G233 Datasheet: tutorial/2025/ch4/g233-board-datasheet.md
       - 6. 贡献名录: tutorial/2025/ch5/contributors.md
-  - 练习:
+  - 实验:
     - 介绍页: exercise/index.md
     - QEMU 训练营 2026:
       - 训练营介绍: exercise/2026/index.md
