@@ -74,7 +74,7 @@ make -f Makefile.camp test        # 全部方向
 
 **第一步**，Fork 本文档仓库 [qemu-camp-tutorial](https://github.com/gevico/qemu-camp-tutorial)。
 
-**第二步**，在 `docs/blogs/2026/` 目录下新建博客文件，文件命名格式：
+**第二步**，在 `docs/blogs/2026/professional/` 目录下新建博客文件，文件命名格式：
 
 ```
 qemu-camp-2026-<你的 GitHub 名>.md
@@ -118,18 +118,18 @@ qemu-camp-2026-<你的 GitHub 名>.md
     - 介绍页: blogs/index.md
     - 训练营 2026:
       - 专业阶段:
-        - dingtao1: blogs/2026/qemu-camp-2026-dingtao1.md
-        - <你的 GitHub 名>: blogs/2026/qemu-camp-2026-<github_name>.md
+        - dingtao1: blogs/2026/professional/qemu-camp-2026-dingtao1.md
+        - <你的 GitHub 名>: blogs/2026/professional/qemu-camp-2026-<github_name>.md
         - <已有多篇文章的 GitHub 名>:
-          - CPU 方向: blogs/2026/qemu-camp-2026-<github_name>.md
-          - SoC 方向: blogs/2026/qemu-camp-2026-<github_name>-soc.md
+          - CPU 方向: blogs/2026/professional/qemu-camp-2026-<github_name>.md
+          - SoC 方向: blogs/2026/professional/qemu-camp-2026-<github_name>-soc.md
       - 项目阶段:
-        - 暂无文章: blogs/2026/project-stage.md
+        - 暂无文章: blogs/2026/project/project-stage.md
 ```
 
 !!! note "参考博客"
 
-    - [dingtao1](../../../blogs/2026/qemu-camp-2026-dingtao1.md)
+    - [dingtao1](../../../blogs/2026/professional/qemu-camp-2026-dingtao1.md)
     - [LordaeronESZ（2025）](../../../blogs/2025/qemu-camp-2025-LordaeronESZ.md)
 
 **第四步**，提交 Pull Request，PR 标题格式：

@@ -4,13 +4,11 @@
 from __future__ import annotations
 
 import argparse
-import io
 import json
 import os
 import re
 import sys
 import tempfile
-import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -398,6 +396,35 @@ def diagnostic_is_collection_error(diagnostic: Diagnostic) -> bool:
     return diagnostic.kind == "error"
 
 
+def list_completed_workflow_runs(
+    client: GitHubClient,
+    organization: str,
+    repo_name: str,
+    workflow_names: set[str],
+    limit: int,
+) -> list[dict[str, Any]]:
+    matched: list[dict[str, Any]] = []
+    page = 1
+    while True:
+        data = client.get_json(
+            f"/repos/{organization}/{repo_name}/actions/runs",
+            {"status": "completed", "per_page": 100, "page": page},
+        )
+        runs = data.get("workflow_runs", []) if isinstance(data, dict) else data
+        if not runs:
+            break
+        for run in runs:
+            if workflow_names and run.get("name") not in workflow_names:
+                continue
+            matched.append(run)
+            if len(matched) >= limit:
+                return matched
+        if len(runs) < 100:
+            break
+        page += 1
+    return matched
+
+
 def discover_repositories(
     client: GitHubClient,
     organization: str,
@@ -436,58 +463,6 @@ def find_job_for_direction(jobs: list[dict[str, Any]], direction: Direction) -> 
         if any(name in job_name for name in names):
             return job
     return None
-
-
-def artifact_direction(artifact_name: str, directions: list[Direction]) -> str | None:
-    lower = artifact_name.lower()
-    for direction in directions:
-        if direction.key in lower:
-            return direction.key
-    return None
-
-
-def parse_artifact_payloads(
-    client: GitHubClient,
-    organization: str,
-    repo_name: str,
-    run_id: int,
-    directions: list[Direction],
-    configured_names: list[str],
-) -> dict[str, dict[str, Any]]:
-    try:
-        artifacts = client.paginate(f"/repos/{organization}/{repo_name}/actions/runs/{run_id}/artifacts")
-    except GitHubError:
-        return {}
-
-    payloads: dict[str, dict[str, Any]] = {}
-    configured = tuple(name.lower() for name in configured_names)
-    for artifact in artifacts:
-        name = artifact.get("name", "")
-        if artifact.get("expired"):
-            continue
-        if configured and not any(item in name.lower() for item in configured):
-            continue
-        try:
-            blob = client.get_bytes(artifact["archive_download_url"])
-        except (GitHubError, KeyError):
-            continue
-        direction_key = artifact_direction(name, directions)
-        try:
-            with zipfile.ZipFile(io.BytesIO(blob)) as archive:
-                for member in archive.namelist():
-                    if not member.endswith(".json"):
-                        continue
-                    payload = json.loads(archive.read(member).decode("utf-8"))
-                    if not is_score_payload(payload):
-                        continue
-                    payload_direction = payload.get("direction") or direction_key
-                    if payload_direction is None and len(directions) == 1:
-                        payload_direction = directions[0].key
-                    if payload_direction in {direction.key for direction in directions}:
-                        payloads[str(payload_direction)] = payload
-        except (zipfile.BadZipFile, json.JSONDecodeError, UnicodeDecodeError):
-            continue
-    return payloads
 
 
 def record_from_payload(
@@ -542,22 +517,15 @@ def collect_repository(
     records: dict[str, LeaderboardRecord] = {}
     latest_seen: dict[str, Diagnostic] = {}
 
+    workflow_names = {name for direction in directions for name in direction.workflow_names}
     try:
-        runs = client.paginate(
-            f"/repos/{organization}/{repo_name}/actions/runs",
-            {"status": "completed"},
-            limit=max_runs,
-        )
+        runs = list_completed_workflow_runs(client, organization, repo_name, workflow_names, max_runs)
     except GitHubError as exc:
         diagnostics = [
             Diagnostic(repo_name, repo.get("html_url", ""), direction.key, str(exc), kind="error")
             for direction in directions
         ]
         return [], diagnostics
-
-    workflow_names = {name for direction in directions for name in direction.workflow_names}
-    if workflow_names:
-        runs = [run for run in runs if run.get("name") in workflow_names]
 
     if not runs:
         return [], [
@@ -575,15 +543,6 @@ def collect_repository(
         ]
         if not missing:
             continue
-
-        artifact_payloads = parse_artifact_payloads(
-            client,
-            organization,
-            repo_name,
-            int(run["id"]),
-            missing,
-            config.get("payload_artifact_names", []),
-        )
 
         try:
             jobs = client.paginate(f"/repos/{organization}/{repo_name}/actions/runs/{run['id']}/jobs")
@@ -606,30 +565,6 @@ def collect_repository(
         for direction in missing:
             job = find_job_for_direction(jobs, direction)
             expected_name = expected_github_id(repo_name, direction)
-            if direction.key in artifact_payloads:
-                payload = artifact_payloads[direction.key]
-                if is_valid_score_payload(payload, expected_name):
-                    records[direction.key] = record_from_payload(
-                        payload=payload,
-                        direction=direction,
-                        repo=repo,
-                        run=run,
-                        job=job,
-                        source="artifact",
-                    )
-                    continue
-                latest_seen.setdefault(
-                    direction.key,
-                    Diagnostic(
-                        repo_name,
-                        repo.get("html_url", ""),
-                        direction.key,
-                        "OpenCamp score artifact failed repository or score validation",
-                        run_url=run.get("html_url"),
-                        run_time=run.get("run_started_at") or run.get("created_at"),
-                    ),
-                )
-
             if not job:
                 latest_seen.setdefault(
                     direction.key,
@@ -793,6 +728,14 @@ def build_snapshot(config: dict[str, Any], records: list[LeaderboardRecord], dia
     }
 
 
+def refresh_snapshot_time(snapshot: dict[str, Any]) -> dict[str, Any]:
+    snapshot = dict(snapshot)
+    metadata = dict(snapshot.get("metadata", {}))
+    metadata["generated_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    snapshot["metadata"] = metadata
+    return snapshot
+
+
 def markdown_escape(value: Any) -> str:
     text = str(value)
     return text.replace("|", "\\|").replace("\n", " ")
@@ -895,6 +838,7 @@ def render_direction_page(
 
 
 def render(snapshot: dict[str, Any], config: dict[str, Any], root: Path) -> None:
+    snapshot = refresh_snapshot_time(snapshot)
     snapshot = public_snapshot(snapshot)
     snapshot["max_diagnostics_per_page"] = config.get("max_diagnostics_per_page", 40)
     snapshot_path = root / config["snapshot_path"]
@@ -913,6 +857,92 @@ def render(snapshot: dict[str, Any], config: dict[str, Any], root: Path) -> None
 
 def load_snapshot(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_snapshot_if_exists(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    return load_snapshot(path)
+
+
+def record_identity(stage: str, direction: str, github_id: str) -> tuple[str, str, str]:
+    return stage, direction, github_id.lower()
+
+
+def snapshot_record(item: dict[str, Any]) -> LeaderboardRecord:
+    return LeaderboardRecord(
+        stage=str(item["stage"]),
+        direction=str(item["direction"]),
+        rank=None,
+        github_id=str(item["github_id"]),
+        score=float(item["score"]),
+        total_score=float(item["total_score"]),
+        run_time=str(item.get("run_time") or ""),
+        completion_time=str(item.get("completion_time") or item.get("run_time") or ""),
+        run_url="",
+        run_id=0,
+        job_name="",
+        commit_sha="",
+        repository="",
+        repository_url="",
+        source="snapshot",
+    )
+
+
+def diagnostic_identity(
+    diagnostic: Diagnostic,
+    directions_by_key: dict[str, Direction],
+) -> tuple[str, str, str] | None:
+    direction = directions_by_key.get(diagnostic.direction)
+    if direction is None:
+        return None
+    github_id = diagnostic.repository.removeprefix(direction.repository_prefix)
+    if github_id == diagnostic.repository:
+        return None
+    return record_identity(direction.stage, direction.key, github_id)
+
+
+def preserve_snapshot_records(
+    config: dict[str, Any],
+    records: list[LeaderboardRecord],
+    diagnostics: list[Diagnostic],
+    previous_snapshot: dict[str, Any] | None,
+) -> tuple[list[LeaderboardRecord], list[Diagnostic], int]:
+    if not previous_snapshot:
+        return records, diagnostics, 0
+
+    directions_by_key = {direction.key: direction for direction in config["directions"]}
+    current_keys = {
+        record_identity(record.stage, record.direction, record.github_id)
+        for record in records
+    }
+    diagnostic_keys = {
+        key
+        for diagnostic in diagnostics
+        if (key := diagnostic_identity(diagnostic, directions_by_key)) is not None
+    }
+
+    preserved: list[LeaderboardRecord] = []
+    preserved_keys: set[tuple[str, str, str]] = set()
+    for item in previous_snapshot.get("ranked", []):
+        try:
+            key = record_identity(str(item["stage"]), str(item["direction"]), str(item["github_id"]))
+        except KeyError:
+            continue
+        if key in current_keys or key not in diagnostic_keys:
+            continue
+        preserved.append(snapshot_record(item))
+        preserved_keys.add(key)
+
+    if not preserved:
+        return records, diagnostics, 0
+
+    remaining_diagnostics = [
+        diagnostic
+        for diagnostic in diagnostics
+        if diagnostic_identity(diagnostic, directions_by_key) not in preserved_keys
+    ]
+    return [*records, *preserved], remaining_diagnostics, len(preserved)
 
 
 def self_test() -> None:
@@ -1066,6 +1096,24 @@ def self_test() -> None:
         assert "bob" in page and "alice" in page
         assert "每天刷新一次｜快照生成时间：" in page
 
+        current_records, remaining_diagnostics, preserved = preserve_snapshot_records(
+            config,
+            [later],
+            [
+                Diagnostic(
+                    "qemu-camp-2026-exper-bob",
+                    "https://github.com/gevico/repo-bob",
+                    "cpu",
+                    "GitHub log expired",
+                    kind="error",
+                )
+            ],
+            public,
+        )
+        assert preserved == 1
+        assert remaining_diagnostics == []
+        assert {record.github_id for record in current_records} == {"alice", "bob"}
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -1099,11 +1147,19 @@ def main() -> int:
         return 0
 
     config = load_config(Path(args.config))
+    root = Path(args.output_root)
+    preserved_count = 0
     if args.render_only:
         snapshot = load_snapshot(Path(args.render_only))
         diagnostics: list[Diagnostic] = []
     else:
         records, diagnostics = collect(config, args.repo_limit, args.max_runs, args.repository, args.workers)
+        records, diagnostics, preserved_count = preserve_snapshot_records(
+            config,
+            records,
+            diagnostics,
+            load_snapshot_if_exists(root / config["snapshot_path"]),
+        )
         collection_errors = [diagnostic for diagnostic in diagnostics if diagnostic_is_collection_error(diagnostic)]
         if args.fail_on_collection_errors and collection_errors:
             print(
@@ -1127,14 +1183,14 @@ def main() -> int:
             print(f"dry-run rendered files under {tmp}")
             print(
                 f"ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
-                f"collection_errors={collection_error_count} generated_at={snapshot['metadata']['generated_at']}"
+                f"collection_errors={collection_error_count} preserved={preserved_count} "
+                f"generated_at={snapshot['metadata']['generated_at']}"
             )
     else:
-        root = Path(args.output_root)
         render(snapshot, config, root)
         print(
             f"rendered leaderboards: ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
-            f"collection_errors={collection_error_count}"
+            f"collection_errors={collection_error_count} preserved={preserved_count}"
         )
     return 0
 

@@ -4,10 +4,6 @@
     "workers": 8,
     "max_diagnostics_per_page": 40,
     "snapshot_path": "docs/generated/leaderboards/2026.json",
-    "payload_artifact_names": [
-        "opencamp-score-payload",
-        "opencamp-score-payload.json"
-    ],
     "stages": [
         {
             "key": "basic",

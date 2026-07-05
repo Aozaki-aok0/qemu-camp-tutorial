@@ -115,7 +115,7 @@
     1. 专业阶段共 `4` 个方向：CPU、SoC、GPGPU、Rust；选择任一方向满分通过即可晋级。
     2. 鼓励多方向尝试，但不是必须。
     3. 进入项目阶段的条件：① 任一方向满分；② 贡献一篇总结博客。
-    4. 博客路径：Fork `qemu-camp-tutorial` → `docs/blogs/2026/qemu-camp-2026-<你的 GitHub 名>.md` → 在 `mkdocs.yml` 的 `训练营 2026 / 专业阶段` 下用 GitHub 名作为导航标题 → 提交 PR。
+    4. 博客路径：Fork `qemu-camp-tutorial` → `docs/blogs/2026/professional/qemu-camp-2026-<你的 GitHub 名>.md` → 在 `mkdocs.yml` 的 `训练营 2026 / 专业阶段` 下用 GitHub 名作为导航标题 → 提交 PR。
 
     **Ref.** `docs/exercise/2026/stage1/index.md#晋级项目阶段`
 
@@ -194,7 +194,7 @@
     **解答**：
 
     1. Fork `gevico/qemu-camp-tutorial` 仓库。
-    2. 在 `docs/blogs/2026/` 新建 `qemu-camp-2026-<你的 GitHub 名>.md`；同一账号多篇文章可增加方向或主题后缀。
+    2. 在 `docs/blogs/2026/professional/` 新建 `qemu-camp-2026-<你的 GitHub 名>.md`；同一账号多篇文章可增加方向或主题后缀。
     3. 按模板填写：背景介绍 / 专业阶段 / 总结；并同步更新 `mkdocs.yml` 导航。导航中 `训练营 2026` 分为 `专业阶段` 和 `项目阶段`，专业阶段文章标题统一使用 GitHub 名；同一账号多篇文章放在该 GitHub 名的下一级目录。当前项目阶段暂无博客文章。
     4. PR 标题：`docs/blogs: add stage1 summary by <你的 GitHub 名>`。
     5. 审核合入后自动上站：<https://qemu.gevico.online/blogs/>。
