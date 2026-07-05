@@ -922,7 +922,10 @@ def diagnostic_identity(
 def diagnostic_allows_snapshot_preservation(diagnostic: Diagnostic) -> bool:
     reason = diagnostic.reason.lower()
     if diagnostic.kind != "error":
-        return False
+        return reason in {
+            "no verified opencamp score payload in matching job log",
+            "no parseable payload in inspected runs",
+        }
     if "expired" in reason or "gone" in reason:
         return True
     return "/logs" in reason and ("404" in reason or "410" in reason or "not found" in reason)
@@ -1151,6 +1154,40 @@ def self_test() -> None:
                     "cpu",
                     "GitHub API error 502 for /repos/gevico/repo/actions/jobs/1/logs: Bad Gateway",
                     kind="error",
+                )
+            ],
+            public,
+        )
+        assert preserved == 0
+        assert len(remaining_diagnostics) == 1
+        assert {record.github_id for record in current_records} == {"alice"}
+
+        current_records, remaining_diagnostics, preserved = preserve_snapshot_records(
+            config,
+            [later],
+            [
+                Diagnostic(
+                    "qemu-camp-2026-exper-bob",
+                    "https://github.com/gevico/repo-bob",
+                    "cpu",
+                    "no verified OpenCamp score payload in matching job log",
+                )
+            ],
+            public,
+        )
+        assert preserved == 1
+        assert remaining_diagnostics == []
+        assert {record.github_id for record in current_records} == {"alice", "bob"}
+
+        current_records, remaining_diagnostics, preserved = preserve_snapshot_records(
+            config,
+            [later],
+            [
+                Diagnostic(
+                    "qemu-camp-2026-exper-bob",
+                    "https://github.com/gevico/repo-bob",
+                    "cpu",
+                    "matching job not found in recent run",
                 )
             ],
             public,
