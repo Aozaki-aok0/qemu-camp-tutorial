@@ -206,6 +206,16 @@ nav:
           - 实验介绍: exercise/2026/stage1/rust/index.md
           - Rust 实验手册: exercise/2026/stage1/rust/rust-exper-manual.md
           - Rust 编程指南: exercise/2026/stage1/rust/rust-lang-manual.md
+  - 排行榜:
+    - QEMU 训练营 2026:
+      - 基础阶段:
+        - C 语言: leaderboards/2026/basic/c.md
+        - Rust: leaderboards/2026/basic/rust.md
+      - 专业阶段:
+        - CPU 方向: leaderboards/2026/professional/cpu.md
+        - SoC 方向: leaderboards/2026/professional/soc.md
+        - GPGPU 方向: leaderboards/2026/professional/gpgpu.md
+        - Rust 方向: leaderboards/2026/professional/rust.md
   - 博客:
     - 介绍页: blogs/index.md
     - 训练营 2026:

@@ -1,0 +1,4282 @@
+{
+  "metadata": {
+    "generated_at": "2026-07-05T13:06:48Z"
+  },
+  "directions": [
+    {
+      "stage": "basic",
+      "stage_title": "基础阶段",
+      "key": "basic-c",
+      "title": "C 语言",
+      "page": "c.md"
+    },
+    {
+      "stage": "basic",
+      "stage_title": "基础阶段",
+      "key": "basic-rust",
+      "title": "Rust",
+      "page": "rust.md"
+    },
+    {
+      "stage": "professional",
+      "stage_title": "专业阶段",
+      "key": "cpu",
+      "title": "CPU 方向",
+      "page": "cpu.md"
+    },
+    {
+      "stage": "professional",
+      "stage_title": "专业阶段",
+      "key": "soc",
+      "title": "SoC 方向",
+      "page": "soc.md"
+    },
+    {
+      "stage": "professional",
+      "stage_title": "专业阶段",
+      "key": "gpgpu",
+      "title": "GPGPU 方向",
+      "page": "gpgpu.md"
+    },
+    {
+      "stage": "professional",
+      "stage_title": "专业阶段",
+      "key": "rust",
+      "title": "Rust 方向",
+      "page": "rust.md"
+    }
+  ],
+  "ranked": [
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 1,
+      "github_id": "random25160765-collab",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-07T09:02:39Z",
+      "completion_time": "2026-04-07T09:03:30Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 2,
+      "github_id": "Codeman-1999",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-08T04:47:46Z",
+      "completion_time": "2026-04-08T04:48:35Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 3,
+      "github_id": "fbt1709",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-08T06:24:23Z",
+      "completion_time": "2026-04-08T06:25:11Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 4,
+      "github_id": "ihanzh",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-08T15:38:53Z",
+      "completion_time": "2026-04-08T15:39:58Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 5,
+      "github_id": "nusakom",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-08T21:13:07Z",
+      "completion_time": "2026-04-08T21:13:55Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 6,
+      "github_id": "srcres258",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-10T16:38:44Z",
+      "completion_time": "2026-04-10T16:39:26Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 7,
+      "github_id": "seehello",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-11T11:28:58Z",
+      "completion_time": "2026-04-11T11:29:40Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 8,
+      "github_id": "shangguanyongshi",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-15T00:45:28Z",
+      "completion_time": "2026-04-15T00:46:08Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 9,
+      "github_id": "flamboyante",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-15T02:40:57Z",
+      "completion_time": "2026-04-15T02:41:42Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 10,
+      "github_id": "LiuHongsGitHub",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-16T03:42:13Z",
+      "completion_time": "2026-04-16T03:43:00Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 11,
+      "github_id": "Aozaki-aok0",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-16T15:09:28Z",
+      "completion_time": "2026-04-16T15:10:14Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 12,
+      "github_id": "clsfantasy",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-17T07:52:04Z",
+      "completion_time": "2026-04-17T07:52:47Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 13,
+      "github_id": "Sutter099",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-17T10:40:02Z",
+      "completion_time": "2026-04-17T10:40:50Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 14,
+      "github_id": "vsvnakers",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-17T19:41:34Z",
+      "completion_time": "2026-04-17T19:42:15Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 15,
+      "github_id": "GrexLoong",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-19T15:10:43Z",
+      "completion_time": "2026-04-19T15:11:28Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 16,
+      "github_id": "trace1729",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-21T07:40:28Z",
+      "completion_time": "2026-04-21T07:41:11Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 17,
+      "github_id": "RainLeaf16",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-25T15:08:20Z",
+      "completion_time": "2026-04-25T15:09:08Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 18,
+      "github_id": "primercoder",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-27T00:27:57Z",
+      "completion_time": "2026-04-27T00:28:56Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 19,
+      "github_id": "littlewangzai-orz",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-27T06:52:32Z",
+      "completion_time": "2026-04-27T06:53:27Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 20,
+      "github_id": "asdfgh870",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-30T14:33:22Z",
+      "completion_time": "2026-04-30T14:34:35Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 21,
+      "github_id": "lingqian-gi",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-02T12:52:25Z",
+      "completion_time": "2026-05-02T12:53:21Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 22,
+      "github_id": "eternal-echo",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-03T08:00:49Z",
+      "completion_time": "2026-05-03T08:01:47Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 23,
+      "github_id": "helloyuze",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-07T14:52:32Z",
+      "completion_time": "2026-05-07T14:55:21Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 24,
+      "github_id": "First-da",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-08T08:50:06Z",
+      "completion_time": "2026-05-08T08:51:07Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 25,
+      "github_id": "xiaoerlang0359-debug",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-10T13:10:56Z",
+      "completion_time": "2026-05-10T13:12:04Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 26,
+      "github_id": "73fc",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-10T14:20:24Z",
+      "completion_time": "2026-05-10T14:21:19Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 27,
+      "github_id": "SSJ-ZYJ",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-11T15:50:51Z",
+      "completion_time": "2026-05-11T15:51:50Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 28,
+      "github_id": "serf-huik",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-17T09:03:55Z",
+      "completion_time": "2026-05-17T09:04:28Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 29,
+      "github_id": "GaryHu-zzz",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-18T13:51:19Z",
+      "completion_time": "2026-05-18T13:52:04Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 30,
+      "github_id": "srhashdh",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-20T05:42:40Z",
+      "completion_time": "2026-05-20T05:43:31Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 31,
+      "github_id": "2zuqisong",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-25T13:55:38Z",
+      "completion_time": "2026-05-25T13:56:17Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 32,
+      "github_id": "qinzhengxiang",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-28T13:31:14Z",
+      "completion_time": "2026-05-28T13:31:55Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 33,
+      "github_id": "xiex386",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-30T03:14:48Z",
+      "completion_time": "2026-05-30T03:15:32Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 34,
+      "github_id": "jieniguiemmm",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-05T11:23:40Z",
+      "completion_time": "2026-06-05T11:24:26Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 35,
+      "github_id": "WhiteBearI",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-07T23:53:41Z",
+      "completion_time": "2026-06-07T23:54:28Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 36,
+      "github_id": "yyxt-xwy",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-08T13:39:58Z",
+      "completion_time": "2026-06-08T13:40:40Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 37,
+      "github_id": "Gmikele",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-12T00:15:27Z",
+      "completion_time": "2026-06-12T00:16:05Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 38,
+      "github_id": "endwhiteparadox",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-12T09:44:46Z",
+      "completion_time": "2026-06-12T09:45:25Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 39,
+      "github_id": "Sunuywq",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-15T13:22:38Z",
+      "completion_time": "2026-06-15T13:23:26Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 40,
+      "github_id": "nv3ifu",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-21T08:55:57Z",
+      "completion_time": "2026-06-21T08:57:01Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 41,
+      "github_id": "dweeqhd",
+      "score": 200.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-28T16:04:58Z",
+      "completion_time": "2026-06-28T16:05:34Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 42,
+      "github_id": "yunyi1201",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-11T13:39:41Z",
+      "completion_time": "2026-04-11T13:40:25Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 43,
+      "github_id": "meat00",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-12T09:58:24Z",
+      "completion_time": "2026-04-12T09:59:05Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 44,
+      "github_id": "LNfromNorth",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-18T06:43:19Z",
+      "completion_time": "2026-04-18T06:44:09Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 45,
+      "github_id": "adgnaf",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-22T08:08:02Z",
+      "completion_time": "2026-04-22T08:08:47Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 46,
+      "github_id": "yummy0406",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-22T16:52:05Z",
+      "completion_time": "2026-04-22T16:53:23Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 47,
+      "github_id": "BoBoDai",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-25T17:40:51Z",
+      "completion_time": "2026-04-25T17:41:50Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 48,
+      "github_id": "Kirito-yhh",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-26T15:13:55Z",
+      "completion_time": "2026-04-26T15:14:54Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 49,
+      "github_id": "Opadc",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-05T14:09:49Z",
+      "completion_time": "2026-05-05T14:11:01Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 50,
+      "github_id": "EmissaryD",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-08T16:01:28Z",
+      "completion_time": "2026-05-08T16:02:22Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 51,
+      "github_id": "gulangyuzzz",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-09T15:39:05Z",
+      "completion_time": "2026-05-09T15:40:02Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 52,
+      "github_id": "lebenito030",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-14T06:09:07Z",
+      "completion_time": "2026-05-14T06:10:06Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 53,
+      "github_id": "jensenojs",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-14T13:35:06Z",
+      "completion_time": "2026-05-14T13:36:01Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 54,
+      "github_id": "yuanyiboyyb",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-17T15:56:44Z",
+      "completion_time": "2026-05-17T15:57:21Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 55,
+      "github_id": "Egg12138",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-01T17:34:21Z",
+      "completion_time": "2026-06-01T17:35:12Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 56,
+      "github_id": "lukamriccc",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-02T10:09:14Z",
+      "completion_time": "2026-06-02T10:10:05Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 57,
+      "github_id": "after1990s",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-07T13:33:36Z",
+      "completion_time": "2026-06-07T13:34:26Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 58,
+      "github_id": "NewFei",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-13T09:25:57Z",
+      "completion_time": "2026-06-13T09:26:54Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 59,
+      "github_id": "yyf2050567-afk",
+      "score": 195.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-28T12:54:35Z",
+      "completion_time": "2026-06-28T12:55:16Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 60,
+      "github_id": "manbo1234",
+      "score": 190.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-20T12:30:12Z",
+      "completion_time": "2026-04-20T12:31:00Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 61,
+      "github_id": "ZHIKAIQ1998",
+      "score": 190.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-26T15:50:21Z",
+      "completion_time": "2026-05-26T15:51:03Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 62,
+      "github_id": "cecho9992-boop",
+      "score": 190.0,
+      "total_score": 200.0,
+      "run_time": "2026-07-03T01:43:19Z",
+      "completion_time": "2026-07-03T01:43:55Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 63,
+      "github_id": "destinyFvcker",
+      "score": 180.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-12T03:35:38Z",
+      "completion_time": "2026-04-12T03:36:34Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 64,
+      "github_id": "oscizk",
+      "score": 180.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-08T15:28:15Z",
+      "completion_time": "2026-05-08T15:29:16Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 65,
+      "github_id": "yeyumeng7799",
+      "score": 120.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-16T05:04:45Z",
+      "completion_time": "2026-05-16T05:05:20Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 66,
+      "github_id": "HelloLiYifei",
+      "score": 115.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-12T10:06:29Z",
+      "completion_time": "2026-05-12T10:07:37Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 67,
+      "github_id": "chrisynl",
+      "score": 100.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-12T15:54:09Z",
+      "completion_time": "2026-04-12T15:54:28Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 68,
+      "github_id": "xxluestc",
+      "score": 100.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-16T12:01:15Z",
+      "completion_time": "2026-04-16T12:01:56Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 69,
+      "github_id": "xwwcyber",
+      "score": 100.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-10T06:04:01Z",
+      "completion_time": "2026-05-10T06:04:58Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 70,
+      "github_id": "lemonsuqing",
+      "score": 95.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-15T09:12:15Z",
+      "completion_time": "2026-04-15T09:12:59Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 71,
+      "github_id": "ghostdragonzero",
+      "score": 95.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-21T09:47:48Z",
+      "completion_time": "2026-04-21T09:48:30Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 72,
+      "github_id": "dazuo233",
+      "score": 95.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-23T10:00:28Z",
+      "completion_time": "2026-04-23T10:01:23Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 73,
+      "github_id": "Idonotno",
+      "score": 95.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-30T03:21:08Z",
+      "completion_time": "2026-04-30T03:21:55Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 74,
+      "github_id": "firecrack",
+      "score": 95.0,
+      "total_score": 200.0,
+      "run_time": "2026-07-04T15:29:42Z",
+      "completion_time": "2026-07-04T15:30:13Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 75,
+      "github_id": "akikaede6",
+      "score": 90.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-09T09:56:06Z",
+      "completion_time": "2026-05-09T09:57:05Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 76,
+      "github_id": "yzqyzqyzq-git",
+      "score": 90.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-16T10:13:41Z",
+      "completion_time": "2026-05-16T10:14:22Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 77,
+      "github_id": "csdjr",
+      "score": 90.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-29T16:34:00Z",
+      "completion_time": "2026-05-29T16:34:42Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 78,
+      "github_id": "zhenbaii",
+      "score": 85.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-09T09:54:50Z",
+      "completion_time": "2026-04-09T09:55:33Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 79,
+      "github_id": "RubMaker",
+      "score": 85.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-10T09:37:36Z",
+      "completion_time": "2026-04-10T09:38:14Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 80,
+      "github_id": "luis-233",
+      "score": 80.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-14T08:53:36Z",
+      "completion_time": "2026-04-14T08:54:20Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 81,
+      "github_id": "Hokfs",
+      "score": 80.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-28T07:31:34Z",
+      "completion_time": "2026-04-28T07:32:22Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 82,
+      "github_id": "0ranan",
+      "score": 80.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-02T09:37:04Z",
+      "completion_time": "2026-05-02T09:37:51Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 83,
+      "github_id": "h1y2g3l4y5",
+      "score": 70.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-17T16:27:02Z",
+      "completion_time": "2026-04-17T16:27:39Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 84,
+      "github_id": "KeyBor",
+      "score": 60.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-06T14:34:14Z",
+      "completion_time": "2026-04-06T14:34:52Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 85,
+      "github_id": "yunjianshijie",
+      "score": 60.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-26T09:55:42Z",
+      "completion_time": "2026-04-26T09:56:39Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 86,
+      "github_id": "55Curry",
+      "score": 55.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-22T13:00:17Z",
+      "completion_time": "2026-04-22T13:01:00Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 87,
+      "github_id": "SiYue-ZO",
+      "score": 50.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-26T13:41:29Z",
+      "completion_time": "2026-04-26T13:42:15Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 88,
+      "github_id": "AtomAlpaca",
+      "score": 50.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-17T10:42:35Z",
+      "completion_time": "2026-06-17T10:43:06Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 89,
+      "github_id": "zhu30844",
+      "score": 45.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-07T06:10:23Z",
+      "completion_time": "2026-04-07T06:11:02Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 90,
+      "github_id": "Beatrice0377",
+      "score": 40.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-16T10:41:20Z",
+      "completion_time": "2026-04-16T10:41:57Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 91,
+      "github_id": "enlist12",
+      "score": 35.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-09T06:27:14Z",
+      "completion_time": "2026-04-09T06:27:53Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 92,
+      "github_id": "huclimb",
+      "score": 35.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-10T15:25:26Z",
+      "completion_time": "2026-05-10T15:26:18Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 93,
+      "github_id": "SinnLiu",
+      "score": 35.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-17T14:49:18Z",
+      "completion_time": "2026-05-17T14:49:47Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 94,
+      "github_id": "keepgoong",
+      "score": 30.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-23T14:42:54Z",
+      "completion_time": "2026-06-23T14:43:26Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 95,
+      "github_id": "Lcollection",
+      "score": 25.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-19T22:08:00Z",
+      "completion_time": "2026-04-19T22:08:34Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 96,
+      "github_id": "Sleepless9",
+      "score": 25.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-23T09:26:19Z",
+      "completion_time": "2026-04-23T09:27:05Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 97,
+      "github_id": "GreyFoox",
+      "score": 25.0,
+      "total_score": 200.0,
+      "run_time": "2026-07-03T01:33:00Z",
+      "completion_time": "2026-07-03T01:33:39Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 98,
+      "github_id": "ZT0717",
+      "score": 20.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-17T12:10:35Z",
+      "completion_time": "2026-04-17T12:11:09Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 99,
+      "github_id": "chennuo927",
+      "score": 20.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-10T07:18:24Z",
+      "completion_time": "2026-05-10T07:19:15Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 100,
+      "github_id": "ZhonghuaQi",
+      "score": 15.0,
+      "total_score": 200.0,
+      "run_time": "2026-06-05T10:19:25Z",
+      "completion_time": "2026-06-05T10:20:04Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 101,
+      "github_id": "ye-rm",
+      "score": 10.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-06T13:37:52Z",
+      "completion_time": "2026-04-06T13:38:32Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 102,
+      "github_id": "WCMS688",
+      "score": 10.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-16T11:19:35Z",
+      "completion_time": "2026-04-16T11:20:15Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 103,
+      "github_id": "DiQing2007",
+      "score": 10.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-20T17:12:02Z",
+      "completion_time": "2026-04-20T17:12:41Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 104,
+      "github_id": "xiaozhuABCD1234",
+      "score": 10.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-18T03:04:16Z",
+      "completion_time": "2026-05-18T03:04:46Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 105,
+      "github_id": "bbbbbq",
+      "score": 5.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-08T16:40:56Z",
+      "completion_time": "2026-04-08T16:41:40Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 106,
+      "github_id": "heichiii",
+      "score": 5.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-12T21:10:21Z",
+      "completion_time": "2026-04-12T21:10:59Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 107,
+      "github_id": "ctdrm",
+      "score": 5.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-13T10:36:32Z",
+      "completion_time": "2026-04-13T10:37:14Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 108,
+      "github_id": "Eclipse-Arrebol",
+      "score": 5.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-13T13:42:29Z",
+      "completion_time": "2026-04-13T13:43:05Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 109,
+      "github_id": "Eclipse-yanluo",
+      "score": 5.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-14T03:51:26Z",
+      "completion_time": "2026-04-14T03:52:05Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 110,
+      "github_id": "duckchih",
+      "score": 5.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-26T13:38:04Z",
+      "completion_time": "2026-04-26T13:38:53Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 111,
+      "github_id": "lusixing",
+      "score": 5.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-27T07:55:16Z",
+      "completion_time": "2026-04-27T07:56:06Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 112,
+      "github_id": "weypro",
+      "score": 5.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-01T15:28:06Z",
+      "completion_time": "2026-05-01T15:28:55Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 113,
+      "github_id": "zhang-san-007",
+      "score": 5.0,
+      "total_score": 200.0,
+      "run_time": "2026-05-08T15:18:59Z",
+      "completion_time": "2026-05-08T15:19:56Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-c",
+      "rank": 114,
+      "github_id": "aaaaqweaaaa",
+      "score": 0.0,
+      "total_score": 200.0,
+      "run_time": "2026-04-24T10:56:05Z",
+      "completion_time": "2026-04-24T10:56:48Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 1,
+      "github_id": "silicalet",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-06T18:49:35Z",
+      "completion_time": "2026-04-06T18:50:33Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 2,
+      "github_id": "srcres258",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-07T03:07:10Z",
+      "completion_time": "2026-04-07T03:08:25Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 3,
+      "github_id": "anicbeer",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-07T12:10:29Z",
+      "completion_time": "2026-04-07T12:11:32Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 4,
+      "github_id": "nusakom",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-08T18:56:59Z",
+      "completion_time": "2026-04-08T18:58:09Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 5,
+      "github_id": "lickoc",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-09T01:31:59Z",
+      "completion_time": "2026-04-09T01:33:05Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 6,
+      "github_id": "Plucky923",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-09T02:42:30Z",
+      "completion_time": "2026-04-09T02:43:30Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 7,
+      "github_id": "Smart-SangGe",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-09T11:13:05Z",
+      "completion_time": "2026-04-09T11:14:03Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 8,
+      "github_id": "destinyFvcker",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-11T18:33:47Z",
+      "completion_time": "2026-04-11T18:34:47Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 9,
+      "github_id": "SlieNce810",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-12T09:58:12Z",
+      "completion_time": "2026-04-12T09:59:10Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 10,
+      "github_id": "csmyx",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-12T18:56:51Z",
+      "completion_time": "2026-04-12T18:57:52Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 11,
+      "github_id": "Kcang-gna",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-14T05:36:02Z",
+      "completion_time": "2026-04-14T05:37:11Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 12,
+      "github_id": "refr66",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-14T10:32:23Z",
+      "completion_time": "2026-04-14T10:33:32Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 13,
+      "github_id": "CFHaini",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-15T11:00:57Z",
+      "completion_time": "2026-04-15T11:02:01Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 14,
+      "github_id": "coldriver-chen",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-16T03:57:01Z",
+      "completion_time": "2026-04-16T03:57:58Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 15,
+      "github_id": "LNfromNorth",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-18T07:16:38Z",
+      "completion_time": "2026-04-18T07:17:46Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 16,
+      "github_id": "mympeg",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-18T09:11:54Z",
+      "completion_time": "2026-04-18T09:13:03Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 17,
+      "github_id": "fgh1999",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-19T08:59:37Z",
+      "completion_time": "2026-04-19T09:00:37Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 18,
+      "github_id": "caiwen666",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-20T07:20:26Z",
+      "completion_time": "2026-04-20T07:21:34Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 19,
+      "github_id": "Raczyx",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-21T14:19:40Z",
+      "completion_time": "2026-04-21T14:20:50Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 20,
+      "github_id": "LYR-liyanrong",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-21T15:28:40Z",
+      "completion_time": "2026-04-21T15:29:50Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 21,
+      "github_id": "cn-sys",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-22T10:35:36Z",
+      "completion_time": "2026-04-22T10:36:39Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 22,
+      "github_id": "Takumi-wake",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-24T15:01:56Z",
+      "completion_time": "2026-04-24T15:03:45Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 23,
+      "github_id": "playerInEminor",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-25T17:39:49Z",
+      "completion_time": "2026-04-25T17:41:01Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 24,
+      "github_id": "flespark",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-26T02:14:16Z",
+      "completion_time": "2026-04-26T02:15:27Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 25,
+      "github_id": "BoBoDai",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-26T06:47:41Z",
+      "completion_time": "2026-04-26T06:48:57Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 26,
+      "github_id": "trace1729",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-27T09:35:38Z",
+      "completion_time": "2026-04-27T09:36:53Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 27,
+      "github_id": "PingGuoMiaoMiao",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-30T12:21:20Z",
+      "completion_time": "2026-04-30T12:22:37Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 28,
+      "github_id": "jlff",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-02T02:58:00Z",
+      "completion_time": "2026-05-02T02:59:28Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 29,
+      "github_id": "Promin3",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-04T09:57:30Z",
+      "completion_time": "2026-05-04T09:58:44Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 30,
+      "github_id": "msuadOf",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-05T14:47:20Z",
+      "completion_time": "2026-05-05T14:49:49Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 31,
+      "github_id": "zyk632",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-05T16:08:02Z",
+      "completion_time": "2026-05-05T16:10:54Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 32,
+      "github_id": "PassingThroughStarDust",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-05T17:14:30Z",
+      "completion_time": "2026-05-05T17:15:57Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 33,
+      "github_id": "ghostdragonzero",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-06T10:24:43Z",
+      "completion_time": "2026-05-06T10:26:03Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 34,
+      "github_id": "eyauwag",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-07T09:15:41Z",
+      "completion_time": "2026-05-07T09:17:14Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 35,
+      "github_id": "ye-rm",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-09T08:46:33Z",
+      "completion_time": "2026-05-09T08:47:53Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 36,
+      "github_id": "lsynpy",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-11T09:26:14Z",
+      "completion_time": "2026-05-11T09:27:33Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 37,
+      "github_id": "yastiqus",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-12T20:44:23Z",
+      "completion_time": "2026-05-12T20:45:37Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 38,
+      "github_id": "rhbfc",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-14T10:04:25Z",
+      "completion_time": "2026-05-14T10:05:49Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 39,
+      "github_id": "yuanyiboyyb",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-17T05:15:06Z",
+      "completion_time": "2026-05-17T05:16:02Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 40,
+      "github_id": "lebenito030",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-18T08:23:37Z",
+      "completion_time": "2026-05-18T08:24:31Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 41,
+      "github_id": "OutisNyel",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-23T12:39:51Z",
+      "completion_time": "2026-05-23T12:40:58Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 42,
+      "github_id": "srhashdh",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-25T05:45:34Z",
+      "completion_time": "2026-05-25T05:46:27Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 43,
+      "github_id": "assassinlex",
+      "score": 95.0,
+      "total_score": 95.0,
+      "run_time": "2026-05-27T10:50:00Z",
+      "completion_time": "2026-05-27T10:51:03Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 44,
+      "github_id": "scrail",
+      "score": 94.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-09T16:52:00Z",
+      "completion_time": "2026-04-09T16:53:08Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 45,
+      "github_id": "manbo1234",
+      "score": 94.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-28T08:46:23Z",
+      "completion_time": "2026-04-28T08:47:24Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 46,
+      "github_id": "IiCEight",
+      "score": 94.0,
+      "total_score": 95.0,
+      "run_time": "2026-06-08T07:12:11Z",
+      "completion_time": "2026-06-08T07:13:16Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 47,
+      "github_id": "Egg12138",
+      "score": 94.0,
+      "total_score": 95.0,
+      "run_time": "2026-06-20T05:12:11Z",
+      "completion_time": "2026-06-20T05:13:13Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 48,
+      "github_id": "Vn1c0rn",
+      "score": 94.0,
+      "total_score": 95.0,
+      "run_time": "2026-06-23T08:33:31Z",
+      "completion_time": "2026-06-23T08:34:34Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 49,
+      "github_id": "l825l",
+      "score": 94.0,
+      "total_score": 95.0,
+      "run_time": "2026-06-29T17:54:41Z",
+      "completion_time": "2026-06-29T17:55:39Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 50,
+      "github_id": "ovwxxwvo",
+      "score": 94.0,
+      "total_score": 95.0,
+      "run_time": "2026-07-04T05:45:19Z",
+      "completion_time": "2026-07-04T05:46:20Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 51,
+      "github_id": "AtomAlpaca",
+      "score": 50.0,
+      "total_score": 95.0,
+      "run_time": "2026-06-23T12:20:33Z",
+      "completion_time": "2026-06-23T12:21:28Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 52,
+      "github_id": "xyjl-ly",
+      "score": 36.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-29T17:43:37Z",
+      "completion_time": "2026-04-29T17:45:35Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 53,
+      "github_id": "xxluestc",
+      "score": 33.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-08T12:24:29Z",
+      "completion_time": "2026-04-08T12:25:33Z"
+    },
+    {
+      "stage": "basic",
+      "direction": "basic-rust",
+      "rank": 54,
+      "github_id": "benx-guo",
+      "score": 1.0,
+      "total_score": 95.0,
+      "run_time": "2026-04-08T10:47:28Z",
+      "completion_time": "2026-04-08T10:48:29Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 1,
+      "github_id": "fbt1709",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-13T10:35:11Z",
+      "completion_time": "2026-04-13T11:38:07Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 2,
+      "github_id": "Lfan-ke",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-15T00:55:30Z",
+      "completion_time": "2026-04-15T01:03:19Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 3,
+      "github_id": "Plucky923",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-17T05:55:18Z",
+      "completion_time": "2026-04-17T06:02:52Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 4,
+      "github_id": "Dirinkbottle",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-17T11:00:30Z",
+      "completion_time": "2026-04-17T11:08:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 5,
+      "github_id": "clsfantasy",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T09:39:55Z",
+      "completion_time": "2026-04-18T09:47:38Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 6,
+      "github_id": "csmyx",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T15:58:16Z",
+      "completion_time": "2026-04-18T16:06:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 7,
+      "github_id": "coldriver-chen",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-20T04:19:28Z",
+      "completion_time": "2026-04-20T04:27:23Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 8,
+      "github_id": "h1y2g3l4y5",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T15:57:42Z",
+      "completion_time": "2026-04-21T16:05:45Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 9,
+      "github_id": "anicbeer",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-22T13:55:10Z",
+      "completion_time": "2026-04-22T14:02:55Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 10,
+      "github_id": "srcres258",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-24T03:17:39Z",
+      "completion_time": "2026-04-24T03:25:53Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 11,
+      "github_id": "Aozaki-aok0",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-26T07:50:33Z",
+      "completion_time": "2026-04-26T07:58:20Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 12,
+      "github_id": "KeyBor",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-28T05:52:57Z",
+      "completion_time": "2026-04-28T06:00:21Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 13,
+      "github_id": "adgnaf",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-28T07:09:05Z",
+      "completion_time": "2026-04-28T07:16:50Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 14,
+      "github_id": "PingGuoMiaoMiao",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-02T16:42:56Z",
+      "completion_time": "2026-05-02T16:51:11Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 15,
+      "github_id": "lusixing",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-04T09:14:07Z",
+      "completion_time": "2026-05-04T09:21:59Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 16,
+      "github_id": "Sutter099",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-07T14:54:14Z",
+      "completion_time": "2026-05-07T15:10:12Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 17,
+      "github_id": "skinterqwe",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-08T01:14:45Z",
+      "completion_time": "2026-05-08T01:23:16Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 18,
+      "github_id": "scrail",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-13T08:10:38Z",
+      "completion_time": "2026-05-13T08:17:52Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 19,
+      "github_id": "silicalet",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-14T12:14:39Z",
+      "completion_time": "2026-05-14T12:22:44Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 20,
+      "github_id": "trace1729",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-20T06:54:23Z",
+      "completion_time": "2026-05-20T07:03:19Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 21,
+      "github_id": "vsvnakers",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T15:56:11Z",
+      "completion_time": "2026-05-23T16:04:10Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 22,
+      "github_id": "bbbbbq",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T16:58:09Z",
+      "completion_time": "2026-05-23T17:05:41Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 23,
+      "github_id": "enlist12",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-26T04:20:55Z",
+      "completion_time": "2026-05-26T04:28:34Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 24,
+      "github_id": "yuanyiboyyb",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-27T12:35:38Z",
+      "completion_time": "2026-05-27T12:43:10Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 25,
+      "github_id": "Eclipse-Arrebol",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-30T12:59:40Z",
+      "completion_time": "2026-05-30T13:07:25Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 26,
+      "github_id": "flespark",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-02T10:28:06Z",
+      "completion_time": "2026-06-02T10:35:18Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 27,
+      "github_id": "2zuqisong",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-05T07:16:41Z",
+      "completion_time": "2026-06-05T07:24:04Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 28,
+      "github_id": "srhashdh",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-05T09:16:39Z",
+      "completion_time": "2026-06-05T09:24:13Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 29,
+      "github_id": "random25160765-collab",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-15T15:10:35Z",
+      "completion_time": "2026-06-15T15:18:48Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 30,
+      "github_id": "First-da",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T05:26:42Z",
+      "completion_time": "2026-06-21T05:33:53Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 31,
+      "github_id": "asdfgh870",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T14:04:44Z",
+      "completion_time": "2026-06-21T14:12:16Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 32,
+      "github_id": "WhiteBearI",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-23T13:38:26Z",
+      "completion_time": "2026-06-23T13:45:59Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 33,
+      "github_id": "Opadc",
+      "score": 60.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-27T13:58:23Z",
+      "completion_time": "2026-05-27T14:05:32Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 34,
+      "github_id": "mhubing",
+      "score": 50.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-27T01:56:00Z",
+      "completion_time": "2026-04-27T02:04:20Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "cpu",
+      "rank": 35,
+      "github_id": "litianxing2016",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-02T09:36:16Z",
+      "completion_time": "2026-07-02T09:44:13Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 1,
+      "github_id": "dingtao1",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-08T15:10:19Z",
+      "completion_time": "2026-04-08T15:17:39Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 2,
+      "github_id": "fbt1709",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-13T10:35:11Z",
+      "completion_time": "2026-04-13T10:42:52Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 3,
+      "github_id": "Plucky923",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-17T05:55:18Z",
+      "completion_time": "2026-04-17T06:02:59Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 4,
+      "github_id": "Dirinkbottle",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-17T11:00:30Z",
+      "completion_time": "2026-04-17T11:08:14Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 5,
+      "github_id": "KeyBor",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-28T05:52:57Z",
+      "completion_time": "2026-04-28T06:00:32Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 6,
+      "github_id": "eternal-echo",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-01T06:43:31Z",
+      "completion_time": "2026-05-01T06:51:27Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 7,
+      "github_id": "Sutter099",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-07T14:54:14Z",
+      "completion_time": "2026-05-07T15:11:33Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 8,
+      "github_id": "skinterqwe",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-08T01:14:45Z",
+      "completion_time": "2026-05-08T01:24:07Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 9,
+      "github_id": "zhenbaii",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-14T08:58:06Z",
+      "completion_time": "2026-05-14T09:18:22Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 10,
+      "github_id": "silicalet",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-14T12:14:39Z",
+      "completion_time": "2026-05-14T12:22:17Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 11,
+      "github_id": "lingqian-gi",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-15T15:09:55Z",
+      "completion_time": "2026-05-15T15:17:18Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 12,
+      "github_id": "trace1729",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-20T06:54:23Z",
+      "completion_time": "2026-05-20T07:02:20Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 13,
+      "github_id": "vsvnakers",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T15:56:11Z",
+      "completion_time": "2026-05-23T16:03:45Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 14,
+      "github_id": "ghostdragonzero",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-24T06:35:32Z",
+      "completion_time": "2026-05-24T06:43:25Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 15,
+      "github_id": "yuanyiboyyb",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-27T12:35:38Z",
+      "completion_time": "2026-05-27T12:43:59Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 16,
+      "github_id": "flamboyante",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-28T05:10:19Z",
+      "completion_time": "2026-05-28T05:18:22Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 17,
+      "github_id": "Eclipse-Arrebol",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-30T12:59:40Z",
+      "completion_time": "2026-05-30T13:08:51Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 18,
+      "github_id": "csdjr",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-04T16:32:43Z",
+      "completion_time": "2026-06-04T16:40:48Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 19,
+      "github_id": "Gmikele",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-10T00:16:33Z",
+      "completion_time": "2026-06-10T00:25:11Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 20,
+      "github_id": "jack-wang-176",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-10T13:39:59Z",
+      "completion_time": "2026-06-10T13:48:58Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 21,
+      "github_id": "rhbfc",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-11T06:10:37Z",
+      "completion_time": "2026-06-11T06:19:40Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 22,
+      "github_id": "serf-huik",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-13T03:37:16Z",
+      "completion_time": "2026-06-13T03:45:41Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 23,
+      "github_id": "dazuo233",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-14T07:09:42Z",
+      "completion_time": "2026-06-14T07:17:40Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 24,
+      "github_id": "random25160765-collab",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-15T15:10:35Z",
+      "completion_time": "2026-06-15T15:18:43Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 25,
+      "github_id": "First-da",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T05:26:42Z",
+      "completion_time": "2026-06-21T05:35:07Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 26,
+      "github_id": "Sunuywq",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T10:55:01Z",
+      "completion_time": "2026-06-21T11:02:28Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 27,
+      "github_id": "asdfgh870",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T14:04:44Z",
+      "completion_time": "2026-06-21T14:12:44Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 28,
+      "github_id": "WhiteBearI",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-23T13:38:26Z",
+      "completion_time": "2026-06-23T13:46:36Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 29,
+      "github_id": "jieniguiemmm",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-02T04:06:36Z",
+      "completion_time": "2026-07-02T04:14:39Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 30,
+      "github_id": "PingGuoMiaoMiao",
+      "score": 40.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-02T16:42:56Z",
+      "completion_time": "2026-05-02T16:51:27Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 31,
+      "github_id": "flespark",
+      "score": 40.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-02T10:28:06Z",
+      "completion_time": "2026-06-02T10:34:57Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 32,
+      "github_id": "Lfan-ke",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-15T00:55:30Z",
+      "completion_time": "2026-04-15T01:03:46Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 33,
+      "github_id": "zevorn",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T03:50:12Z",
+      "completion_time": "2026-04-18T03:57:56Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 34,
+      "github_id": "clsfantasy",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T09:39:55Z",
+      "completion_time": "2026-04-18T09:47:46Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 35,
+      "github_id": "csmyx",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T15:58:16Z",
+      "completion_time": "2026-04-18T16:05:52Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 36,
+      "github_id": "coldriver-chen",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-20T04:19:28Z",
+      "completion_time": "2026-04-20T04:27:19Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 37,
+      "github_id": "lickoc",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T11:11:58Z",
+      "completion_time": "2026-04-21T11:19:53Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 38,
+      "github_id": "h1y2g3l4y5",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T15:57:42Z",
+      "completion_time": "2026-04-21T16:05:37Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 39,
+      "github_id": "Altersieg",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T19:09:31Z",
+      "completion_time": "2026-04-21T19:17:39Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 40,
+      "github_id": "anicbeer",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-22T13:55:10Z",
+      "completion_time": "2026-04-22T14:03:15Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 41,
+      "github_id": "Kcang-gna",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-22T13:56:55Z",
+      "completion_time": "2026-04-22T14:05:19Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 42,
+      "github_id": "xxluestc",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-23T16:24:00Z",
+      "completion_time": "2026-04-23T16:31:49Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 43,
+      "github_id": "srcres258",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-24T03:17:39Z",
+      "completion_time": "2026-04-24T03:25:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 44,
+      "github_id": "Codeman-1999",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-25T10:13:28Z",
+      "completion_time": "2026-04-25T10:21:05Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 45,
+      "github_id": "Aozaki-aok0",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-26T07:50:33Z",
+      "completion_time": "2026-04-26T07:58:32Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 46,
+      "github_id": "mhubing",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-27T01:56:00Z",
+      "completion_time": "2026-04-27T02:03:43Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 47,
+      "github_id": "ihanzh",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-27T12:01:16Z",
+      "completion_time": "2026-04-27T12:10:58Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 48,
+      "github_id": "adgnaf",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-28T07:09:05Z",
+      "completion_time": "2026-04-28T07:17:25Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 49,
+      "github_id": "yunyi1201",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-30T02:03:39Z",
+      "completion_time": "2026-04-30T02:13:56Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 50,
+      "github_id": "bbbbbq",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-01T17:31:40Z",
+      "completion_time": "2026-05-01T17:39:52Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 51,
+      "github_id": "lusixing",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-04T09:14:07Z",
+      "completion_time": "2026-05-04T09:22:19Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 52,
+      "github_id": "destinyFvcker",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-06T14:01:19Z",
+      "completion_time": "2026-05-06T14:09:27Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 53,
+      "github_id": "73fc",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-09T12:47:35Z",
+      "completion_time": "2026-05-09T12:55:53Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 54,
+      "github_id": "yunjianshijie",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-10T03:41:03Z",
+      "completion_time": "2026-05-10T03:48:33Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 55,
+      "github_id": "scrail",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-13T08:10:38Z",
+      "completion_time": "2026-05-13T08:21:03Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 56,
+      "github_id": "shengdaozm",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-17T07:21:18Z",
+      "completion_time": "2026-05-17T07:29:09Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 57,
+      "github_id": "Firegooder",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T06:15:36Z",
+      "completion_time": "2026-05-23T06:22:47Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 58,
+      "github_id": "enlist12",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-26T04:20:55Z",
+      "completion_time": "2026-05-26T04:28:29Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 59,
+      "github_id": "Opadc",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-27T13:58:23Z",
+      "completion_time": "2026-05-27T14:05:45Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 60,
+      "github_id": "LiuHongsGitHub",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-30T10:16:35Z",
+      "completion_time": "2026-05-30T10:24:12Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 61,
+      "github_id": "cn-sys",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-01T19:52:13Z",
+      "completion_time": "2026-06-01T19:59:49Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 62,
+      "github_id": "littlewangzai-orz",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-03T16:29:42Z",
+      "completion_time": "2026-06-03T16:37:23Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 63,
+      "github_id": "2zuqisong",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-05T07:16:41Z",
+      "completion_time": "2026-06-05T07:24:10Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 64,
+      "github_id": "srhashdh",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-05T09:16:39Z",
+      "completion_time": "2026-06-05T09:24:41Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 65,
+      "github_id": "eyauwag",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-07T07:33:27Z",
+      "completion_time": "2026-06-07T07:41:14Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 66,
+      "github_id": "xiaoerlang0359-debug",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-07T19:05:11Z",
+      "completion_time": "2026-06-07T19:13:08Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 67,
+      "github_id": "luis-233",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-08T02:24:01Z",
+      "completion_time": "2026-06-08T02:31:42Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 68,
+      "github_id": "jensenojs",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-13T15:50:16Z",
+      "completion_time": "2026-06-13T15:58:14Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 69,
+      "github_id": "refr66",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-20T10:58:57Z",
+      "completion_time": "2026-06-20T11:06:41Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 70,
+      "github_id": "yyxt-xwy",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-24T08:55:43Z",
+      "completion_time": "2026-06-24T09:03:23Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 71,
+      "github_id": "xiex386",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-27T16:19:07Z",
+      "completion_time": "2026-06-27T16:26:24Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 72,
+      "github_id": "dweeqhd",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-29T09:33:09Z",
+      "completion_time": "2026-06-29T09:40:50Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 73,
+      "github_id": "litianxing2016",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-02T09:36:16Z",
+      "completion_time": "2026-07-02T09:44:39Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "soc",
+      "rank": 74,
+      "github_id": "ovwxxwvo",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-05T08:33:50Z",
+      "completion_time": "2026-07-05T08:41:44Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 1,
+      "github_id": "fbt1709",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-13T10:35:11Z",
+      "completion_time": "2026-04-13T10:42:36Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 2,
+      "github_id": "Dirinkbottle",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-17T11:00:30Z",
+      "completion_time": "2026-04-17T11:08:21Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 3,
+      "github_id": "Altersieg",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T19:09:31Z",
+      "completion_time": "2026-04-21T19:16:58Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 4,
+      "github_id": "Codeman-1999",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-25T10:13:28Z",
+      "completion_time": "2026-04-25T10:21:13Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 5,
+      "github_id": "KeyBor",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-28T05:52:57Z",
+      "completion_time": "2026-04-28T06:00:29Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 6,
+      "github_id": "skinterqwe",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-08T01:14:45Z",
+      "completion_time": "2026-05-08T01:23:02Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 7,
+      "github_id": "73fc",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-09T12:47:35Z",
+      "completion_time": "2026-05-09T12:55:19Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 8,
+      "github_id": "scrail",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-13T08:10:38Z",
+      "completion_time": "2026-05-13T08:18:02Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 9,
+      "github_id": "silicalet",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-14T12:14:39Z",
+      "completion_time": "2026-05-14T12:22:27Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 10,
+      "github_id": "trace1729",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-20T06:54:23Z",
+      "completion_time": "2026-05-20T07:02:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 11,
+      "github_id": "Firegooder",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T06:15:36Z",
+      "completion_time": "2026-05-23T06:23:12Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 12,
+      "github_id": "vsvnakers",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T15:56:11Z",
+      "completion_time": "2026-05-23T16:03:38Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 13,
+      "github_id": "bbbbbq",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T16:58:09Z",
+      "completion_time": "2026-05-23T17:05:36Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 14,
+      "github_id": "LiuHongsGitHub",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-30T10:16:35Z",
+      "completion_time": "2026-05-30T10:24:17Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 15,
+      "github_id": "cn-sys",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-01T19:52:13Z",
+      "completion_time": "2026-06-01T20:00:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 16,
+      "github_id": "xiaoerlang0359-debug",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-07T19:05:11Z",
+      "completion_time": "2026-06-07T19:12:50Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 17,
+      "github_id": "luis-233",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-08T02:24:01Z",
+      "completion_time": "2026-06-08T02:32:18Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 18,
+      "github_id": "jensenojs",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-13T15:50:16Z",
+      "completion_time": "2026-06-13T15:58:14Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 19,
+      "github_id": "random25160765-collab",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-15T15:10:35Z",
+      "completion_time": "2026-06-15T15:18:07Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 20,
+      "github_id": "refr66",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-20T10:58:57Z",
+      "completion_time": "2026-06-20T11:06:13Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 21,
+      "github_id": "WhiteBearI",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-23T13:38:26Z",
+      "completion_time": "2026-06-23T13:47:10Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 22,
+      "github_id": "yyxt-xwy",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-24T08:55:43Z",
+      "completion_time": "2026-06-24T09:03:20Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 23,
+      "github_id": "xiex386",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-27T16:19:07Z",
+      "completion_time": "2026-06-27T16:27:10Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 24,
+      "github_id": "dweeqhd",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-29T09:33:09Z",
+      "completion_time": "2026-06-29T09:40:50Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 25,
+      "github_id": "xxluestc",
+      "score": 82.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-23T16:24:00Z",
+      "completion_time": "2026-04-23T16:31:37Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 26,
+      "github_id": "ihanzh",
+      "score": 70.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-27T12:01:16Z",
+      "completion_time": "2026-04-27T12:11:05Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 27,
+      "github_id": "Eclipse-Arrebol",
+      "score": 64.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-30T12:59:40Z",
+      "completion_time": "2026-05-30T13:07:35Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 28,
+      "github_id": "littlewangzai-orz",
+      "score": 11.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-03T16:29:42Z",
+      "completion_time": "2026-06-03T16:38:03Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 29,
+      "github_id": "dingtao1",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-08T15:10:19Z",
+      "completion_time": "2026-04-08T15:57:25Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 30,
+      "github_id": "Lfan-ke",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-15T00:55:30Z",
+      "completion_time": "2026-04-15T01:03:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 31,
+      "github_id": "Plucky923",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-17T05:55:18Z",
+      "completion_time": "2026-04-17T06:03:38Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 32,
+      "github_id": "zevorn",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T03:50:12Z",
+      "completion_time": "2026-04-18T03:58:09Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 33,
+      "github_id": "clsfantasy",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T09:39:55Z",
+      "completion_time": "2026-04-18T09:47:53Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 34,
+      "github_id": "csmyx",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T15:58:16Z",
+      "completion_time": "2026-04-18T16:05:51Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 35,
+      "github_id": "coldriver-chen",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-20T04:19:28Z",
+      "completion_time": "2026-04-20T04:27:37Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 36,
+      "github_id": "lickoc",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T11:11:58Z",
+      "completion_time": "2026-04-21T11:30:47Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 37,
+      "github_id": "h1y2g3l4y5",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T15:57:42Z",
+      "completion_time": "2026-04-21T16:06:18Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 38,
+      "github_id": "anicbeer",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-22T13:55:10Z",
+      "completion_time": "2026-04-22T14:03:03Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 39,
+      "github_id": "Kcang-gna",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-22T13:56:55Z",
+      "completion_time": "2026-04-22T14:04:50Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 40,
+      "github_id": "srcres258",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-24T03:17:39Z",
+      "completion_time": "2026-04-24T03:26:11Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 41,
+      "github_id": "Aozaki-aok0",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-26T07:50:33Z",
+      "completion_time": "2026-04-26T07:58:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 42,
+      "github_id": "mhubing",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-27T01:56:00Z",
+      "completion_time": "2026-04-27T02:03:42Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 43,
+      "github_id": "adgnaf",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-28T07:09:05Z",
+      "completion_time": "2026-04-28T07:17:14Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 44,
+      "github_id": "yunyi1201",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-30T02:03:39Z",
+      "completion_time": "2026-04-30T02:12:59Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 45,
+      "github_id": "eternal-echo",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-01T06:43:31Z",
+      "completion_time": "2026-05-01T06:51:51Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 46,
+      "github_id": "PingGuoMiaoMiao",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-02T16:42:56Z",
+      "completion_time": "2026-05-02T16:50:34Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 47,
+      "github_id": "lusixing",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-04T09:14:07Z",
+      "completion_time": "2026-05-04T09:21:50Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 48,
+      "github_id": "destinyFvcker",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-06T14:01:19Z",
+      "completion_time": "2026-05-06T14:10:17Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 49,
+      "github_id": "Sutter099",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-07T14:54:14Z",
+      "completion_time": "2026-05-07T15:12:49Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 50,
+      "github_id": "yunjianshijie",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-10T03:41:03Z",
+      "completion_time": "2026-05-10T03:49:38Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 51,
+      "github_id": "zhenbaii",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-14T08:58:06Z",
+      "completion_time": "2026-05-14T09:06:42Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 52,
+      "github_id": "lingqian-gi",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-15T15:09:55Z",
+      "completion_time": "2026-05-15T15:17:33Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 53,
+      "github_id": "shengdaozm",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-17T07:21:18Z",
+      "completion_time": "2026-05-17T07:28:58Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 54,
+      "github_id": "ghostdragonzero",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-24T06:35:32Z",
+      "completion_time": "2026-05-24T06:43:47Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 55,
+      "github_id": "enlist12",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-26T04:20:55Z",
+      "completion_time": "2026-05-26T04:27:50Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 56,
+      "github_id": "yuanyiboyyb",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-27T12:35:38Z",
+      "completion_time": "2026-05-27T12:42:56Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 57,
+      "github_id": "Opadc",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-27T13:58:23Z",
+      "completion_time": "2026-05-27T14:06:29Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 58,
+      "github_id": "flamboyante",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-28T05:10:19Z",
+      "completion_time": "2026-05-28T05:17:42Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 59,
+      "github_id": "flespark",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-02T10:28:06Z",
+      "completion_time": "2026-06-02T10:37:09Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 60,
+      "github_id": "csdjr",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-04T16:32:43Z",
+      "completion_time": "2026-06-04T16:40:40Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 61,
+      "github_id": "2zuqisong",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-05T07:16:41Z",
+      "completion_time": "2026-06-05T07:24:35Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 62,
+      "github_id": "srhashdh",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-05T09:16:39Z",
+      "completion_time": "2026-06-05T09:24:23Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 63,
+      "github_id": "eyauwag",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-07T07:33:27Z",
+      "completion_time": "2026-06-07T07:41:08Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 64,
+      "github_id": "Gmikele",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-10T00:16:33Z",
+      "completion_time": "2026-06-10T00:24:26Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 65,
+      "github_id": "jack-wang-176",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-10T13:39:59Z",
+      "completion_time": "2026-06-10T13:48:04Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 66,
+      "github_id": "serf-huik",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-13T03:37:16Z",
+      "completion_time": "2026-06-13T03:45:03Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 67,
+      "github_id": "dazuo233",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-14T07:09:42Z",
+      "completion_time": "2026-06-14T07:17:30Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 68,
+      "github_id": "First-da",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T05:26:42Z",
+      "completion_time": "2026-06-21T05:34:32Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 69,
+      "github_id": "Sunuywq",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T10:55:01Z",
+      "completion_time": "2026-06-21T11:02:35Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 70,
+      "github_id": "asdfgh870",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T14:04:44Z",
+      "completion_time": "2026-06-21T14:13:18Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 71,
+      "github_id": "jieniguiemmm",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-02T04:06:36Z",
+      "completion_time": "2026-07-02T04:14:37Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 72,
+      "github_id": "litianxing2016",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-02T09:36:16Z",
+      "completion_time": "2026-07-02T09:44:18Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "gpgpu",
+      "rank": 73,
+      "github_id": "ovwxxwvo",
+      "score": 5.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-05T08:33:50Z",
+      "completion_time": "2026-07-05T08:41:23Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 1,
+      "github_id": "Plucky923",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-17T05:55:18Z",
+      "completion_time": "2026-04-17T06:02:52Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 2,
+      "github_id": "Kcang-gna",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-22T13:56:55Z",
+      "completion_time": "2026-04-22T14:05:29Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 3,
+      "github_id": "ihanzh",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-27T12:01:16Z",
+      "completion_time": "2026-04-27T12:10:35Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 4,
+      "github_id": "silicalet",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-14T12:14:39Z",
+      "completion_time": "2026-05-14T12:22:15Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 5,
+      "github_id": "vsvnakers",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T15:56:11Z",
+      "completion_time": "2026-05-23T16:04:18Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 6,
+      "github_id": "ghostdragonzero",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-24T06:35:32Z",
+      "completion_time": "2026-05-24T06:42:19Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 7,
+      "github_id": "eyauwag",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-07T07:33:27Z",
+      "completion_time": "2026-06-07T07:40:03Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 8,
+      "github_id": "random25160765-collab",
+      "score": 100.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-15T15:10:35Z",
+      "completion_time": "2026-06-15T15:19:04Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 9,
+      "github_id": "Lfan-ke",
+      "score": 30.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-15T00:55:30Z",
+      "completion_time": "2026-04-15T01:03:30Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 10,
+      "github_id": "lickoc",
+      "score": 30.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T11:11:58Z",
+      "completion_time": "2026-04-21T11:19:58Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 11,
+      "github_id": "jack-wang-176",
+      "score": 30.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-10T13:39:59Z",
+      "completion_time": "2026-06-10T13:47:31Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 12,
+      "github_id": "dingtao1",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-08T13:18:03Z",
+      "completion_time": "2026-04-08T13:26:40Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 13,
+      "github_id": "fbt1709",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-13T10:35:11Z",
+      "completion_time": "2026-04-13T10:43:07Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 14,
+      "github_id": "Dirinkbottle",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-17T11:00:30Z",
+      "completion_time": "2026-04-17T11:08:28Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 15,
+      "github_id": "zevorn",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T03:50:12Z",
+      "completion_time": "2026-04-18T03:58:12Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 16,
+      "github_id": "clsfantasy",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T09:39:55Z",
+      "completion_time": "2026-04-18T09:48:26Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 17,
+      "github_id": "csmyx",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-18T15:58:16Z",
+      "completion_time": "2026-04-18T16:05:52Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 18,
+      "github_id": "coldriver-chen",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-20T04:19:28Z",
+      "completion_time": "2026-04-20T04:27:16Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 19,
+      "github_id": "h1y2g3l4y5",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T15:57:42Z",
+      "completion_time": "2026-04-21T16:05:16Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 20,
+      "github_id": "Altersieg",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-21T19:09:31Z",
+      "completion_time": "2026-04-21T19:17:49Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 21,
+      "github_id": "anicbeer",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-22T13:55:10Z",
+      "completion_time": "2026-04-22T14:03:22Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 22,
+      "github_id": "xxluestc",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-23T16:24:00Z",
+      "completion_time": "2026-04-23T16:31:46Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 23,
+      "github_id": "srcres258",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-24T03:17:39Z",
+      "completion_time": "2026-04-24T03:25:20Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 24,
+      "github_id": "Codeman-1999",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-25T10:13:28Z",
+      "completion_time": "2026-04-25T10:21:16Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 25,
+      "github_id": "Aozaki-aok0",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-26T07:50:33Z",
+      "completion_time": "2026-04-26T07:58:29Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 26,
+      "github_id": "mhubing",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-27T01:56:00Z",
+      "completion_time": "2026-04-27T02:04:32Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 27,
+      "github_id": "KeyBor",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-28T05:52:57Z",
+      "completion_time": "2026-04-28T06:00:31Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 28,
+      "github_id": "adgnaf",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-28T07:09:05Z",
+      "completion_time": "2026-04-28T07:16:40Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 29,
+      "github_id": "yunyi1201",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-04-30T02:03:39Z",
+      "completion_time": "2026-04-30T02:13:06Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 30,
+      "github_id": "eternal-echo",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-01T06:43:31Z",
+      "completion_time": "2026-05-01T06:51:08Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 31,
+      "github_id": "PingGuoMiaoMiao",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-02T16:42:56Z",
+      "completion_time": "2026-05-02T16:50:43Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 32,
+      "github_id": "lusixing",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-04T09:14:07Z",
+      "completion_time": "2026-05-04T09:22:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 33,
+      "github_id": "destinyFvcker",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-06T14:01:19Z",
+      "completion_time": "2026-05-06T14:09:12Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 34,
+      "github_id": "Sutter099",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-07T14:54:14Z",
+      "completion_time": "2026-05-07T15:12:09Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 35,
+      "github_id": "skinterqwe",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-08T01:14:45Z",
+      "completion_time": "2026-05-08T01:22:47Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 36,
+      "github_id": "73fc",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-09T12:47:35Z",
+      "completion_time": "2026-05-09T12:55:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 37,
+      "github_id": "yunjianshijie",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-10T03:41:03Z",
+      "completion_time": "2026-05-10T03:48:36Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 38,
+      "github_id": "scrail",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-13T08:10:38Z",
+      "completion_time": "2026-05-13T08:18:05Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 39,
+      "github_id": "zhenbaii",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-14T08:58:06Z",
+      "completion_time": "2026-05-14T09:13:26Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 40,
+      "github_id": "lingqian-gi",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-15T15:09:55Z",
+      "completion_time": "2026-05-15T15:17:50Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 41,
+      "github_id": "shengdaozm",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-17T07:21:18Z",
+      "completion_time": "2026-05-17T07:28:55Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 42,
+      "github_id": "trace1729",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-20T06:54:23Z",
+      "completion_time": "2026-05-20T07:20:44Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 43,
+      "github_id": "Firegooder",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T06:15:36Z",
+      "completion_time": "2026-05-23T06:22:58Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 44,
+      "github_id": "bbbbbq",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-23T16:58:09Z",
+      "completion_time": "2026-05-23T17:05:42Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 45,
+      "github_id": "enlist12",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-26T04:20:55Z",
+      "completion_time": "2026-05-26T04:28:28Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 46,
+      "github_id": "yuanyiboyyb",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-27T12:35:38Z",
+      "completion_time": "2026-05-27T12:43:46Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 47,
+      "github_id": "Opadc",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-27T13:58:23Z",
+      "completion_time": "2026-05-27T14:06:08Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 48,
+      "github_id": "flamboyante",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-28T05:10:19Z",
+      "completion_time": "2026-05-28T05:18:04Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 49,
+      "github_id": "LiuHongsGitHub",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-30T10:16:35Z",
+      "completion_time": "2026-05-30T10:24:22Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 50,
+      "github_id": "Eclipse-Arrebol",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-05-30T12:59:40Z",
+      "completion_time": "2026-05-30T13:07:07Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 51,
+      "github_id": "cn-sys",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-01T19:52:13Z",
+      "completion_time": "2026-06-01T19:59:41Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 52,
+      "github_id": "flespark",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-02T10:28:06Z",
+      "completion_time": "2026-06-02T10:35:37Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 53,
+      "github_id": "littlewangzai-orz",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-03T16:29:42Z",
+      "completion_time": "2026-06-03T16:38:00Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 54,
+      "github_id": "csdjr",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-04T16:32:43Z",
+      "completion_time": "2026-06-04T16:40:31Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 55,
+      "github_id": "2zuqisong",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-05T07:16:41Z",
+      "completion_time": "2026-06-05T07:28:51Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 56,
+      "github_id": "srhashdh",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-05T09:16:39Z",
+      "completion_time": "2026-06-05T09:25:06Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 57,
+      "github_id": "xiaoerlang0359-debug",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-07T19:05:11Z",
+      "completion_time": "2026-06-07T19:13:03Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 58,
+      "github_id": "luis-233",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-08T02:24:01Z",
+      "completion_time": "2026-06-08T02:31:27Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 59,
+      "github_id": "Gmikele",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-10T00:16:33Z",
+      "completion_time": "2026-06-10T00:23:14Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 60,
+      "github_id": "rhbfc",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-11T06:10:37Z",
+      "completion_time": "2026-06-11T06:18:14Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 61,
+      "github_id": "serf-huik",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-13T03:37:16Z",
+      "completion_time": "2026-06-13T03:44:58Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 62,
+      "github_id": "jensenojs",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-13T15:50:16Z",
+      "completion_time": "2026-06-13T15:58:07Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 63,
+      "github_id": "dazuo233",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-14T07:09:42Z",
+      "completion_time": "2026-06-14T07:17:05Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 64,
+      "github_id": "refr66",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-20T10:58:57Z",
+      "completion_time": "2026-06-20T11:06:26Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 65,
+      "github_id": "First-da",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T05:26:42Z",
+      "completion_time": "2026-06-21T05:34:55Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 66,
+      "github_id": "asdfgh870",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-21T14:04:44Z",
+      "completion_time": "2026-06-21T14:13:05Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 67,
+      "github_id": "WhiteBearI",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-23T13:38:26Z",
+      "completion_time": "2026-06-23T13:46:03Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 68,
+      "github_id": "yyxt-xwy",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-24T08:55:43Z",
+      "completion_time": "2026-06-24T09:04:04Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 69,
+      "github_id": "xiex386",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-27T16:19:07Z",
+      "completion_time": "2026-06-27T16:26:41Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 70,
+      "github_id": "dweeqhd",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-06-29T09:33:09Z",
+      "completion_time": "2026-06-29T09:41:39Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 71,
+      "github_id": "jieniguiemmm",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-02T04:06:36Z",
+      "completion_time": "2026-07-02T04:14:28Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 72,
+      "github_id": "litianxing2016",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-02T09:36:16Z",
+      "completion_time": "2026-07-02T09:44:57Z"
+    },
+    {
+      "stage": "professional",
+      "direction": "rust",
+      "rank": 73,
+      "github_id": "ovwxxwvo",
+      "score": 10.0,
+      "total_score": 100.0,
+      "run_time": "2026-07-05T08:33:50Z",
+      "completion_time": "2026-07-05T08:41:40Z"
+    }
+  ],
+  "diagnostics": []
+}

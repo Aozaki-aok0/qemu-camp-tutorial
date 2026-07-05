@@ -59,7 +59,7 @@ make -f Makefile.camp test        # 全部方向
 
 - 每次推送到 `main` 分支，CI 自动编译、运行测试并计算得分
 - 测试失败不会导致 CI 报错，只会降低得分
-- 得分为 0 时不上传到排行榜
+- 得分为 0 时不上传到排行榜；非 0 得分会展示在对应方向的专业阶段排行榜中：[CPU](../../../leaderboards/2026/professional/cpu.md)、[SoC](../../../leaderboards/2026/professional/soc.md)、[GPGPU](../../../leaderboards/2026/professional/gpgpu.md)、[Rust](../../../leaderboards/2026/professional/rust.md)
 
 ## 晋级项目阶段
 

@@ -7,7 +7,7 @@
 | [C 语言](learning-c.md) | OpenCamp 基础 + 进阶 | 40 题 |
 | [Rust](learning-rust.md) | Rustlings 完整题库 | 95 题 |
 
-两个方向均通过 GitHub Classroom 分发实验仓库，CI 自动评分。
+两个方向均通过 GitHub Classroom 分发实验仓库，CI 自动评分。基础阶段排行榜见 [C 语言](../../../leaderboards/2026/basic/c.md) 和 [Rust](../../../leaderboards/2026/basic/rust.md)。
 
 ## 获取实验仓库
 
