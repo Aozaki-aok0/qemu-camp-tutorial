@@ -402,19 +402,32 @@ def list_completed_workflow_runs(
     repo_name: str,
     workflow_names: set[str],
     limit: int,
+    branch: str,
+    event: str = "push",
 ) -> list[dict[str, Any]]:
     matched: list[dict[str, Any]] = []
     page = 1
     while True:
+        params = {
+            "status": "completed",
+            "branch": branch,
+            "event": event,
+            "per_page": 100,
+            "page": page,
+        }
         data = client.get_json(
             f"/repos/{organization}/{repo_name}/actions/runs",
-            {"status": "completed", "per_page": 100, "page": page},
+            params,
         )
         runs = data.get("workflow_runs", []) if isinstance(data, dict) else data
         if not runs:
             break
         for run in runs:
             if workflow_names and run.get("name") not in workflow_names:
+                continue
+            if branch and run.get("head_branch") != branch:
+                continue
+            if event and run.get("event") != event:
                 continue
             matched.append(run)
             if len(matched) >= limit:
@@ -516,10 +529,12 @@ def collect_repository(
     repo_name = repo["name"]
     records: dict[str, LeaderboardRecord] = {}
     latest_seen: dict[str, Diagnostic] = {}
+    blocked: set[str] = set()
 
     workflow_names = {name for direction in directions for name in direction.workflow_names}
+    upload_branch = repo.get("default_branch") or "main"
     try:
-        runs = list_completed_workflow_runs(client, organization, repo_name, workflow_names, max_runs)
+        runs = list_completed_workflow_runs(client, organization, repo_name, workflow_names, max_runs, upload_branch)
     except GitHubError as exc:
         diagnostics = [
             Diagnostic(repo_name, repo.get("html_url", ""), direction.key, str(exc), kind="error")
@@ -534,12 +549,12 @@ def collect_repository(
         ]
 
     for run in runs:
-        if all(direction.key in records for direction in directions):
+        if all(direction.key in records or direction.key in blocked for direction in directions):
             break
         missing = [
             direction
             for direction in directions
-            if direction.key not in records and direction_matches_run(direction, run)
+            if direction.key not in records and direction.key not in blocked and direction_matches_run(direction, run)
         ]
         if not missing:
             continue
@@ -560,6 +575,7 @@ def collect_repository(
                         kind="error",
                     ),
                 )
+                blocked.add(direction.key)
             continue
 
         for direction in missing:
@@ -594,6 +610,7 @@ def collect_repository(
                         kind="error",
                     ),
                 )
+                blocked.add(direction.key)
                 continue
 
             payload = extract_payload_from_log(
@@ -902,6 +919,15 @@ def diagnostic_identity(
     return record_identity(direction.stage, direction.key, github_id)
 
 
+def diagnostic_allows_snapshot_preservation(diagnostic: Diagnostic) -> bool:
+    reason = diagnostic.reason.lower()
+    if diagnostic.kind != "error":
+        return False
+    if "expired" in reason or "gone" in reason:
+        return True
+    return "/logs" in reason and ("404" in reason or "410" in reason or "not found" in reason)
+
+
 def preserve_snapshot_records(
     config: dict[str, Any],
     records: list[LeaderboardRecord],
@@ -919,7 +945,8 @@ def preserve_snapshot_records(
     diagnostic_keys = {
         key
         for diagnostic in diagnostics
-        if (key := diagnostic_identity(diagnostic, directions_by_key)) is not None
+        if diagnostic_allows_snapshot_preservation(diagnostic)
+        and (key := diagnostic_identity(diagnostic, directions_by_key)) is not None
     }
 
     preserved: list[LeaderboardRecord] = []
@@ -1113,6 +1140,110 @@ def self_test() -> None:
         assert preserved == 1
         assert remaining_diagnostics == []
         assert {record.github_id for record in current_records} == {"alice", "bob"}
+
+        current_records, remaining_diagnostics, preserved = preserve_snapshot_records(
+            config,
+            [later],
+            [
+                Diagnostic(
+                    "qemu-camp-2026-exper-bob",
+                    "https://github.com/gevico/repo-bob",
+                    "cpu",
+                    "GitHub API error 502 for /repos/gevico/repo/actions/jobs/1/logs: Bad Gateway",
+                    kind="error",
+                )
+            ],
+            public,
+        )
+        assert preserved == 0
+        assert len(remaining_diagnostics) == 1
+        assert {record.github_id for record in current_records} == {"alice"}
+
+    class FakeGitHubClient:
+        def __init__(self, runs: list[dict[str, Any]], jobs: dict[int, list[dict[str, Any]]], logs: dict[int, bytes | GitHubError]):
+            self.runs = runs
+            self.jobs = jobs
+            self.logs = logs
+
+        def get_json(self, path: str, params: dict[str, Any] | None = None) -> Any:
+            if path.endswith("/actions/runs"):
+                return {"workflow_runs": self.runs}
+            raise AssertionError(f"unexpected get_json path: {path}")
+
+        def paginate(self, path: str, params: dict[str, Any] | None = None, limit: int | None = None) -> list[Any]:
+            match = re.search(r"/actions/runs/(\d+)/jobs$", path)
+            if not match:
+                raise AssertionError(f"unexpected paginate path: {path}")
+            return self.jobs[int(match.group(1))]
+
+        def get_bytes(self, path_or_url: str, params: dict[str, Any] | None = None) -> bytes:
+            match = re.search(r"/actions/jobs/(\d+)/logs$", path_or_url)
+            if not match:
+                raise AssertionError(f"unexpected get_bytes path: {path_or_url}")
+            result = self.logs[int(match.group(1))]
+            if isinstance(result, GitHubError):
+                raise result
+            return result
+
+    filtered_runs = list_completed_workflow_runs(
+        FakeGitHubClient(
+            [
+                {"id": 10, "name": "QEMU Camp 2026 CI", "event": "pull_request", "head_branch": "main"},
+                {"id": 11, "name": "QEMU Camp 2026 CI", "event": "push", "head_branch": "feature"},
+                {"id": 12, "name": "QEMU Camp 2026 CI", "event": "push", "head_branch": "main"},
+            ],
+            {},
+            {},
+        ),
+        "gevico",
+        "qemu-camp-2026-exper-alice",
+        {"QEMU Camp 2026 CI"},
+        6,
+        "main",
+    )
+    assert [run["id"] for run in filtered_runs] == [12]
+
+    stale_payload_log = log.replace('"score": 100', '"score": 10')
+    records, diagnostics = collect_repository(
+        FakeGitHubClient(
+            [
+                {
+                    "id": 21,
+                    "name": "QEMU Camp 2026 CI",
+                    "event": "push",
+                    "head_branch": "main",
+                    "run_started_at": "2026-06-16T02:00:00Z",
+                    "created_at": "2026-06-16T02:00:00Z",
+                    "html_url": "https://example.com/21",
+                },
+                {
+                    "id": 20,
+                    "name": "QEMU Camp 2026 CI",
+                    "event": "push",
+                    "head_branch": "main",
+                    "run_started_at": "2026-06-15T02:00:00Z",
+                    "created_at": "2026-06-15T02:00:00Z",
+                    "html_url": "https://example.com/20",
+                },
+            ],
+            {
+                21: [{"id": 210, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-16T02:10:00Z"}],
+                20: [{"id": 200, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-15T02:10:00Z"}],
+            },
+            {
+                210: GitHubError(502, "/jobs/210/logs", "Bad Gateway"),
+                200: stale_payload_log.encode("utf-8"),
+            },
+        ),
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+    )
+    assert records == []
+    assert len(diagnostics) == 1
+    assert diagnostics[0].kind == "error"
+    assert "Bad Gateway" in diagnostics[0].reason
 
 
 def parse_args() -> argparse.Namespace:
