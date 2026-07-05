@@ -245,7 +245,6 @@ break;
 
 ---
 
-### 总结
+## 总结
 
 理解了 QEMU 设备建模的核心机制（PCI 注册、MemoryRegion/BAR 映射、MMIO 回调），掌握了 SIMT 架构下 Grid/Block/Warp 的调度与 RV32I/RV32F 指令解释器的简单实现方法，熟悉了 VRAM 访问和 DMA 传输的模拟路径。初步掌握 GDB 调试复杂项目的方法。后续继续使用 AI 辅助，多读 QEMU 源码以加深理解。
-

@@ -2,7 +2,7 @@
 
 !!! note "主要贡献者"
 
-    - 作者：[2zuqisong](https://github.com/2zuqisong)
+    - 作者：[@2zuqisong](https://github.com/2zuqisong)
 
 ---
 

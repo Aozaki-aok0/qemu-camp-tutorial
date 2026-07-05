@@ -366,6 +366,6 @@ sudo gdb -p pidOfQemu
 - 在 qemu 侧时可以在相应函数上添加断点后，然后执行命令`continue`.
 - 在 qtest 侧，如果执行的内容会触发 qemu 中的断点，则可以到 qemu 侧进行 gdb
 
-# 总结
+## 总结
 
 学习 Rust 有一段时间了，但一直都是做的都是玩具级项目，这一次借助 QEMU 训练营，将 Rust 与 QEMU 设备开发相结合，既巩固了 Rust 编程能力，也深入理解了 QEMU 设备虚拟化的核心逻辑，收获满满。

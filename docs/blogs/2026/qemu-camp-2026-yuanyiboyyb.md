@@ -1,6 +1,18 @@
-# qemu
+# QEMU 训练营 2026 专业阶段总结
 
-## 内存管理
+!!! note "主要贡献者"
+
+    - 作者：[@yuanyiboyyb](https://github.com/yuanyiboyyb)
+
+---
+
+## 背景介绍
+
+本文为 yuanyiboyyb 在 QEMU 训练营 2026 专业阶段的学习笔记，主要围绕 QEMU 内存管理、TCG、执行循环和设备管理展开。
+
+## 专业阶段
+
+### 内存管理
 
 ### 无 kvm
 
@@ -12,7 +24,7 @@ GVA(guest virtual address) 经过由 guest 自己维护的页表翻译成 GPA(gu
 - 有 kvm 两级页表，两级由硬件完成
 - 无 kvm 两级页表，一级软件一级硬件
 
-## TCG
+### TCG
 
 **TCG(Tiny Code Generator)**，也就是 QEMU 的动态二进制翻译引擎。它的作用是：把“客户机 CPU 指令”翻译成“宿主机 CPU 指令”，从而让不同架构的程序或操作系统能够在当前机器上运行。
 ```
@@ -65,7 +77,7 @@ CPU 状态变化
 | 关机/reset               | 设置退出原因，返回上层主循环                                                | `KVM_EXIT_SHUTDOWN` 等返回 QEMU                                                               |
 | 内部错误                   | QEMU 自己报错/abort/退出                                            | `KVM_EXIT_INTERNAL_ERROR` / `KVM_EXIT_FAIL_ENTRY`                                          |
 
-## 执行循环
+### 执行循环
 
 首先是总的循环
 ```C
@@ -225,7 +237,7 @@ void process_queued_cpu_work(CPUState *cpu)
     qemu_cond_broadcast(&qemu_work_cond);
 }
 ```
-## 设备管理
+### 设备管理
 
 ### QOM
 
@@ -644,3 +656,6 @@ static void virtio_ioport_write(void *opaque, uint32_t addr, uint32_t val)
 	- 提供 **用户态安全访问设备寄存器** 的接口
 	原本有些设备只能驱动程序使用，现在提供一个在类似`/dev/vfio/xxx`这样的接口，可以通过`open ioctl`系统调用来操作，比如 GPU，高速网卡（PCIe 10G/25G 网卡），NVMe / 高速存储控制器，USB / 音频 / FPGA 等 PCIe 设备
 
+## 总结
+
+这篇笔记从地址翻译、TCG 执行、QEMU 主循环、QOM 设备建模、Virtio 设备模拟和 VFIO 直通等角度梳理了专业阶段学习中形成的 QEMU 系统理解。

@@ -1,6 +1,6 @@
 # QEMU 训练营 2026 专业阶段总结
 
-!!! note "srcres258"
+!!! note "主要贡献者"
 
     - 作者：[@srcres258](https://github.com/srcres258)
 

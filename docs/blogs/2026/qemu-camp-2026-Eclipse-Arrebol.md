@@ -2,9 +2,7 @@
 
 !!! note "主要贡献者"
 
-```
-- 作者:[@Eclipse-Arrebol](https://github.com/Eclipse-Arrebol)
-```
+    - 作者：[@Eclipse-Arrebol](https://github.com/Eclipse-Arrebol)
 
 ------
 

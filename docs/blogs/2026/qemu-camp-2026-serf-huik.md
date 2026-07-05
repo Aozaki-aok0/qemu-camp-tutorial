@@ -1,6 +1,6 @@
 # QEMU 训练营 2026 专业阶段总结
 
-!!! note 主要贡献者
+!!! note "主要贡献者"
 
     - 作者：[@serf-huik](https://github.com/serf-huik)
 

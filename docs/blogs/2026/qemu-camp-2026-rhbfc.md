@@ -2,7 +2,7 @@
 
 !!! note "主要贡献者"
 
-    - 作者：[rhbfc](https://github.com/rhbfc)
+    - 作者：[@rhbfc](https://github.com/rhbfc)
 
 ---
 
