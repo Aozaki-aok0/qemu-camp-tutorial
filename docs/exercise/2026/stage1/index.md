@@ -59,7 +59,9 @@ make -f Makefile.camp test        # 全部方向
 
 - 每次推送到 `main` 分支，CI 自动编译、运行测试并计算得分
 - 测试失败不会导致 CI 报错，只会降低得分
-- 得分为 0 时不上传到排行榜
+- 得分为 0 时不上传到排行榜；非 0 得分会展示在对应方向的专业阶段排行榜中：[CPU](../../../leaderboards/2026/professional/cpu.md)、[SoC](../../../leaderboards/2026/professional/soc.md)、[GPGPU](../../../leaderboards/2026/professional/gpgpu.md)、[Rust](../../../leaderboards/2026/professional/rust.md)
+
+<a id="晋级项目阶段"></a>
 
 ## 晋级项目阶段
 
@@ -72,13 +74,13 @@ make -f Makefile.camp test        # 全部方向
 
 **第一步**，Fork 本文档仓库 [qemu-camp-tutorial](https://github.com/gevico/qemu-camp-tutorial)。
 
-**第二步**，在 `docs/blogs/2026/` 目录下新建博客文件，文件命名格式：
+**第二步**，在 `docs/blogs/2026/professional/` 目录下新建博客文件，文件命名格式：
 
 ```
-qemu-camp-2026-<你的 GitHub ID>.md
+qemu-camp-2026-<你的 GitHub 名>.md
 ```
 
-例如 GitHub 用户名为 `zhangsan`，则文件名为 `qemu-camp-2026-zhangsan.md`。
+例如 GitHub 用户名为 `zhangsan`，则文件名为 `qemu-camp-2026-zhangsan.md`。如果同一个 GitHub 账号需要提交多篇文章，可以在文件名后增加方向或主题后缀，例如 `qemu-camp-2026-zhangsan-soc.md`。
 
 **第三步**，按照以下固定格式编写博客内容：
 
@@ -104,25 +106,36 @@ qemu-camp-2026-<你的 GitHub ID>.md
 （收获、感想、对后续学员的建议等）
 ```
 
-然后更新 `mkdocs.yml` 文件，在播客专栏，按照顺序，添加文章的标题和链接。
+然后更新 `mkdocs.yml` 文件，在博客专栏的 `训练营 2026` 下按阶段添加文章：
+
+- 专业阶段总结放在 `专业阶段` 下
+- 项目阶段文章后续合入后放在 `项目阶段` 下；当前暂无项目阶段博客文章
+- 导航标题统一使用 GitHub 名，不再使用 `专业阶段总结 <GitHub 名>` 的格式
+- 如果同一个 GitHub 账号下有多篇文章，将文章放到该 GitHub 名的下一级目录中
 
 ```
   - 博客:
     - 介绍页: blogs/index.md
     - 训练营 2026:
-      - 专业阶段总结 dingtao1: blogs/2026/qemu-camp-2026-dingtao1.md
-      - 专业阶段总结 <你的 GitHub ID>: blogs/2026/qemu-camp-2026-<github_id>.md
+      - 专业阶段:
+        - dingtao1: blogs/2026/professional/qemu-camp-2026-dingtao1.md
+        - <你的 GitHub 名>: blogs/2026/professional/qemu-camp-2026-<github_name>.md
+        - <已有多篇文章的 GitHub 名>:
+          - CPU 方向: blogs/2026/professional/qemu-camp-2026-<github_name>.md
+          - SoC 方向: blogs/2026/professional/qemu-camp-2026-<github_name>-soc.md
+      - 项目阶段:
+        - 暂无文章: blogs/2026/project/project-stage.md
 ```
 
 !!! note "参考博客"
 
-    - [专业阶段总结 dingtao1](../../../blogs/2026/qemu-camp-2026-dingtao1.md)
-    - [专业阶段总结 LordaeronESZ](../../../blogs/2025/qemu-camp-2025-LordaeronESZ.md)
+    - [dingtao1](../../../blogs/2026/professional/qemu-camp-2026-dingtao1.md)
+    - [LordaeronESZ（2025）](../../../blogs/2025/qemu-camp-2025-LordaeronESZ.md)
 
 **第四步**，提交 Pull Request，PR 标题格式：
 
 ```
-docs/blogs: add stage1 summary by <你的 GitHub ID>
+docs/blogs: add stage1 summary by <你的 GitHub 名>
 ```
 
 审核通过后，博客将发布到本站博客专栏，晋级条件达成。

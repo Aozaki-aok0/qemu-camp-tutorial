@@ -4,7 +4,7 @@
 
 > PS：导学阶段的学习资料，同时可作为后续阶段的补充学习资源，你可根据自身知识掌握程度灵活规划学习节奏。
 
-### 编程基础相关
+## 编程基础相关
 
 !!! abstract "编程语言"
 
@@ -12,7 +12,7 @@
 
     [B 站: 最后一次入门 Rust][learning-rust-link]
 
-### 体系结构相关
+## 体系结构相关
 
 !!! tip "体系结构"
 
@@ -24,7 +24,7 @@
 
     [RISC-V 体系结构编程与实践(第 2 版) - 笨叔][riscv-arch-book-link]
 
-### QEMU 基础知识
+## QEMU 基础知识
 
 !!! note "基础知识"
 
@@ -42,7 +42,7 @@
 
     [QEMU 训练营 2025 | 格维开源社区][qemu-camp-2025-link]
 
-### QEMU 知识库
+## QEMU 知识库
 
 !!! abstract "大模型知识库"
 
@@ -52,7 +52,7 @@
 
     [ima 知识库: RISC-V | 格维开源社区][riscv-ima-link]
 
-### QEMU 开源相关
+## QEMU 开源相关
 
 !!! example "开源相关"
 
@@ -60,14 +60,13 @@
 
     [开源社区实践: 参与上游贡献与补丁解读][qemu-unstream-link]
 
-### 答疑速查
+## 答疑速查
 
 !!! question "常见问答"
 
     [训练营常见问答（FAQ）][qemu-camp-faq-link]
 
     汇总导学阶段群内高频提问：环境搭建、OpenCamp 与 Classroom、专业阶段实验、训练营组织与答疑。
-
 
 [qemu-cnb-link]: ../../../blogs/misc/qemu-cnb-dev.md
 [learning-c-camp-link]: https://opencamp.ai/C/camp/2025/register?code=cMJBju7dp5cTR
@@ -77,7 +76,7 @@
 [qemu-devel-email-link]: ../../../blogs/misc/qemu-devel-email.md
 [qemu-build-link]: https://qemu.readthedocs.io/en/v10.0.3/devel/build-system.html
 [qemu-c-env-link]: https://qemu.readthedocs.io/en/v10.0.3/devel/build-environment.html
-[qemu-rust-env-link]: qemu-dev-env.md#rust-开发环境配置可选
+[qemu-rust-env-link]: qemu-dev-env.md#rust
 [qemu-dev-env-local-link]: qemu-dev-env.md
 [gpgpu-resources-local-link]: gpgpu-resources.md
 [gpu-history-local-link]: gpu-history.md

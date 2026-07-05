@@ -1,0 +1,86 @@
+{
+    "organization": "gevico",
+    "max_runs_per_repo": 6,
+    "workers": 8,
+    "max_diagnostics_per_page": 40,
+    "snapshot_path": "docs/generated/leaderboards/2026.json",
+    "stages": [
+        {
+            "key": "basic",
+            "title": "基础阶段",
+            "output_dir": "docs/leaderboards/2026/basic",
+            "workflow_names": [
+                "OpenCamp Autograding"
+            ],
+            "directions": [
+                {
+                    "key": "basic-c",
+                    "title": "C 语言",
+                    "page": "c.md",
+                    "repository_prefix": "qemu-camp-2026-c-",
+                    "job_names": [
+                        "Report Score To OpenCamp QEMU"
+                    ],
+                    "course_secret": "QEMU_CAMP_2026_C_AUTUMN_COURSE_ID"
+                },
+                {
+                    "key": "basic-rust",
+                    "title": "Rust",
+                    "page": "rust.md",
+                    "repository_prefix": "qemu-camp-2026-rust-",
+                    "job_names": [
+                        "Report Score To OpenCamp Rust"
+                    ],
+                    "course_secret": "QEMU_CAMP_2026_RUST_AUTUMN_COURSE_ID"
+                }
+            ]
+        },
+        {
+            "key": "professional",
+            "title": "专业阶段",
+            "output_dir": "docs/leaderboards/2026/professional",
+            "repository_prefix": "qemu-camp-2026-exper-",
+            "workflow_names": [
+                "QEMU Camp 2026 CI"
+            ],
+            "directions": [
+                {
+                    "key": "cpu",
+                    "title": "CPU 方向",
+                    "page": "cpu.md",
+                    "job_names": [
+                        "CPU Experiment (TCG)"
+                    ],
+                    "course_secret": "QEMU_CAMP_2026_CPU_AUTUMN_COURSE_ID"
+                },
+                {
+                    "key": "soc",
+                    "title": "SoC 方向",
+                    "page": "soc.md",
+                    "job_names": [
+                        "SoC Experiment (QTest)"
+                    ],
+                    "course_secret": "QEMU_CAMP_2026_SOC_AUTUMN_COURSE_ID"
+                },
+                {
+                    "key": "gpgpu",
+                    "title": "GPGPU 方向",
+                    "page": "gpgpu.md",
+                    "job_names": [
+                        "GPGPU Experiment (QTest)"
+                    ],
+                    "course_secret": "QEMU_CAMP_2026_GPU_AUTUMN_COURSE_ID"
+                },
+                {
+                    "key": "rust",
+                    "title": "Rust 方向",
+                    "page": "rust.md",
+                    "job_names": [
+                        "Rust Experiment (Unit + QTest)"
+                    ],
+                    "course_secret": "QEMU_CAMP_2026_EXPER_RUST_AUTUMN_COURSE_ID"
+                }
+            ]
+        }
+    ]
+}

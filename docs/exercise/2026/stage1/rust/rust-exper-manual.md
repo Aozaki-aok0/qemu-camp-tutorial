@@ -150,7 +150,7 @@ make -f Makefile.camp test-rust
 
 共 10 道题（3 道 Rust 单元测试 + 7 道 QTest），每题 10 分，满分 100 分。
 
-每次 push 到 `main` 会触发 CI 评测，得分更新到[排行榜][4]。
+每次 push 到 `main` 会触发 CI 评测，得分更新到[Rust 方向专业阶段排行榜][4]。
 
 ## 进阶实验
 
@@ -201,4 +201,4 @@ make -f Makefile.camp test-rust
 评估维度：迁移范围、`unsafe` 使用是否克制、与原 C 实现的功能等价性（能否通过 GPGPU 方向的 17 道 QTest）。
 
 [3]: https://classroom.github.com/a/hwWFrmo_
-[4]: https://opencamp.cn/qemu/camp/2025/stage/3?tab=rank
+[4]: ../../../../leaderboards/2026/professional/rust.md
