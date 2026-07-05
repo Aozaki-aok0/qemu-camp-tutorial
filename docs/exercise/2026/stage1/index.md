@@ -61,6 +61,8 @@ make -f Makefile.camp test        # 全部方向
 - 测试失败不会导致 CI 报错，只会降低得分
 - 得分为 0 时不上传到排行榜；非 0 得分会展示在对应方向的专业阶段排行榜中：[CPU](../../../leaderboards/2026/professional/cpu.md)、[SoC](../../../leaderboards/2026/professional/soc.md)、[GPGPU](../../../leaderboards/2026/professional/gpgpu.md)、[Rust](../../../leaderboards/2026/professional/rust.md)
 
+<a id="晋级项目阶段"></a>
+
 ## 晋级项目阶段
 
 完成以下两项即可进入项目阶段（ch3）：
