@@ -80,6 +80,7 @@ class Diagnostic:
     reason: str
     run_url: str | None = None
     run_time: str | None = None
+    kind: str = "missing"
 
 
 class GitHubError(RuntimeError):
@@ -292,7 +293,78 @@ def is_score_payload(payload: dict[str, Any]) -> bool:
     )
 
 
-def extract_payload_from_log(log_text: str) -> dict[str, Any] | None:
+def is_valid_score_payload(payload: dict[str, Any], expected_name: str | None = None) -> bool:
+    if not is_score_payload(payload):
+        return False
+    if expected_name and payload["name"].lower() != expected_name.lower():
+        return False
+    score = float(payload["score"])
+    total_score = float(payload["totalScore"])
+    return 0 <= score <= total_score and total_score > 0
+
+
+def _opencamp_upload_sections(text: str) -> list[str]:
+    sections: list[str] = []
+    lines = text.splitlines()
+    marker_sets = (
+        (
+            'cat "$SUMMARY"',
+            (
+                "jq -n",
+                "curl --fail-with-body",
+                '-d @"$SUMMARY"',
+                "OPENCAMP_COURSE_ID",
+                "GITHUB_USER:",
+                "SUMMARY:",
+                "api.opencamp.cn",
+                "/web/api/courseRank/createByThirdToken",
+            ),
+        ),
+        (
+            'echo "$summary"',
+            (
+                "summary=$(jq -n",
+                "curl -X POST",
+                '-d "$summary"',
+                "--argjson score",
+                "--argjson totalScore",
+                "api.opencamp.cn",
+                "/web/api/courseRank/createByThirdToken",
+            ),
+        ),
+    )
+    for index, line in enumerate(lines):
+        required_markers: tuple[str, ...] | None = None
+        for anchor, markers in marker_sets:
+            if anchor in line:
+                required_markers = markers
+                break
+        if required_markers is None:
+            continue
+        window_start = max(0, index - 30)
+        window_end = min(len(lines), index + 80)
+        window = "\n".join(lines[window_start:window_end])
+        if all(marker in window for marker in required_markers):
+            sections.append(window)
+    return sections
+
+
+def extract_payload_from_log(log_text: str, expected_name: str | None = None) -> dict[str, Any] | None:
+    text = clean_log(log_text)
+    for section in _opencamp_upload_sections(text):
+        for candidate in _balanced_json_candidates(section):
+            normalized = normalize_masked_json(candidate)
+            try:
+                payload = json.loads(normalized)
+            except json.JSONDecodeError:
+                continue
+            if is_valid_score_payload(payload, expected_name):
+                return payload
+
+    return None
+
+
+def extract_unverified_payload_from_log(log_text: str) -> dict[str, Any] | None:
     text = clean_log(log_text)
     for candidate in _balanced_json_candidates(text):
         normalized = normalize_masked_json(candidate)
@@ -316,6 +388,14 @@ def extract_payload_from_log(log_text: str) -> dict[str, Any] | None:
             "totalScore": float(total_match.group(1)),
         }
     return None
+
+
+def expected_github_id(repo_name: str, direction: Direction) -> str:
+    return repo_name.removeprefix(direction.repository_prefix)
+
+
+def diagnostic_is_collection_error(diagnostic: Diagnostic) -> bool:
+    return diagnostic.kind == "error"
 
 
 def discover_repositories(
@@ -470,7 +550,7 @@ def collect_repository(
         )
     except GitHubError as exc:
         diagnostics = [
-            Diagnostic(repo_name, repo.get("html_url", ""), direction.key, str(exc))
+            Diagnostic(repo_name, repo.get("html_url", ""), direction.key, str(exc), kind="error")
             for direction in directions
         ]
         return [], diagnostics
@@ -518,22 +598,37 @@ def collect_repository(
                         str(exc),
                         run_url=run.get("html_url"),
                         run_time=run.get("run_started_at") or run.get("created_at"),
+                        kind="error",
                     ),
                 )
             continue
 
         for direction in missing:
             job = find_job_for_direction(jobs, direction)
+            expected_name = expected_github_id(repo_name, direction)
             if direction.key in artifact_payloads:
-                records[direction.key] = record_from_payload(
-                    payload=artifact_payloads[direction.key],
-                    direction=direction,
-                    repo=repo,
-                    run=run,
-                    job=job,
-                    source="artifact",
+                payload = artifact_payloads[direction.key]
+                if is_valid_score_payload(payload, expected_name):
+                    records[direction.key] = record_from_payload(
+                        payload=payload,
+                        direction=direction,
+                        repo=repo,
+                        run=run,
+                        job=job,
+                        source="artifact",
+                    )
+                    continue
+                latest_seen.setdefault(
+                    direction.key,
+                    Diagnostic(
+                        repo_name,
+                        repo.get("html_url", ""),
+                        direction.key,
+                        "OpenCamp score artifact failed repository or score validation",
+                        run_url=run.get("html_url"),
+                        run_time=run.get("run_started_at") or run.get("created_at"),
+                    ),
                 )
-                continue
 
             if not job:
                 latest_seen.setdefault(
@@ -561,11 +656,15 @@ def collect_repository(
                         str(exc),
                         run_url=run.get("html_url"),
                         run_time=run.get("run_started_at") or run.get("created_at"),
+                        kind="error",
                     ),
                 )
                 continue
 
-            payload = extract_payload_from_log(log_bytes.decode("utf-8", errors="replace"))
+            payload = extract_payload_from_log(
+                log_bytes.decode("utf-8", errors="replace"),
+                expected_name=expected_name,
+            )
             if payload:
                 records[direction.key] = record_from_payload(
                     payload=payload,
@@ -582,7 +681,7 @@ def collect_repository(
                         repo_name,
                         repo.get("html_url", ""),
                         direction.key,
-                        "no parseable OpenCamp score payload in matching job log",
+                        "no verified OpenCamp score payload in matching job log",
                         run_url=run.get("html_url"),
                         run_time=run.get("run_started_at") or run.get("created_at"),
                     ),
@@ -659,7 +758,7 @@ def collect(
             except Exception as exc:  # pragma: no cover - defensive diagnostics for collection runtime failures.
                 repo_records = []
                 repo_diagnostics = [
-                    Diagnostic(repo["name"], repo.get("html_url", ""), direction.key, str(exc))
+                    Diagnostic(repo["name"], repo.get("html_url", ""), direction.key, str(exc), kind="error")
                     for direction in group_directions
                 ]
             by_index[index] = (repo_records, repo_diagnostics)
@@ -817,7 +916,7 @@ def load_snapshot(path: Path) -> dict[str, Any]:
 
 
 def self_test() -> None:
-    log = """
+    untrusted_log = """
 2026-06-15T15:18:44.1483905Z {
 2026-06-15T15:18:44.1484234Z   "channel": "github",
 2026-06-15T15:18:44.1484662Z   "courseId": ***,
@@ -827,10 +926,76 @@ def self_test() -> None:
 2026-06-15T15:18:44.1485996Z   "totalScore": 100
 2026-06-15T15:18:44.1486296Z }
 """
-    payload = extract_payload_from_log(log)
+    assert extract_payload_from_log(untrusted_log, expected_name="alice") is None
+    assert extract_unverified_payload_from_log(untrusted_log) is not None
+
+    log = """
+2026-06-15T15:18:44.1483905Z ##[group]Run jq -n
+2026-06-15T15:18:44.1483905Z jq -n \\
+2026-06-15T15:18:44.1483905Z   --arg channel "github" \\
+2026-06-15T15:18:44.1483905Z   --arg courseId "$OPENCAMP_COURSE_ID" \\
+2026-06-15T15:18:44.1483905Z   --arg ext "{}" \\
+2026-06-15T15:18:44.1483905Z   --arg name "$GITHUB_USER" \\
+2026-06-15T15:18:44.1483905Z   --argjson score "$TOTAL_SCORE" \\
+2026-06-15T15:18:44.1483905Z   --argjson totalScore "$MAX_SCORE" \\
+2026-06-15T15:18:44.1483905Z   '{channel: $channel, courseId: $courseId, ext: $ext, name: $name, score: $score, totalScore: $totalScore}' > "$SUMMARY"
+2026-06-15T15:18:44.1483905Z cat "$SUMMARY"
+2026-06-15T15:18:44.1483905Z curl --fail-with-body -X POST "$OPENCAMP_API_URL" \\
+2026-06-15T15:18:44.1483905Z   -d @"$SUMMARY" \\
+2026-06-15T15:18:44.1483905Z   -v
+2026-06-15T15:18:44.1483905Z env:
+2026-06-15T15:18:44.1483905Z   OPENCAMP_COURSE_ID: ***
+2026-06-15T15:18:44.1483905Z   GITHUB_USER: alice
+2026-06-15T15:18:44.1483905Z   TOTAL_SCORE: 100
+2026-06-15T15:18:44.1483905Z   MAX_SCORE: 100
+2026-06-15T15:18:44.1483905Z   SUMMARY: build/summary.json
+2026-06-15T15:18:44.1483905Z ##[endgroup]
+2026-06-15T15:18:44.1483905Z {
+2026-06-15T15:18:44.1484234Z   "channel": "github",
+2026-06-15T15:18:44.1484662Z   "courseId": ***,
+2026-06-15T15:18:44.1484978Z   "ext": "{}",
+2026-06-15T15:18:44.1485294Z   "name": "alice",
+2026-06-15T15:18:44.1485695Z   "score": 100,
+2026-06-15T15:18:44.1485996Z   "totalScore": 100
+2026-06-15T15:18:44.1486296Z }
+2026-06-15T15:18:44.1486296Z * Connected to api.opencamp.cn
+2026-06-15T15:18:44.1486296Z > POST /web/api/courseRank/createByThirdToken HTTP/2
+"""
+    payload = extract_payload_from_log(log, expected_name="alice")
     assert payload is not None
     assert payload["name"] == "alice"
     assert payload["score"] == 100
+    assert extract_payload_from_log(log, expected_name="bob") is None
+
+    inline_summary_log = """
+2026-06-15T15:18:44.1483905Z ##[group]Run summary=$(jq -n
+2026-06-15T15:18:44.1483905Z summary=$(jq -n \\
+2026-06-15T15:18:44.1483905Z   --arg channel "github" \\
+2026-06-15T15:18:44.1483905Z   --arg courseId "***" \\
+2026-06-15T15:18:44.1483905Z   --arg ext "{}" \\
+2026-06-15T15:18:44.1483905Z   --arg name "alice" \\
+2026-06-15T15:18:44.1483905Z   --argjson score "90" \\
+2026-06-15T15:18:44.1483905Z   --argjson totalScore "100" \\
+2026-06-15T15:18:44.1483905Z   '{channel: $channel, courseId: $courseId, ext: $ext, name: $name, score: $score, totalScore: $totalScore}')
+2026-06-15T15:18:44.1483905Z echo "$summary"
+2026-06-15T15:18:44.1483905Z curl -X POST "***" \\
+2026-06-15T15:18:44.1483905Z   -d "$summary" \\
+2026-06-15T15:18:44.1483905Z   -v
+2026-06-15T15:18:44.1483905Z ##[endgroup]
+2026-06-15T15:18:44.1483905Z {
+2026-06-15T15:18:44.1484234Z   "channel": "github",
+2026-06-15T15:18:44.1484662Z   "courseId": ***,
+2026-06-15T15:18:44.1484978Z   "ext": "{}",
+2026-06-15T15:18:44.1485294Z   "name": "alice",
+2026-06-15T15:18:44.1485695Z   "score": 90,
+2026-06-15T15:18:44.1485996Z   "totalScore": 100
+2026-06-15T15:18:44.1486296Z }
+2026-06-15T15:18:44.1486296Z * Connected to api.opencamp.cn
+2026-06-15T15:18:44.1486296Z > POST /web/api/courseRank/createByThirdToken HTTP/2
+"""
+    inline_payload = extract_payload_from_log(inline_summary_log, expected_name="alice")
+    assert inline_payload is not None
+    assert inline_payload["score"] == 90
 
     repo = {"name": "qemu-camp-2026-exper-alice", "html_url": "https://github.com/gevico/repo"}
     direction = Direction(
@@ -907,6 +1072,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-root", default=".", help="Repository root for generated files.")
     parser.add_argument("--dry-run", action="store_true", help="Collect and render into a temporary directory.")
     parser.add_argument("--render-only", help="Render pages from an existing snapshot JSON instead of collecting.")
+    parser.add_argument(
+        "--fail-on-collection-errors",
+        action="store_true",
+        help="Exit non-zero when GitHub API or log download errors occurred during collection.",
+    )
     parser.add_argument("--self-test", action="store_true", help="Run parser, ranking, and rendering self-tests.")
     return parser.parse_args()
 
@@ -921,22 +1091,40 @@ def main() -> int:
     config = load_config(Path(args.config))
     if args.render_only:
         snapshot = load_snapshot(Path(args.render_only))
+        diagnostics: list[Diagnostic] = []
     else:
         records, diagnostics = collect(config, args.repo_limit, args.max_runs, args.repository, args.workers)
+        collection_errors = [diagnostic for diagnostic in diagnostics if diagnostic_is_collection_error(diagnostic)]
+        if args.fail_on_collection_errors and collection_errors:
+            print(
+                f"collection failed with {len(collection_errors)} GitHub API/log errors; refusing to render partial leaderboards",
+                file=sys.stderr,
+            )
+            for diagnostic in collection_errors[:20]:
+                print(
+                    f"- {diagnostic.repository} {diagnostic.direction}: {diagnostic.reason}",
+                    file=sys.stderr,
+                )
+            if len(collection_errors) > 20:
+                print(f"- ... {len(collection_errors) - 20} more errors", file=sys.stderr)
+            return 1
         snapshot = build_snapshot(config, records, diagnostics)
+    collection_error_count = len([diagnostic for diagnostic in diagnostics if diagnostic_is_collection_error(diagnostic)])
 
     if args.dry_run:
         with tempfile.TemporaryDirectory() as tmp:
             render(snapshot, config, Path(tmp))
             print(f"dry-run rendered files under {tmp}")
             print(
-                f"ranked={len(snapshot['ranked'])} diagnostics={len(snapshot['diagnostics'])} generated_at={snapshot['metadata']['generated_at']}"
+                f"ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
+                f"collection_errors={collection_error_count} generated_at={snapshot['metadata']['generated_at']}"
             )
     else:
         root = Path(args.output_root)
         render(snapshot, config, root)
         print(
-            f"rendered leaderboards: ranked={len(snapshot['ranked'])} diagnostics={len(snapshot['diagnostics'])}"
+            f"rendered leaderboards: ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
+            f"collection_errors={collection_error_count}"
         )
     return 0
 

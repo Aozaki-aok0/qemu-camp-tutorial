@@ -44,7 +44,7 @@ jobs:
       - name: Generate leaderboards
         env:
           LEADERBOARD_GITHUB_TOKEN: ${{ secrets.LEADERBOARD_GITHUB_TOKEN }}
-        run: python scripts/leaderboards/update_leaderboards.py --config scripts/leaderboards/config.json
+        run: python scripts/leaderboards/update_leaderboards.py --config scripts/leaderboards/config.json --fail-on-collection-errors
 
       - name: Check for changes
         id: changes
