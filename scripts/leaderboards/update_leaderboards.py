@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
 import re
@@ -340,16 +341,27 @@ def _opencamp_upload_sections(text: str) -> list[str]:
         if required_markers is None:
             continue
         window_start = max(0, index - 30)
-        window_end = min(len(lines), index + 80)
+        window_end = min(len(lines), index + 220)
         window = "\n".join(lines[window_start:window_end])
         if all(marker in window for marker in required_markers):
             sections.append(window)
     return sections
 
 
+def opencamp_upload_succeeded(section: str) -> bool:
+    return (
+        "api.opencamp.cn" in section
+        and "/web/api/courseRank/createByThirdToken" in section
+        and re.search(r"< HTTP/\S+\s+2\d\d\b", section) is not None
+        and re.search(r'\{\s*"result"\s*:\s*1\s*,\s*"msg"\s*:\s*""\s*\}', section) is not None
+    )
+
+
 def extract_payload_from_log(log_text: str, expected_name: str | None = None) -> dict[str, Any] | None:
     text = clean_log(log_text)
     for section in _opencamp_upload_sections(text):
+        if not opencamp_upload_succeeded(section):
+            continue
         for candidate in _balanced_json_candidates(section):
             normalized = normalize_masked_json(candidate)
             try:
@@ -518,6 +530,32 @@ def direction_matches_run(direction: Direction, run: dict[str, Any]) -> bool:
     return not direction.workflow_names or run.get("name") in direction.workflow_names
 
 
+def workflow_path(run: dict[str, Any]) -> str | None:
+    path = run.get("path")
+    if isinstance(path, str) and path:
+        return path
+    return None
+
+
+def load_workflow_text_for_run(
+    client: GitHubClient,
+    organization: str,
+    repo_name: str,
+    run: dict[str, Any],
+) -> str:
+    path = workflow_path(run)
+    ref = run.get("head_sha")
+    if not path or not ref:
+        raise GitHubError(None, "workflow", "workflow path or head SHA is missing from run metadata")
+    data = client.get_json(f"/repos/{organization}/{repo_name}/contents/{path}", {"ref": ref})
+    content = data.get("content", "") if isinstance(data, dict) else ""
+    return base64.b64decode(content).decode("utf-8")
+
+
+def workflow_references_course_secret(workflow_text: str, direction: Direction) -> bool:
+    return f"secrets.{direction.course_secret}" in workflow_text or direction.course_secret in workflow_text
+
+
 def collect_repository(
     client: GitHubClient,
     config: dict[str, Any],
@@ -530,6 +568,7 @@ def collect_repository(
     records: dict[str, LeaderboardRecord] = {}
     latest_seen: dict[str, Diagnostic] = {}
     blocked: set[str] = set()
+    workflow_text_by_run: dict[int, str] = {}
 
     workflow_names = {name for direction in directions for name in direction.workflow_names}
     upload_branch = repo.get("default_branch") or "main"
@@ -559,6 +598,29 @@ def collect_repository(
         if not missing:
             continue
 
+        run_id = int(run.get("id", 0))
+        try:
+            workflow_text = workflow_text_by_run.setdefault(
+                run_id,
+                load_workflow_text_for_run(client, organization, repo_name, run),
+            )
+        except (GitHubError, ValueError, UnicodeDecodeError) as exc:
+            for direction in missing:
+                latest_seen.setdefault(
+                    direction.key,
+                    Diagnostic(
+                        repo_name,
+                        repo.get("html_url", ""),
+                        direction.key,
+                        str(exc),
+                        run_url=run.get("html_url"),
+                        run_time=run.get("run_started_at") or run.get("created_at"),
+                        kind="error",
+                    ),
+                )
+                blocked.add(direction.key)
+            continue
+
         try:
             jobs = client.paginate(f"/repos/{organization}/{repo_name}/actions/runs/{run['id']}/jobs")
         except GitHubError as exc:
@@ -579,6 +641,22 @@ def collect_repository(
             continue
 
         for direction in missing:
+            if not workflow_references_course_secret(workflow_text, direction):
+                latest_seen.setdefault(
+                    direction.key,
+                    Diagnostic(
+                        repo_name,
+                        repo.get("html_url", ""),
+                        direction.key,
+                        "workflow does not reference the configured OpenCamp course secret",
+                        run_url=run.get("html_url"),
+                        run_time=run.get("run_started_at") or run.get("created_at"),
+                        kind="error",
+                    ),
+                )
+                blocked.add(direction.key)
+                continue
+
             job = find_job_for_direction(jobs, direction)
             expected_name = expected_github_id(repo_name, direction)
             if not job:
@@ -1020,12 +1098,15 @@ def self_test() -> None:
 2026-06-15T15:18:44.1486296Z }
 2026-06-15T15:18:44.1486296Z * Connected to api.opencamp.cn
 2026-06-15T15:18:44.1486296Z > POST /web/api/courseRank/createByThirdToken HTTP/2
+2026-06-15T15:18:44.1486296Z < HTTP/2 200
+2026-06-15T15:18:44.1486296Z {"result":1,"msg":""}
 """
     payload = extract_payload_from_log(log, expected_name="alice")
     assert payload is not None
     assert payload["name"] == "alice"
     assert payload["score"] == 100
     assert extract_payload_from_log(log, expected_name="bob") is None
+    assert extract_payload_from_log(log.replace("< HTTP/2 200", "< HTTP/2 500"), expected_name="alice") is None
 
     inline_summary_log = """
 2026-06-15T15:18:44.1483905Z ##[group]Run summary=$(jq -n
@@ -1052,6 +1133,8 @@ def self_test() -> None:
 2026-06-15T15:18:44.1486296Z }
 2026-06-15T15:18:44.1486296Z * Connected to api.opencamp.cn
 2026-06-15T15:18:44.1486296Z > POST /web/api/courseRank/createByThirdToken HTTP/2
+2026-06-15T15:18:44.1486296Z < HTTP/2 200
+2026-06-15T15:18:44.1486296Z {"result":1,"msg":""}
 """
     inline_payload = extract_payload_from_log(inline_summary_log, expected_name="alice")
     assert inline_payload is not None
@@ -1197,14 +1280,24 @@ def self_test() -> None:
         assert {record.github_id for record in current_records} == {"alice"}
 
     class FakeGitHubClient:
-        def __init__(self, runs: list[dict[str, Any]], jobs: dict[int, list[dict[str, Any]]], logs: dict[int, bytes | GitHubError]):
+        def __init__(
+            self,
+            runs: list[dict[str, Any]],
+            jobs: dict[int, list[dict[str, Any]]],
+            logs: dict[int, bytes | GitHubError],
+            workflow_text: str = "",
+        ):
             self.runs = runs
             self.jobs = jobs
             self.logs = logs
+            self.workflow_text = workflow_text
 
         def get_json(self, path: str, params: dict[str, Any] | None = None) -> Any:
             if path.endswith("/actions/runs"):
                 return {"workflow_runs": self.runs}
+            if "/contents/" in path:
+                encoded = base64.b64encode(self.workflow_text.encode("utf-8")).decode("ascii")
+                return {"content": encoded}
             raise AssertionError(f"unexpected get_json path: {path}")
 
         def paginate(self, path: str, params: dict[str, Any] | None = None, limit: int | None = None) -> list[Any]:
@@ -1249,6 +1342,8 @@ def self_test() -> None:
                     "name": "QEMU Camp 2026 CI",
                     "event": "push",
                     "head_branch": "main",
+                    "head_sha": "new",
+                    "path": ".github/workflows/classroom.yml",
                     "run_started_at": "2026-06-16T02:00:00Z",
                     "created_at": "2026-06-16T02:00:00Z",
                     "html_url": "https://example.com/21",
@@ -1258,6 +1353,8 @@ def self_test() -> None:
                     "name": "QEMU Camp 2026 CI",
                     "event": "push",
                     "head_branch": "main",
+                    "head_sha": "old",
+                    "path": ".github/workflows/classroom.yml",
                     "run_started_at": "2026-06-15T02:00:00Z",
                     "created_at": "2026-06-15T02:00:00Z",
                     "html_url": "https://example.com/20",
@@ -1271,6 +1368,7 @@ def self_test() -> None:
                 210: GitHubError(502, "/jobs/210/logs", "Bad Gateway"),
                 200: stale_payload_log.encode("utf-8"),
             },
+            workflow_text="courseId: ${{ secrets.SECRET }}",
         ),
         {"organization": "gevico"},
         repo,
