@@ -34,7 +34,7 @@ vortex 是一个开源的 RISC-V GPGPU 硬件/软件项目，包含 RTL，仿真
 
 vortex 的软件栈其实也类似，这里以 OpenCL 为例进行讲解
 
-![vortex](../../../image/vortex2.png)
+![vortex](../../../../image/vortex2.png)
 
 - 底层 simx/vortex rtl 提供 gpgpu 硬件模型
 - 再上层 vortex 提供 vortex runtime lib(libvortex.so)，提供执行后端与 GPU 交互 API (比如 vx_malloc)，然后根据用户指定的执行后端（rtl/simx/fpga）再转发到真正的功能函数
