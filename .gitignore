@@ -1,6 +1,7 @@
 .venv
 .cache
+.node_modules.stamp
+.openspec
 site
 node_modules
-.node_modules.stamp
 video
