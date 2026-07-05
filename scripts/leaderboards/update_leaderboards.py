@@ -789,7 +789,7 @@ def build_snapshot(config: dict[str, Any], records: list[LeaderboardRecord], dia
         },
         "directions": [public_direction(asdict(direction)) for direction in directions],
         "ranked": [public_record(asdict(record)) for record in ranked],
-        "diagnostics": [],
+        "diagnostics": [asdict(diagnostic) for diagnostic in diagnostics],
     }
 
 
@@ -1045,12 +1045,22 @@ def self_test() -> None:
             ],
             "directions": [direction],
         }
+        diagnostic = Diagnostic(
+            "qemu-camp-2026-exper-charlie",
+            "https://github.com/gevico/repo-charlie",
+            "cpu",
+            "GitHub API timeout",
+            kind="error",
+        )
         snapshot = build_snapshot(
             {"organization": "gevico", "directions": [direction]},
             [later, earlier],
-            [],
+            [diagnostic],
         )
+        assert snapshot["diagnostics"][0]["kind"] == "error"
         render(snapshot, config, root)
+        public = json.loads((root / "snapshot.json").read_text(encoding="utf-8"))
+        assert public["diagnostics"] == []
         page = (root / "pages" / "cpu.md").read_text(encoding="utf-8")
         assert "qemu-camp-2026-exper" not in page.split("| GitHub ID |", 1)[-1].split("完整快照", 1)[0]
         assert "bob" in page and "alice" in page
