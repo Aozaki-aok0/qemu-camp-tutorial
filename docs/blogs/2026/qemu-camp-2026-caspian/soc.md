@@ -8,7 +8,7 @@
 
 ## 背景介绍
 
-背景介绍见 [CPU 方向](qemu-camp-2026-caspian.md)。
+背景介绍见 [CPU 方向](cpu.md)。
 
 ## 专业阶段
 

@@ -39,44 +39,44 @@
 ```c
 // mmio 读写示例
 switch (addr) {
-	case GPGPU_REG_DEV_ID:
-		val = GPGPU_DEV_ID_VALUE;
-		break;
-	case GPGPU_REG_DEV_VERSION:
-		val = GPGPU_DEV_VERSION_VALUE;
-		break;
-	case GPGPU_REG_VRAM_SIZE_LO:
-		val = 0x04000000;
-		break;
-	case GPGPU_REG_VRAM_SIZE_HI:
-		val = 0x00000000;
-		break;
-	case GPGPU_REG_GLOBAL_CTRL:
-		val = gpu->global_ctrl;
-		break;
-	case GPGPU_REG_GLOBAL_STATUS:
-		val = gpu->global_status;
-		break;
-		...
+ case GPGPU_REG_DEV_ID:
+  val = GPGPU_DEV_ID_VALUE;
+  break;
+ case GPGPU_REG_DEV_VERSION:
+  val = GPGPU_DEV_VERSION_VALUE;
+  break;
+ case GPGPU_REG_VRAM_SIZE_LO:
+  val = 0x04000000;
+  break;
+ case GPGPU_REG_VRAM_SIZE_HI:
+  val = 0x00000000;
+  break;
+ case GPGPU_REG_GLOBAL_CTRL:
+  val = gpu->global_ctrl;
+  break;
+ case GPGPU_REG_GLOBAL_STATUS:
+  val = gpu->global_status;
+  break;
+  ...
 ```
 
 ```c
 // vram 读写示例
 if(addr + size <= gpu->vram_size) {
-	switch (size) {
-		case 1:
-			val = *(uint8_t*)(gpu->vram_ptr + addr);
-			break;
-		case 2:
-			val = *(uint16_t*)(gpu->vram_ptr + addr);
-			break;
-		case 4:
-			val = *(uint32_t*)(gpu->vram_ptr + addr);
-			break;
-		case 8:
-			val = *(uint64_t*)(gpu->vram_ptr + addr);
-			break;
-	}
+ switch (size) {
+  case 1:
+   val = *(uint8_t*)(gpu->vram_ptr + addr);
+   break;
+  case 2:
+   val = *(uint16_t*)(gpu->vram_ptr + addr);
+   break;
+  case 4:
+   val = *(uint32_t*)(gpu->vram_ptr + addr);
+   break;
+  case 8:
+   val = *(uint64_t*)(gpu->vram_ptr + addr);
+   break;
+ }
 }
 ...
 ```
@@ -103,23 +103,23 @@ if(addr + size <= gpu->vram_size) {
 
 ```c
 case GPGPU_REG_DISPATCH: // 触发 Kernel 执行入口
-	gpu->global_status = GPGPU_STATUS_BUSY;
-	int ret = gpgpu_core_exec_kernel(gpu);
-	if (ret == 0) {
-		gpu->global_status = GPGPU_STATUS_READY;
-		gpu->irq_status |= GPGPU_IRQ_KERNEL_DONE;
-	} else {
-		gpu->global_status = GPGPU_STATUS_ERROR;
-		gpu->error_status |= GPGPU_ERR_KERNEL_FAULT;
-		gpu->irq_status |= GPGPU_IRQ_ERROR;
-	}
-	break;
+ gpu->global_status = GPGPU_STATUS_BUSY;
+ int ret = gpgpu_core_exec_kernel(gpu);
+ if (ret == 0) {
+  gpu->global_status = GPGPU_STATUS_READY;
+  gpu->irq_status |= GPGPU_IRQ_KERNEL_DONE;
+ } else {
+  gpu->global_status = GPGPU_STATUS_ERROR;
+  gpu->error_status |= GPGPU_ERR_KERNEL_FAULT;
+  gpu->irq_status |= GPGPU_IRQ_ERROR;
+ }
+ break;
 ```
 
 GPU core 是 SIMT 架构，每一个 warp 有 32 个 lane，共享同一个 warp 的指令上下文。
 
 我的思路是：
-	
+
 1. 先查表确定是哪一条指令。
 2. 分离出指令的数据并存进 warp 的上下文里。
 3. 每一个 lane 读取所属 warp 的指令上下文，执行运算。
@@ -190,7 +190,7 @@ static void get_warp_ctx(exec_ctx_t *ctx, uint32_t inst, int type)
         case TYPE_S: case TYPE_FS:
             ctx->imm = immS(inst); break;
         case TYPE_U:
-			...
+   ...
 ```
 
 回调函数根据函数名和传入的逻辑在预处理阶段自动生成。最初的设计是所有回调函数共享统一的上下文。
@@ -261,8 +261,9 @@ export QTEST_QEMU_OPTIONS="-S"
 这次实验总计花费 15 个小时，历时一天半，主要是对于平时积累的一个输出。在这之前，笔者已经学习了 QEMU 开发者文档的 QOM 部分，跟着 ai 逐行 review 了两个简单设备的源码，了解了 GPU 的架构和并行计算的方法，学了一点 CUDA 编程，因此实验完成得相当顺利。
 
 ## 参考资料
-   - *GPGPU 虚拟加速器实验手册*，QEMU Camp 2026. [在线链接](https://qemu.gevico.online/exercise/2026/stage1/gpu/gpu-exper-manual/)  
-   - *GPGPU 虚拟加速器硬件手册（教学版）*，QEMU Camp 2026. [在线链接](https://qemu.gevico.online/exercise/2026/stage1/gpu/gpu-datasheet/) 
-   - *NEMU (NJU Emulator) 官方文档*，南京大学计算机系统基础实验 (PA). [在线链接](https://ysyx.oscc.cc/docs/ics-pa/)  
-   - *QEMU Developer Information: QOM (QEMU Object Model)*. [在线链接](https://www.qemu.org/docs/master/devel/)
-   - *The RISC-V Instruction Set Manual, Volume I: Unprivileged ISA*. [在线链接](https://riscv.org/technical/specifications/)
+
+- *GPGPU 虚拟加速器实验手册*，QEMU Camp 2026. [在线链接](https://qemu.gevico.online/exercise/2026/stage1/gpu/gpu-exper-manual/)  
+- *GPGPU 虚拟加速器硬件手册（教学版）*，QEMU Camp 2026. [在线链接](https://qemu.gevico.online/exercise/2026/stage1/gpu/gpu-datasheet/)
+- *NEMU (NJU Emulator) 官方文档*，南京大学计算机系统基础实验 (PA). [在线链接](https://ysyx.oscc.cc/docs/ics-pa/)  
+- *QEMU Developer Information: QOM (QEMU Object Model)*. [在线链接](https://www.qemu.org/docs/master/devel/)
+- *The RISC-V Instruction Set Manual, Volume I: Unprivileged ISA*. [在线链接](https://riscv.org/technical/specifications/)

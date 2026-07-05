@@ -222,19 +222,19 @@ nav:
       - 专业阶段:
         - dingtao1: blogs/2026/qemu-camp-2026-dingtao1.md
         - random25160765-collab:
-          - GPGPU 方向: blogs/2026/qemu-camp-2026-rd.md
-          - GPU 进阶实验一: blogs/2026/gpu/gpu-exper-blog-rd-ex1.md
+          - GPGPU 方向: blogs/2026/qemu-camp-2026-random25160765-collab/gpgpu.md
+          - GPU 进阶实验一: blogs/2026/qemu-camp-2026-random25160765-collab/gpgpu-advanced-1.md
         - ihanzh: blogs/2026/qemu-camp-2026-ihanzh.md
         - srcres258: blogs/2026/qemu-camp-2026-srcres258.md
         - Codeman-1999: blogs/2026/qemu-camp-2026-Codeman-1999.md
         - kusola: blogs/2026/qemu-camp-2026-kusola.md
         - flespark: blogs/2026/qemu-camp-2026-flespark-tcg.md
         - caspian:
-          - CPU 方向: blogs/2026/qemu-camp-2026-caspian.md
-          - SoC 方向: blogs/2026/qemu-camp-2026-caspian-soc.md
-          - GPGPU 方向: blogs/2026/qemu-camp-2026-caspian-gpu.md
-          - GPU 进阶实验一: blogs/2026/gpu/gpu-exper-blog-caspian-ex1.md
-          - GPU 进阶实验二: blogs/2026/gpu/gpu-exper-blog-caspian-ex2.md
+          - CPU 方向: blogs/2026/qemu-camp-2026-caspian/cpu.md
+          - SoC 方向: blogs/2026/qemu-camp-2026-caspian/soc.md
+          - GPGPU 方向: blogs/2026/qemu-camp-2026-caspian/gpgpu.md
+          - GPU 进阶实验一: blogs/2026/qemu-camp-2026-caspian/gpgpu-advanced-1.md
+          - GPU 进阶实验二: blogs/2026/qemu-camp-2026-caspian/gpgpu-advanced-2.md
         - cn-sys: blogs/2026/qemu-camp-2026-cn-sys.md
         - Kcang-gna: blogs/2026/qemu-camp-2026-Kcang-gna.md
         - lingqian-gi: blogs/2026/qemu-camp-2026-lingqian-gi.md
