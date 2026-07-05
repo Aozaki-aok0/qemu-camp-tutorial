@@ -209,47 +209,51 @@ nav:
   - 博客:
     - 介绍页: blogs/index.md
     - 训练营 2026:
-      - 专业阶段总结 dingtao1: blogs/2026/qemu-camp-2026-dingtao1.md
-      - 专业阶段总结 rd: blogs/2026/qemu-camp-2026-rd.md
-      - 专业阶段总结 ihanzh: blogs/2026/qemu-camp-2026-ihanzh.md
-      - 专业阶段总结 srcres258: blogs/2026/qemu-camp-2026-srcres258.md
-      - 专业阶段总结 Codeman-1999: blogs/2026/qemu-camp-2026-Codeman-1999.md
-      - 专业阶段总结 kusola: blogs/2026/qemu-camp-2026-kusola.md
-      - 专业阶段总结 flespark: blogs/2026/qemu-camp-2026-flespark-tcg.md
-      - 专业阶段总结 caspian: blogs/2026/qemu-camp-2026-caspian.md
-      - 专业阶段总结 caspian_soc: blogs/2026/qemu-camp-2026-caspian-soc.md
-      - 专业阶段总结 caspian_gpu: blogs/2026/qemu-camp-2026-caspian-gpu.md
-      - 专业阶段总结 cn-sys: blogs/2026/qemu-camp-2026-cn-sys.md
-      - 专业阶段总结 Kcang-gna: blogs/2026/qemu-camp-2026-Kcang-gna.md
-      - 专业阶段总结 lingqian-gi: blogs/2026/qemu-camp-2026-lingqian-gi.md
-      - 专业阶段总结 yuanyiboyyb: blogs/2026/qemu-camp-2026-yuanyiboyyb.md
-      - 专业阶段总结 scrail: blogs/2026/qemu-camp-2026-scrail.md
-      - 专业阶段总结 Firegooder: blogs/2026/qemu-camp-2026-Firegooder.md
-      - 专业阶段总结 liuhong: blogs/2026/qemu-camp-2026-liuhong-gpu.md
-      - 专业阶段总结 vsvnakers: blogs/2026/qemu-camp-2026-vsvnakers.md
-      - 专业阶段总结 asdfgh870: blogs/2026/qemu-camp-2026-asdfgh870.md
-      - 专业阶段总结 Eclipse-Arrebol: blogs/2026/qemu-camp-2026-Eclipse-Arrebol.md
-      - 专业阶段总结 2zuqisong: blogs/2026/qemu-camp-2026-2zuqisong.md
-      - 专业阶段总结 rhbfc: blogs/2026/qemu-camp-2026-rhbfc.md
-      - 专业阶段总结 serf-huik: blogs/2026/qemu-camp-2026-serf-huik.md
-      - 专业阶段总结 jensenojs: blogs/2026/qemu-camp-2026-jensenojs.md
-      - 专业阶段总结 dazuo233: blogs/2026/qemu-camp-2026-dazuo233.md
-      - 专业阶段总结 jack-wang-176: blogs/2026/qemu-camp-2026-jack-wang-176.md
-      - 专业阶段总结 eyauwag: blogs/2026/qemu-camp-2026-eyauwag.md
-      - 专业阶段总结 Sunuywq: blogs/2026/qemu-camp-2026-Sunuywq.md
-      - 专业阶段总结 zhenbaii: blogs/2026/qemu-camp-2026-zhenbaii.md
-      - 专业阶段总结 First-da: blogs/2026/qemu-camp-2026-First-da.md
-      - 专业阶段总结 WhiteBearI: blogs/2026/qemu-camp-2026-WhiteBearI.md
-      - 专业阶段总结 yyxt-xwy: blogs/2026/qemu-camp-2026-yyxt-xwy.md
-      - 专业阶段总结 xiex386: blogs/2026/qemu-camp-2026-xiex386.md
-      - 专业阶段总结 flamboyante: blogs/2026/qemu-camp-2026-flamboyante.md
-      - 专业阶段总结 dweeqhd: blogs/2026/qemu-camp-2026-dweeqhd.md
-      - 专业阶段总结 jieniguiemmm: blogs/2026/qemu-camp-2026-jieniguiemmm.md
-      - 专业阶段总结 sutter099: blogs/2026/qemu-camp-2026-sutter099.md
-      - GPU 进阶实验总结:
-        - 进阶实验总结（一） - rd: blogs/2026/gpu/gpu-exper-blog-rd-ex1.md
-        - 进阶实验总结（一） - caspian: blogs/2026/gpu/gpu-exper-blog-caspian-ex1.md
-        - 进阶实验总结（二） - caspian: blogs/2026/gpu/gpu-exper-blog-caspian-ex2.md
+      - 专业阶段:
+        - dingtao1: blogs/2026/qemu-camp-2026-dingtao1.md
+        - random25160765-collab:
+          - GPGPU 方向: blogs/2026/qemu-camp-2026-rd.md
+          - GPU 进阶实验一: blogs/2026/gpu/gpu-exper-blog-rd-ex1.md
+        - ihanzh: blogs/2026/qemu-camp-2026-ihanzh.md
+        - srcres258: blogs/2026/qemu-camp-2026-srcres258.md
+        - Codeman-1999: blogs/2026/qemu-camp-2026-Codeman-1999.md
+        - kusola: blogs/2026/qemu-camp-2026-kusola.md
+        - flespark: blogs/2026/qemu-camp-2026-flespark-tcg.md
+        - caspian:
+          - CPU 方向: blogs/2026/qemu-camp-2026-caspian.md
+          - SoC 方向: blogs/2026/qemu-camp-2026-caspian-soc.md
+          - GPGPU 方向: blogs/2026/qemu-camp-2026-caspian-gpu.md
+          - GPU 进阶实验一: blogs/2026/gpu/gpu-exper-blog-caspian-ex1.md
+          - GPU 进阶实验二: blogs/2026/gpu/gpu-exper-blog-caspian-ex2.md
+        - cn-sys: blogs/2026/qemu-camp-2026-cn-sys.md
+        - Kcang-gna: blogs/2026/qemu-camp-2026-Kcang-gna.md
+        - lingqian-gi: blogs/2026/qemu-camp-2026-lingqian-gi.md
+        - yuanyiboyyb: blogs/2026/qemu-camp-2026-yuanyiboyyb.md
+        - scrail: blogs/2026/qemu-camp-2026-scrail.md
+        - Firegooder: blogs/2026/qemu-camp-2026-Firegooder.md
+        - liuhong: blogs/2026/qemu-camp-2026-liuhong-gpu.md
+        - vsvnakers: blogs/2026/qemu-camp-2026-vsvnakers.md
+        - asdfgh870: blogs/2026/qemu-camp-2026-asdfgh870.md
+        - Eclipse-Arrebol: blogs/2026/qemu-camp-2026-Eclipse-Arrebol.md
+        - 2zuqisong: blogs/2026/qemu-camp-2026-2zuqisong.md
+        - rhbfc: blogs/2026/qemu-camp-2026-rhbfc.md
+        - serf-huik: blogs/2026/qemu-camp-2026-serf-huik.md
+        - jensenojs: blogs/2026/qemu-camp-2026-jensenojs.md
+        - dazuo233: blogs/2026/qemu-camp-2026-dazuo233.md
+        - jack-wang-176: blogs/2026/qemu-camp-2026-jack-wang-176.md
+        - eyauwag: blogs/2026/qemu-camp-2026-eyauwag.md
+        - Sunuywq: blogs/2026/qemu-camp-2026-Sunuywq.md
+        - zhenbaii: blogs/2026/qemu-camp-2026-zhenbaii.md
+        - First-da: blogs/2026/qemu-camp-2026-First-da.md
+        - WhiteBearI: blogs/2026/qemu-camp-2026-WhiteBearI.md
+        - yyxt-xwy: blogs/2026/qemu-camp-2026-yyxt-xwy.md
+        - xiex386: blogs/2026/qemu-camp-2026-xiex386.md
+        - flamboyante: blogs/2026/qemu-camp-2026-flamboyante.md
+        - dweeqhd: blogs/2026/qemu-camp-2026-dweeqhd.md
+        - jieniguiemmm: blogs/2026/qemu-camp-2026-jieniguiemmm.md
+        - sutter099: blogs/2026/qemu-camp-2026-sutter099.md
+      - 项目阶段:
+        - 暂无文章: blogs/2026/project-stage.md
     - 训练营 2025:
       - 专业阶段总结 LordaeronESZ: blogs/2025/qemu-camp-2025-LordaeronESZ.md
     - 其他技术博客:
