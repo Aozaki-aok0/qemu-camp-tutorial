@@ -10,6 +10,7 @@ import os
 import re
 import sys
 import tempfile
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -104,9 +105,13 @@ class StripAuthRedirectHandler(HTTPRedirectHandler):
 
 
 class GitHubClient:
-    def __init__(self, token: str | None):
+    def __init__(self, token: str | None, retries: int | None = None):
         self.token = token
+        self.retries = max(1, retries if retries is not None else int(os.environ.get("LEADERBOARD_GITHUB_RETRIES", "3")))
         self.opener = build_opener(StripAuthRedirectHandler)
+
+    def _retry_sleep(self, attempt: int) -> None:
+        time.sleep(min(2 ** (attempt - 1), 8))
 
     def _request(self, path_or_url: str, params: dict[str, Any] | None = None) -> bytes:
         if path_or_url.startswith("http://") or path_or_url.startswith("https://"):
@@ -124,18 +129,28 @@ class GitHubClient:
         if self.token:
             headers["Authorization"] = f"Bearer {self.token}"
 
-        try:
-            with self.opener.open(Request(url, headers=headers), timeout=60) as response:
-                return response.read()
-        except HTTPError as exc:
-            detail = exc.read().decode("utf-8", errors="replace")
+        for attempt in range(1, self.retries + 1):
             try:
-                message = json.loads(detail).get("message", detail)
-            except json.JSONDecodeError:
-                message = detail
-            raise GitHubError(exc.code, path_or_url, message) from exc
-        except URLError as exc:
-            raise GitHubError(None, path_or_url, str(exc)) from exc
+                with self.opener.open(Request(url, headers=headers), timeout=60) as response:
+                    return response.read()
+            except HTTPError as exc:
+                detail = exc.read().decode("utf-8", errors="replace")
+                try:
+                    message = json.loads(detail).get("message", detail)
+                except json.JSONDecodeError:
+                    message = detail
+                error = GitHubError(exc.code, path_or_url, message)
+                if exc.code >= 500 and attempt < self.retries:
+                    self._retry_sleep(attempt)
+                    continue
+                raise error from exc
+            except (URLError, TimeoutError) as exc:
+                error = GitHubError(None, path_or_url, str(exc))
+                if attempt < self.retries:
+                    self._retry_sleep(attempt)
+                    continue
+                raise error from exc
+        raise AssertionError("unreachable GitHub request retry loop")
 
     def get_json(self, path: str, params: dict[str, Any] | None = None) -> Any:
         return json.loads(self._request(path, params).decode("utf-8"))
@@ -408,6 +423,10 @@ def diagnostic_is_collection_error(diagnostic: Diagnostic) -> bool:
     return diagnostic.kind == "error"
 
 
+def is_expired_log_error(exc: GitHubError) -> bool:
+    return exc.status in {404, 410} and "/logs" in exc.path
+
+
 def list_completed_workflow_runs(
     client: GitHubClient,
     organization: str,
@@ -526,6 +545,18 @@ def record_from_payload(
     )
 
 
+def cached_record_matches_job(record: LeaderboardRecord, run: dict[str, Any], job: dict[str, Any]) -> bool:
+    run_time = run.get("run_started_at") or run.get("created_at") or run.get("updated_at") or ""
+    completion_time = (
+        job.get("completed_at")
+        or run.get("updated_at")
+        or run.get("created_at")
+        or run_time
+        or ""
+    )
+    return bool(record.run_time) and record.run_time == run_time and record.completion_time == completion_time
+
+
 def direction_matches_run(direction: Direction, run: dict[str, Any]) -> bool:
     return not direction.workflow_names or run.get("name") in direction.workflow_names
 
@@ -563,6 +594,7 @@ def collect_repository(
     repo: dict[str, Any],
     directions: list[Direction],
     max_runs: int,
+    cached_records: dict[tuple[str, str, str], LeaderboardRecord] | None = None,
 ) -> tuple[list[LeaderboardRecord], list[Diagnostic]]:
     organization = config["organization"]
     repo_name = repo["name"]
@@ -570,6 +602,7 @@ def collect_repository(
     latest_seen: dict[str, Diagnostic] = {}
     blocked: set[str] = set()
     workflow_text_by_run: dict[int, str] = {}
+    cached_records = cached_records or {}
 
     workflow_names = {name for direction in directions for name in direction.workflow_names}
     upload_branch = repo.get("default_branch") or "main"
@@ -658,7 +691,6 @@ def collect_repository(
                 continue
 
             job = find_job_for_direction(jobs, direction)
-            expected_name = expected_github_id(repo_name, direction)
             if not job:
                 latest_seen.setdefault(
                     direction.key,
@@ -673,9 +705,16 @@ def collect_repository(
                 )
                 continue
 
+            cached_record = cached_record_for_repo(repo, direction, cached_records)
+            if cached_record is not None and cached_record_matches_job(cached_record, run, job):
+                records[direction.key] = cached_record
+                continue
+
+            expected_name = expected_github_id(repo_name, direction)
             try:
                 log_bytes = client.get_bytes(f"/repos/{organization}/{repo_name}/actions/jobs/{job['id']}/logs")
             except GitHubError as exc:
+                kind = "missing" if is_expired_log_error(exc) else "error"
                 latest_seen.setdefault(
                     direction.key,
                     Diagnostic(
@@ -685,7 +724,7 @@ def collect_repository(
                         str(exc),
                         run_url=run.get("html_url"),
                         run_time=run.get("run_started_at") or run.get("created_at"),
-                        kind="error",
+                        kind=kind,
                     ),
                 )
                 blocked.add(direction.key)
@@ -734,6 +773,7 @@ def collect(
     max_runs: int | None,
     repository_names: list[str] | None = None,
     workers: int | None = None,
+    previous_snapshot: dict[str, Any] | None = None,
 ) -> tuple[list[LeaderboardRecord], list[Diagnostic]]:
     token = os.environ.get("LEADERBOARD_GITHUB_TOKEN") or os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     client = GitHubClient(token)
@@ -742,7 +782,9 @@ def collect(
     for direction in directions:
         groups.setdefault(direction.repository_prefix, []).append(direction)
 
+    cached_records = full_score_snapshot_records(config, previous_snapshot)
     work_items: list[tuple[dict[str, Any], list[Direction]]] = []
+    records: list[LeaderboardRecord] = []
     for prefix, group_directions in groups.items():
         repos = discover_repositories(
             client,
@@ -753,7 +795,6 @@ def collect(
         )
         work_items.extend((repo, group_directions) for repo in repos)
 
-    records: list[LeaderboardRecord] = []
     diagnostics: list[Diagnostic] = []
     run_limit = max_runs or int(config.get("max_runs_per_repo", 6))
     worker_count = max(1, int(workers or config.get("workers", 1)))
@@ -761,7 +802,14 @@ def collect(
     if worker_count == 1 or len(work_items) <= 1:
         for index, (repo, group_directions) in enumerate(work_items, start=1):
             print(f"[{index}/{len(work_items)}] collecting {repo['name']}", file=sys.stderr)
-            repo_records, repo_diagnostics = collect_repository(client, config, repo, group_directions, run_limit)
+            repo_records, repo_diagnostics = collect_repository(
+                client,
+                config,
+                repo,
+                group_directions,
+                run_limit,
+                cached_records,
+            )
             records.extend(repo_records)
             diagnostics.extend(repo_diagnostics)
         return records, diagnostics
@@ -772,7 +820,14 @@ def collect(
         group_directions: list[Direction],
     ) -> tuple[int, list[LeaderboardRecord], list[Diagnostic]]:
         thread_client = GitHubClient(token)
-        repo_records, repo_diagnostics = collect_repository(thread_client, config, repo, group_directions, run_limit)
+        repo_records, repo_diagnostics = collect_repository(
+            thread_client,
+            config,
+            repo,
+            group_directions,
+            run_limit,
+            cached_records,
+        )
         return index, repo_records, repo_diagnostics
 
     by_index: dict[int, tuple[list[LeaderboardRecord], list[Diagnostic]]] = {}
@@ -831,6 +886,17 @@ def refresh_snapshot_time(snapshot: dict[str, Any]) -> dict[str, Any]:
     return snapshot
 
 
+def reuse_snapshot_time(snapshot: dict[str, Any], previous_snapshot: dict[str, Any]) -> dict[str, Any]:
+    generated_at = previous_snapshot.get("metadata", {}).get("generated_at")
+    if not generated_at:
+        return snapshot
+    snapshot = dict(snapshot)
+    metadata = dict(snapshot.get("metadata", {}))
+    metadata["generated_at"] = generated_at
+    snapshot["metadata"] = metadata
+    return snapshot
+
+
 def markdown_escape(value: Any) -> str:
     text = str(value)
     return text.replace("|", "\\|").replace("\n", " ")
@@ -856,6 +922,20 @@ def public_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
     cleaned["ranked"] = [public_record(record) for record in snapshot.get("ranked", [])]
     cleaned["diagnostics"] = []
     return cleaned
+
+
+def snapshot_without_generated_at(snapshot: dict[str, Any]) -> dict[str, Any]:
+    cleaned = public_snapshot(snapshot)
+    metadata = dict(cleaned.get("metadata", {}))
+    metadata.pop("generated_at", None)
+    cleaned["metadata"] = metadata
+    return cleaned
+
+
+def leaderboard_content_changed(snapshot: dict[str, Any], previous_snapshot: dict[str, Any] | None) -> bool:
+    if not previous_snapshot:
+        return True
+    return snapshot_without_generated_at(snapshot) != snapshot_without_generated_at(previous_snapshot)
 
 
 def direction_from_snapshot(item: dict[str, Any]) -> Direction:
@@ -932,8 +1012,9 @@ def render_direction_page(
     return text
 
 
-def render(snapshot: dict[str, Any], config: dict[str, Any], root: Path) -> None:
-    snapshot = refresh_snapshot_time(snapshot)
+def render(snapshot: dict[str, Any], config: dict[str, Any], root: Path, refresh_time: bool = True) -> None:
+    if refresh_time:
+        snapshot = refresh_snapshot_time(snapshot)
     snapshot = public_snapshot(snapshot)
     snapshot["max_diagnostics_per_page"] = config.get("max_diagnostics_per_page", 40)
     snapshot_path = root / config["snapshot_path"]
@@ -984,6 +1065,46 @@ def snapshot_record(item: dict[str, Any]) -> LeaderboardRecord:
     )
 
 
+def is_full_score_snapshot_item(item: dict[str, Any]) -> bool:
+    try:
+        score = float(item["score"])
+        total_score = float(item["total_score"])
+    except (KeyError, TypeError, ValueError):
+        return False
+    return total_score > 0 and score >= total_score
+
+
+def full_score_snapshot_records(
+    config: dict[str, Any],
+    previous_snapshot: dict[str, Any] | None,
+) -> dict[tuple[str, str, str], LeaderboardRecord]:
+    if not previous_snapshot:
+        return {}
+
+    direction_keys = {(direction.stage, direction.key) for direction in config["directions"]}
+    records: dict[tuple[str, str, str], LeaderboardRecord] = {}
+    for item in previous_snapshot.get("ranked", []):
+        try:
+            stage = str(item["stage"])
+            direction = str(item["direction"])
+            github_id = str(item["github_id"])
+        except KeyError:
+            continue
+        if (stage, direction) not in direction_keys or not is_full_score_snapshot_item(item):
+            continue
+        records[record_identity(stage, direction, github_id)] = snapshot_record(item)
+    return records
+
+
+def cached_record_for_repo(
+    repo: dict[str, Any],
+    direction: Direction,
+    records: dict[tuple[str, str, str], LeaderboardRecord],
+) -> LeaderboardRecord | None:
+    github_id = expected_github_id(str(repo["name"]), direction)
+    return records.get(record_identity(direction.stage, direction.key, github_id))
+
+
 def diagnostic_identity(
     diagnostic: Diagnostic,
     directions_by_key: dict[str, Direction],
@@ -999,6 +1120,8 @@ def diagnostic_identity(
 
 def diagnostic_allows_snapshot_preservation(diagnostic: Diagnostic) -> bool:
     reason = diagnostic.reason.lower()
+    if "/logs" in reason and ("404" in reason or "410" in reason or "not found" in reason):
+        return True
     if diagnostic.kind != "error":
         return reason in {
             "no verified opencamp score payload in matching job log",
@@ -1006,7 +1129,7 @@ def diagnostic_allows_snapshot_preservation(diagnostic: Diagnostic) -> bool:
         }
     if "expired" in reason or "gone" in reason:
         return True
-    return "/logs" in reason and ("404" in reason or "410" in reason or "not found" in reason)
+    return False
 
 
 def preserve_snapshot_records(
@@ -1153,6 +1276,71 @@ def self_test() -> None:
         ("CPU Experiment (TCG)",),
         "SECRET",
     )
+    soc_direction = Direction(
+        "professional",
+        "专业阶段",
+        "pages",
+        "soc",
+        "SoC 方向",
+        "soc.md",
+        "qemu-camp-2026-exper-",
+        ("QEMU Camp 2026 CI",),
+        ("SoC Experiment (QTest)",),
+        "SOC_SECRET",
+    )
+    cached_snapshot = {
+        "ranked": [
+            {
+                "stage": "professional",
+                "direction": "cpu",
+                "github_id": "alice",
+                "score": 100,
+                "total_score": 100,
+                "run_time": "2026-06-15T02:00:00Z",
+                "completion_time": "2026-06-15T02:10:00Z",
+            },
+            {
+                "stage": "professional",
+                "direction": "soc",
+                "github_id": "alice",
+                "score": 90,
+                "total_score": 100,
+                "run_time": "2026-06-15T02:00:00Z",
+                "completion_time": "2026-06-15T02:10:00Z",
+            },
+            {
+                "stage": "professional",
+                "direction": "cpu",
+                "github_id": "bob",
+                "score": 99,
+                "total_score": 100,
+                "run_time": "2026-06-15T02:00:00Z",
+                "completion_time": "2026-06-15T02:10:00Z",
+            },
+            {
+                "stage": "professional",
+                "direction": "cpu",
+                "github_id": "charlie",
+                "score": 50,
+                "total_score": 50,
+                "run_time": "2026-06-15T02:00:00Z",
+                "completion_time": "2026-06-15T02:10:00Z",
+            },
+        ]
+    }
+    cached_full_scores = full_score_snapshot_records(
+        {"directions": [direction, soc_direction]},
+        cached_snapshot,
+    )
+    cached_record = cached_record_for_repo(repo, direction, cached_full_scores)
+    assert cached_record is not None
+    assert cached_record.direction == "cpu"
+    assert cached_record_for_repo(repo, soc_direction, cached_full_scores) is None
+    assert cached_record_for_repo({"name": "qemu-camp-2026-exper-bob"}, direction, cached_full_scores) is None
+    cached_record = cached_record_for_repo({"name": "qemu-camp-2026-exper-charlie"}, direction, cached_full_scores)
+    assert cached_record is not None
+    assert cached_record.github_id == "charlie"
+
     later = record_from_payload(
         payload=payload,
         direction=direction,
@@ -1204,6 +1392,14 @@ def self_test() -> None:
         render(snapshot, config, root)
         public = json.loads((root / "snapshot.json").read_text(encoding="utf-8"))
         assert public["diagnostics"] == []
+        same_content = json.loads(json.dumps(public))
+        same_content["metadata"]["generated_at"] = "2030-01-01T00:00:00Z"
+        assert not leaderboard_content_changed(same_content, public)
+        reused_time = reuse_snapshot_time(same_content, public)
+        assert reused_time["metadata"]["generated_at"] == public["metadata"]["generated_at"]
+        changed_content = json.loads(json.dumps(public))
+        changed_content["ranked"][0]["score"] = float(changed_content["ranked"][0]["score"]) + 1
+        assert leaderboard_content_changed(changed_content, public)
         page = (root / "pages" / "cpu.md").read_text(encoding="utf-8")
         assert "qemu-camp-2026-exper" not in page.split("| GitHub ID |", 1)[-1].split("完整快照", 1)[0]
         assert "bob" in page and "alice" in page
@@ -1291,6 +1487,7 @@ def self_test() -> None:
             self.jobs = jobs
             self.logs = logs
             self.workflow_text = workflow_text
+            self.log_requests = 0
 
         def get_json(self, path: str, params: dict[str, Any] | None = None) -> Any:
             if path.endswith("/actions/runs"):
@@ -1310,6 +1507,7 @@ def self_test() -> None:
             match = re.search(r"/actions/jobs/(\d+)/logs$", path_or_url)
             if not match:
                 raise AssertionError(f"unexpected get_bytes path: {path_or_url}")
+            self.log_requests += 1
             result = self.logs[int(match.group(1))]
             if isinstance(result, GitHubError):
                 raise result
@@ -1332,6 +1530,108 @@ def self_test() -> None:
         "main",
     )
     assert [run["id"] for run in filtered_runs] == [12]
+
+    client = FakeGitHubClient(
+        [
+            {
+                "id": 40,
+                "name": "QEMU Camp 2026 CI",
+                "event": "push",
+                "head_branch": "main",
+                "head_sha": "cached-valid",
+                "path": ".github/workflows/classroom.yml",
+                "run_started_at": "2026-06-15T02:00:00Z",
+                "created_at": "2026-06-15T02:00:00Z",
+                "html_url": "https://example.com/40",
+            }
+        ],
+        {
+            40: [{"id": 400, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-15T02:10:00Z"}],
+        },
+        {},
+        workflow_text="courseId: ${{ secrets.SECRET }}",
+    )
+    records, diagnostics = collect_repository(
+        client,
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+        cached_full_scores,
+    )
+    assert diagnostics == []
+    assert len(records) == 1
+    assert records[0].github_id == "alice"
+    assert records[0].source == "snapshot"
+    assert client.log_requests == 0
+
+    updated_payload_log = log.replace('"score": 100', '"score": 80')
+    client = FakeGitHubClient(
+        [
+            {
+                "id": 42,
+                "name": "QEMU Camp 2026 CI",
+                "event": "push",
+                "head_branch": "main",
+                "head_sha": "cached-new-run",
+                "path": ".github/workflows/classroom.yml",
+                "run_started_at": "2026-06-17T02:00:00Z",
+                "created_at": "2026-06-17T02:00:00Z",
+                "html_url": "https://example.com/42",
+            }
+        ],
+        {
+            42: [{"id": 420, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+        },
+        {
+            420: updated_payload_log.encode("utf-8"),
+        },
+        workflow_text="courseId: ${{ secrets.SECRET }}",
+    )
+    records, diagnostics = collect_repository(
+        client,
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+        cached_full_scores,
+    )
+    assert diagnostics == []
+    assert len(records) == 1
+    assert records[0].score == 80
+    assert records[0].source == "log"
+    assert client.log_requests == 1
+
+    client = FakeGitHubClient(
+        [
+            {
+                "id": 41,
+                "name": "QEMU Camp 2026 CI",
+                "event": "push",
+                "head_branch": "main",
+                "head_sha": "cached-missing-job",
+                "path": ".github/workflows/classroom.yml",
+                "run_started_at": "2026-06-17T02:00:00Z",
+                "created_at": "2026-06-17T02:00:00Z",
+                "html_url": "https://example.com/41",
+            }
+        ],
+        {41: []},
+        {},
+        workflow_text="courseId: ${{ secrets.SECRET }}",
+    )
+    records, diagnostics = collect_repository(
+        client,
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+        cached_full_scores,
+    )
+    assert records == []
+    assert len(diagnostics) == 1
+    assert "matching job" in diagnostics[0].reason
+    assert client.log_requests == 0
 
     stale_payload_log = log.replace('"score": 100', '"score": 10')
     records, diagnostics = collect_repository(
@@ -1384,24 +1684,37 @@ def self_test() -> None:
         FakeGitHubClient(
             [
                 {
-                    "id": 30,
+                    "id": 22,
                     "name": "QEMU Camp 2026 CI",
                     "event": "push",
                     "head_branch": "main",
-                    "head_sha": "missing-secret",
+                    "head_sha": "expired-log",
                     "path": ".github/workflows/classroom.yml",
                     "run_started_at": "2026-06-17T02:00:00Z",
                     "created_at": "2026-06-17T02:00:00Z",
-                    "html_url": "https://example.com/30",
-                }
+                    "html_url": "https://example.com/22",
+                },
+                {
+                    "id": 20,
+                    "name": "QEMU Camp 2026 CI",
+                    "event": "push",
+                    "head_branch": "main",
+                    "head_sha": "old",
+                    "path": ".github/workflows/classroom.yml",
+                    "run_started_at": "2026-06-15T02:00:00Z",
+                    "created_at": "2026-06-15T02:00:00Z",
+                    "html_url": "https://example.com/20",
+                },
             ],
             {
-                30: [{"id": 300, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+                22: [{"id": 220, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+                20: [{"id": 200, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-15T02:10:00Z"}],
             },
             {
-                300: log.encode("utf-8"),
+                220: GitHubError(410, "/jobs/220/logs", "Gone"),
+                200: stale_payload_log.encode("utf-8"),
             },
-            workflow_text="courseId: ${{ secrets.OTHER_SECRET }}",
+            workflow_text="courseId: ${{ secrets.SECRET }}",
         ),
         {"organization": "gevico"},
         repo,
@@ -1411,7 +1724,44 @@ def self_test() -> None:
     assert records == []
     assert len(diagnostics) == 1
     assert diagnostics[0].kind == "missing"
+    assert "410" in diagnostics[0].reason
+    assert not diagnostic_is_collection_error(diagnostics[0])
+
+    client = FakeGitHubClient(
+        [
+            {
+                "id": 30,
+                "name": "QEMU Camp 2026 CI",
+                "event": "push",
+                "head_branch": "main",
+                "head_sha": "missing-secret",
+                "path": ".github/workflows/classroom.yml",
+                "run_started_at": "2026-06-17T02:00:00Z",
+                "created_at": "2026-06-17T02:00:00Z",
+                "html_url": "https://example.com/30",
+            }
+        ],
+        {
+            30: [{"id": 300, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+        },
+        {
+            300: log.encode("utf-8"),
+        },
+        workflow_text="courseId: ${{ secrets.OTHER_SECRET }}",
+    )
+    records, diagnostics = collect_repository(
+        client,
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+        cached_full_scores,
+    )
+    assert records == []
+    assert len(diagnostics) == 1
+    assert diagnostics[0].kind == "missing"
     assert "course secret" in diagnostics[0].reason
+    assert client.log_requests == 0
 
 
 def parse_args() -> argparse.Namespace:
@@ -1448,16 +1798,28 @@ def main() -> int:
     config = load_config(Path(args.config))
     root = Path(args.output_root)
     preserved_count = 0
+    cached_count = 0
+    previous_snapshot: dict[str, Any] | None = None
+    content_changed = True
     if args.render_only:
         snapshot = load_snapshot(Path(args.render_only))
         diagnostics: list[Diagnostic] = []
     else:
-        records, diagnostics = collect(config, args.repo_limit, args.max_runs, args.repository, args.workers)
+        previous_snapshot = load_snapshot_if_exists(root / config["snapshot_path"])
+        records, diagnostics = collect(
+            config,
+            args.repo_limit,
+            args.max_runs,
+            args.repository,
+            args.workers,
+            previous_snapshot,
+        )
+        cached_count = sum(1 for record in records if record.source == "snapshot")
         records, diagnostics, preserved_count = preserve_snapshot_records(
             config,
             records,
             diagnostics,
-            load_snapshot_if_exists(root / config["snapshot_path"]),
+            previous_snapshot,
         )
         collection_errors = [diagnostic for diagnostic in diagnostics if diagnostic_is_collection_error(diagnostic)]
         if args.fail_on_collection_errors and collection_errors:
@@ -1474,22 +1836,26 @@ def main() -> int:
                 print(f"- ... {len(collection_errors) - 20} more errors", file=sys.stderr)
             return 1
         snapshot = build_snapshot(config, records, diagnostics)
+        content_changed = leaderboard_content_changed(snapshot, previous_snapshot)
+        if not content_changed:
+            snapshot = reuse_snapshot_time(snapshot, previous_snapshot or {})
     collection_error_count = len([diagnostic for diagnostic in diagnostics if diagnostic_is_collection_error(diagnostic)])
 
     if args.dry_run:
         with tempfile.TemporaryDirectory() as tmp:
-            render(snapshot, config, Path(tmp))
+            render(snapshot, config, Path(tmp), refresh_time=content_changed)
             print(f"dry-run rendered files under {tmp}")
             print(
                 f"ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
-                f"collection_errors={collection_error_count} preserved={preserved_count} "
-                f"generated_at={snapshot['metadata']['generated_at']}"
+                f"collection_errors={collection_error_count} cached={cached_count} preserved={preserved_count} "
+                f"content_changed={str(content_changed).lower()} generated_at={snapshot['metadata']['generated_at']}"
             )
     else:
-        render(snapshot, config, root)
+        render(snapshot, config, root, refresh_time=content_changed)
         print(
             f"rendered leaderboards: ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
-            f"collection_errors={collection_error_count} preserved={preserved_count}"
+            f"collection_errors={collection_error_count} cached={cached_count} preserved={preserved_count} "
+            f"content_changed={str(content_changed).lower()}"
         )
     return 0
 
