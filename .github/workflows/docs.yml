@@ -5,12 +5,36 @@ on:
     branches:
       - master
       - main
+  pull_request:
+    branches:
+      - master
+      - main
 permissions:
   contents: read
-  pages: write
-  id-token: write
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - name: Build documentation
+        run: |
+          set -o pipefail
+          make build 2>&1 | tee build.log
+          if grep -Eni '(^|[^[:alpha:]])(warning|error)s?([^[:alpha:]]|$)' build.log; then
+            echo "::error::Documentation build emitted warnings or errors."
+            exit 1
+          fi
+
   deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -21,9 +45,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - run: pip install -r requirements.txt
-      - run: zensical build --clean 
+      - run: make build
       - uses: actions/upload-pages-artifact@v4
         with:
+          name: github-pages-${{ github.run_attempt }}
           path: site
-      - uses: actions/deploy-pages@v4
+      - id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
