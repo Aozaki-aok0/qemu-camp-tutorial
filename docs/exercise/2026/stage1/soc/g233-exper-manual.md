@@ -129,7 +129,7 @@ gdb -ex "target remote :1234" build/qemu-system-riscv64
 
     建议对照 [G233 SoC 硬件手册][5] 和测题源码一起看，理解测试意图后再动手，调试效率会高很多。
 
-每道测题 10 分，一共 10 道测题，共计 100 分，评分将显示到训练营的[专业阶段排行榜][4]。
+每道测题 10 分，一共 10 道测题，共计 100 分，评分将显示到训练营的[SoC 方向专业阶段排行榜][4]。
 
 ## 实验介绍
 
@@ -371,6 +371,6 @@ qemu-system-riscv64 -M g233 \
 [1]: https://qemu.readthedocs.io/en/v10.0.3/devel/build-environment.html
 [2]: https://github.com/riscv-collab/riscv-gnu-toolchain/releases/
 [3]: https://classroom.github.com/a/hwWFrmo_
-[4]: https://opencamp.cn/qemu/camp/2025/stage/3?tab=rank
+[4]: ../../../../leaderboards/2026/professional/soc.md
 [5]: https://qemu.gevico.online/exercise/2026/stage1/soc/g233-datasheet/
 [6]: https://rust-lang.org/zh-CN/tools/install/

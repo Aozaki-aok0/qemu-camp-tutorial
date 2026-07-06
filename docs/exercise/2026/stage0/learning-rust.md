@@ -34,7 +34,6 @@ qemu_camp_basic_rust/
 
 ### 1. 准备 Rust 环境
 
-
 请参考此文档完成 Rust 环境配置：[ArceOS Tutorial Book - 实验环境配置](https://rcore-os.cn/arceos-tutorial-book/ch01-02.html)
 
 请先在 Linux / WSL2 / macOS 环境中完成 Rust 工具链安装，确保至少可以正常使用：
@@ -89,6 +88,8 @@ cargo test --test cicv --verbose          # 执行仓库评测入口
 评分状态会在 workflow summary 中显示（`reported` / `failed` / `skipped` 等）。
 
 本地评测输出：`.github/result/check_result.json`（供 CI 解析，无需手动改）。
+
+基础阶段 Rust 排行榜见：[Rust 基础阶段排行榜](../../../leaderboards/2026/basic/rust.md)。
 
 ## 速览
 

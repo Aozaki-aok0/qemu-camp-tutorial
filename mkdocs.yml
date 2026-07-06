@@ -85,6 +85,8 @@ extra_css:
 extra_javascript:
   - plugins/javascripts/toc-collapse.js
   - plugins/javascripts/ppt-slides.js
+  - plugins/javascripts/mathjax-config.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 nav:
   - 主页: index.md
@@ -128,6 +130,7 @@ nav:
         - b. 建模 AI 加速卡: tutorial/2026/ch3/qemu-cxlemu.md
         - c. 大模型建模外设: tutorial/2026/ch3/qemu-agent.md
         - d. 应用跨平台转译: tutorial/2026/ch3/qemu-wine-ce.md
+        - e. AI 开发提示: tutorial/2026/ch3/qemu-ai-dev-guidance.md
     - QEMU 训练营 2025:
       - 训练营介绍: tutorial/2025/index.md
       - 1. 导学阶段: tutorial/2025/ch0/index.md
@@ -177,7 +180,7 @@ nav:
         - a. Prof Level Manual: tutorial/2025/ch4/prof-level-manual.md
         - b. G233 Datasheet: tutorial/2025/ch4/g233-board-datasheet.md
       - 6. 贡献名录: tutorial/2025/ch5/contributors.md
-  - 练习:
+  - 实验:
     - 介绍页: exercise/index.md
     - QEMU 训练营 2026:
       - 训练营介绍: exercise/2026/index.md
@@ -203,37 +206,69 @@ nav:
           - 实验介绍: exercise/2026/stage1/rust/index.md
           - Rust 实验手册: exercise/2026/stage1/rust/rust-exper-manual.md
           - Rust 编程指南: exercise/2026/stage1/rust/rust-lang-manual.md
+  - 排行榜:
+    - QEMU 训练营 2026:
+      - 基础阶段:
+        - C 语言: leaderboards/2026/basic/c.md
+        - Rust: leaderboards/2026/basic/rust.md
+      - 专业阶段:
+        - CPU 方向: leaderboards/2026/professional/cpu.md
+        - SoC 方向: leaderboards/2026/professional/soc.md
+        - GPGPU 方向: leaderboards/2026/professional/gpgpu.md
+        - Rust 方向: leaderboards/2026/professional/rust.md
   - 博客:
     - 介绍页: blogs/index.md
     - 训练营 2026:
-      - 专业阶段总结 dingtao1: blogs/2026/qemu-camp-2026-dingtao1.md
-      - 专业阶段总结 rd: blogs/2026/qemu-camp-2026-rd.md
-      - 专业阶段总结 ihanzh: blogs/2026/qemu-camp-2026-ihanzh.md
-      - 专业阶段总结 srcres258: blogs/2026/qemu-camp-2026-srcres258.md
-      - 专业阶段总结 Codeman-1999: blogs/2026/qemu-camp-2026-Codeman-1999.md
-      - 专业阶段总结 kusola: blogs/2026/qemu-camp-2026-kusola.md
-      - 专业阶段总结 flespark: blogs/2026/qemu-camp-2026-flespark-tcg.md
-      - 专业阶段总结 caspian: blogs/2026/qemu-camp-2026-caspian.md
-      - 专业阶段总结 caspian_soc: blogs/2026/qemu-camp-2026-caspian-soc.md
-      - 专业阶段总结 caspian_gpu: blogs/2026/qemu-camp-2026-caspian-gpu.md
-      - 专业阶段总结 Kcang-gna: blogs/2026/qemu-camp-2026-Kcang-gna.md
-      - 专业阶段总结 lingqian-gi: blogs/2026/qemu-camp-2026-lingqian-gi.md
-      - 专业阶段总结 yuanyiboyyb: blogs/2026/qemu-camp-2026-yuanyiboyyb.md
-      - 专业阶段总结 scrail: blogs/2026/qemu-camp-2026-scrail.md
-      - 专业阶段总结 Firegooder: blogs/2026/qemu-camp-2026-Firegooder.md
-      - 专业阶段总结 liuhong: blogs/2026/qemu-camp-2026-liuhong-gpu.md
-      - 专业阶段总结 vsvnakers: blogs/2026/qemu-camp-2026-vsvnakers.md
-      - 专业阶段总结 asdfgh870: blogs/2026/qemu-camp-2026-asdfgh870.md
-      - 专业阶段总结 Eclipse-Arrebol: blogs/2026/qemu-camp-2026-Eclipse-Arrebol.md
-      - 专业阶段总结 2zuqisong: blogs/2026/qemu-camp-2026-2zuqisong.md
-      - 专业阶段总结 Aozaki-aok0: blogs/2026/qemu-camp-2026-Aozaki-aok0.md
-      - GPU 进阶实验总结:
-        - 进阶实验总结（一） - rd: blogs/2026/gpu/gpu-exper-blog-rd-ex1.md
-        - 进阶实验总结（一） - caspian: blogs/2026/gpu/gpu-exper-blog-caspian-ex1.md
-        - 进阶实验总结（二） - caspian: blogs/2026/gpu/gpu-exper-blog-caspian-ex2.md
+      - 专业阶段:
+        - dingtao1: blogs/2026/professional/qemu-camp-2026-dingtao1.md
+        - random25160765-collab:
+          - GPGPU 方向: blogs/2026/professional/qemu-camp-2026-random25160765-collab/gpgpu.md
+          - GPU 进阶实验一: blogs/2026/professional/qemu-camp-2026-random25160765-collab/gpgpu-advanced-1.md
+        - ihanzh: blogs/2026/professional/qemu-camp-2026-ihanzh.md
+        - srcres258: blogs/2026/professional/qemu-camp-2026-srcres258.md
+        - Codeman-1999: blogs/2026/professional/qemu-camp-2026-Codeman-1999.md
+        - kusola: blogs/2026/professional/qemu-camp-2026-kusola.md
+        - flespark: blogs/2026/professional/qemu-camp-2026-flespark-tcg.md
+        - caspian:
+          - CPU 方向: blogs/2026/professional/qemu-camp-2026-caspian/cpu.md
+          - SoC 方向: blogs/2026/professional/qemu-camp-2026-caspian/soc.md
+          - GPGPU 方向: blogs/2026/professional/qemu-camp-2026-caspian/gpgpu.md
+          - GPU 进阶实验一: blogs/2026/professional/qemu-camp-2026-caspian/gpgpu-advanced-1.md
+          - GPU 进阶实验二: blogs/2026/professional/qemu-camp-2026-caspian/gpgpu-advanced-2.md
+        - cn-sys: blogs/2026/professional/qemu-camp-2026-cn-sys.md
+        - Kcang-gna: blogs/2026/professional/qemu-camp-2026-Kcang-gna.md
+        - lingqian-gi: blogs/2026/professional/qemu-camp-2026-lingqian-gi.md
+        - yuanyiboyyb: blogs/2026/professional/qemu-camp-2026-yuanyiboyyb.md
+        - scrail: blogs/2026/professional/qemu-camp-2026-scrail.md
+        - Firegooder: blogs/2026/professional/qemu-camp-2026-Firegooder.md
+        - liuhong: blogs/2026/professional/qemu-camp-2026-liuhong-gpu.md
+        - vsvnakers: blogs/2026/professional/qemu-camp-2026-vsvnakers.md
+        - asdfgh870: blogs/2026/professional/qemu-camp-2026-asdfgh870.md
+        - Eclipse-Arrebol: blogs/2026/professional/qemu-camp-2026-Eclipse-Arrebol.md
+        - 2zuqisong: blogs/2026/professional/qemu-camp-2026-2zuqisong.md
+        - Aozaki-aok0: blogs/2026/professional/qemu-camp-2026-Aozaki-aok0.md
+        - rhbfc: blogs/2026/professional/qemu-camp-2026-rhbfc.md
+        - serf-huik: blogs/2026/professional/qemu-camp-2026-serf-huik.md
+        - jensenojs: blogs/2026/professional/qemu-camp-2026-jensenojs.md
+        - dazuo233: blogs/2026/professional/qemu-camp-2026-dazuo233.md
+        - jack-wang-176: blogs/2026/professional/qemu-camp-2026-jack-wang-176.md
+        - eyauwag: blogs/2026/professional/qemu-camp-2026-eyauwag.md
+        - Sunuywq: blogs/2026/professional/qemu-camp-2026-Sunuywq.md
+        - zhenbaii: blogs/2026/professional/qemu-camp-2026-zhenbaii.md
+        - First-da: blogs/2026/professional/qemu-camp-2026-First-da.md
+        - WhiteBearI: blogs/2026/professional/qemu-camp-2026-WhiteBearI.md
+        - yyxt-xwy: blogs/2026/professional/qemu-camp-2026-yyxt-xwy.md
+        - xiex386: blogs/2026/professional/qemu-camp-2026-xiex386.md
+        - flamboyante: blogs/2026/professional/qemu-camp-2026-flamboyante.md
+        - dweeqhd: blogs/2026/professional/qemu-camp-2026-dweeqhd.md
+        - jieniguiemmm: blogs/2026/professional/qemu-camp-2026-jieniguiemmm.md
+        - sutter099: blogs/2026/professional/qemu-camp-2026-sutter099.md
+      - 项目阶段:
+        - 暂无文章: blogs/2026/project/project-stage.md
     - 训练营 2025:
       - 专业阶段总结 LordaeronESZ: blogs/2025/qemu-camp-2025-LordaeronESZ.md
     - 其他技术博客:
+      - 从 cmodel 说开来 - rd: blogs/misc/from-a-cmodel-rd.md
       - 参与 QEMU 邮件列表讨论: blogs/misc/qemu-devel-email.md
       - 一键 QEMU 云原生开发: blogs/misc/qemu-cnb-dev.md
       - 虚拟机软件中的解释技术: blogs/misc/simulater-interp.md

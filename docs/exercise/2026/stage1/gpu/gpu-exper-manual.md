@@ -112,6 +112,8 @@ ok 16 /riscv64/.../gpgpu/gpgpu-tests/lp-convert-e5m2-e2m1
 ok 17 /riscv64/.../gpgpu/gpgpu-tests/lp-convert-saturate
 ```
 
+每次 push 到 `main` 会触发 CI 评测，得分更新到[GPGPU 方向专业阶段排行榜][4]。
+
 如果你想运行某个测例，比如 `kernel-exec`，可以使用如下命令：
 
 ```bash
@@ -324,4 +326,5 @@ GPGPU 方向的全部实验围绕虚拟 PCIe 3D 加速器的设备建模与 SIMT
 评估维度：集成的完整度、simx 相对手写 cmodel 的指令覆盖增量（cache/barrier/divergence 是否生效）、以及在真实 AI workload 上的正确性。
 
 [3]: https://classroom.github.com/a/hwWFrmo_
+[4]: ../../../../leaderboards/2026/professional/gpgpu.md
 [5]: gpu-datasheet.md
