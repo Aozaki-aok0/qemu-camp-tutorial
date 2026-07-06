@@ -582,6 +582,7 @@ def collect_repository(
     repo: dict[str, Any],
     directions: list[Direction],
     max_runs: int,
+    cached_records: dict[tuple[str, str, str], LeaderboardRecord] | None = None,
 ) -> tuple[list[LeaderboardRecord], list[Diagnostic]]:
     organization = config["organization"]
     repo_name = repo["name"]
@@ -589,6 +590,7 @@ def collect_repository(
     latest_seen: dict[str, Diagnostic] = {}
     blocked: set[str] = set()
     workflow_text_by_run: dict[int, str] = {}
+    cached_records = cached_records or {}
 
     workflow_names = {name for direction in directions for name in direction.workflow_names}
     upload_branch = repo.get("default_branch") or "main"
@@ -677,7 +679,6 @@ def collect_repository(
                 continue
 
             job = find_job_for_direction(jobs, direction)
-            expected_name = expected_github_id(repo_name, direction)
             if not job:
                 latest_seen.setdefault(
                     direction.key,
@@ -692,6 +693,12 @@ def collect_repository(
                 )
                 continue
 
+            cached_record = cached_record_for_repo(repo, direction, cached_records)
+            if cached_record is not None:
+                records[direction.key] = cached_record
+                continue
+
+            expected_name = expected_github_id(repo_name, direction)
             try:
                 log_bytes = client.get_bytes(f"/repos/{organization}/{repo_name}/actions/jobs/{job['id']}/logs")
             except GitHubError as exc:
@@ -774,11 +781,7 @@ def collect(
             repo_limit,
             repository_names=repository_names,
         )
-        for repo in repos:
-            cached, remaining_directions = split_cached_repo_directions(repo, group_directions, cached_records)
-            records.extend(cached)
-            if remaining_directions:
-                work_items.append((repo, remaining_directions))
+        work_items.extend((repo, group_directions) for repo in repos)
 
     diagnostics: list[Diagnostic] = []
     run_limit = max_runs or int(config.get("max_runs_per_repo", 6))
@@ -787,7 +790,14 @@ def collect(
     if worker_count == 1 or len(work_items) <= 1:
         for index, (repo, group_directions) in enumerate(work_items, start=1):
             print(f"[{index}/{len(work_items)}] collecting {repo['name']}", file=sys.stderr)
-            repo_records, repo_diagnostics = collect_repository(client, config, repo, group_directions, run_limit)
+            repo_records, repo_diagnostics = collect_repository(
+                client,
+                config,
+                repo,
+                group_directions,
+                run_limit,
+                cached_records,
+            )
             records.extend(repo_records)
             diagnostics.extend(repo_diagnostics)
         return records, diagnostics
@@ -798,7 +808,14 @@ def collect(
         group_directions: list[Direction],
     ) -> tuple[int, list[LeaderboardRecord], list[Diagnostic]]:
         thread_client = GitHubClient(token)
-        repo_records, repo_diagnostics = collect_repository(thread_client, config, repo, group_directions, run_limit)
+        repo_records, repo_diagnostics = collect_repository(
+            thread_client,
+            config,
+            repo,
+            group_directions,
+            run_limit,
+            cached_records,
+        )
         return index, repo_records, repo_diagnostics
 
     by_index: dict[int, tuple[list[LeaderboardRecord], list[Diagnostic]]] = {}
@@ -1050,22 +1067,6 @@ def cached_record_for_repo(
     return records.get(record_identity(direction.stage, direction.key, github_id))
 
 
-def split_cached_repo_directions(
-    repo: dict[str, Any],
-    directions: list[Direction],
-    records: dict[tuple[str, str, str], LeaderboardRecord],
-) -> tuple[list[LeaderboardRecord], list[Direction]]:
-    cached: list[LeaderboardRecord] = []
-    remaining: list[Direction] = []
-    for direction in directions:
-        record = cached_record_for_repo(repo, direction, records)
-        if record is None:
-            remaining.append(direction)
-        else:
-            cached.append(record)
-    return cached, remaining
-
-
 def diagnostic_identity(
     diagnostic: Diagnostic,
     directions_by_key: dict[str, Direction],
@@ -1293,23 +1294,14 @@ def self_test() -> None:
         {"directions": [direction, soc_direction]},
         cached_snapshot,
     )
-    cached, remaining = split_cached_repo_directions(repo, [direction, soc_direction], cached_full_scores)
-    assert [record.direction for record in cached] == ["cpu"]
-    assert [item.key for item in remaining] == ["soc"]
-    cached, remaining = split_cached_repo_directions(
-        {"name": "qemu-camp-2026-exper-bob"},
-        [direction],
-        cached_full_scores,
-    )
-    assert cached == []
-    assert [item.key for item in remaining] == ["cpu"]
-    cached, remaining = split_cached_repo_directions(
-        {"name": "qemu-camp-2026-exper-charlie"},
-        [direction],
-        cached_full_scores,
-    )
-    assert [record.github_id for record in cached] == ["charlie"]
-    assert remaining == []
+    cached_record = cached_record_for_repo(repo, direction, cached_full_scores)
+    assert cached_record is not None
+    assert cached_record.direction == "cpu"
+    assert cached_record_for_repo(repo, soc_direction, cached_full_scores) is None
+    assert cached_record_for_repo({"name": "qemu-camp-2026-exper-bob"}, direction, cached_full_scores) is None
+    cached_record = cached_record_for_repo({"name": "qemu-camp-2026-exper-charlie"}, direction, cached_full_scores)
+    assert cached_record is not None
+    assert cached_record.github_id == "charlie"
 
     later = record_from_payload(
         payload=payload,
@@ -1449,6 +1441,7 @@ def self_test() -> None:
             self.jobs = jobs
             self.logs = logs
             self.workflow_text = workflow_text
+            self.log_requests = 0
 
         def get_json(self, path: str, params: dict[str, Any] | None = None) -> Any:
             if path.endswith("/actions/runs"):
@@ -1468,6 +1461,7 @@ def self_test() -> None:
             match = re.search(r"/actions/jobs/(\d+)/logs$", path_or_url)
             if not match:
                 raise AssertionError(f"unexpected get_bytes path: {path_or_url}")
+            self.log_requests += 1
             result = self.logs[int(match.group(1))]
             if isinstance(result, GitHubError):
                 raise result
@@ -1490,6 +1484,71 @@ def self_test() -> None:
         "main",
     )
     assert [run["id"] for run in filtered_runs] == [12]
+
+    client = FakeGitHubClient(
+        [
+            {
+                "id": 40,
+                "name": "QEMU Camp 2026 CI",
+                "event": "push",
+                "head_branch": "main",
+                "head_sha": "cached-valid",
+                "path": ".github/workflows/classroom.yml",
+                "run_started_at": "2026-06-17T02:00:00Z",
+                "created_at": "2026-06-17T02:00:00Z",
+                "html_url": "https://example.com/40",
+            }
+        ],
+        {
+            40: [{"id": 400, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+        },
+        {},
+        workflow_text="courseId: ${{ secrets.SECRET }}",
+    )
+    records, diagnostics = collect_repository(
+        client,
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+        cached_full_scores,
+    )
+    assert diagnostics == []
+    assert len(records) == 1
+    assert records[0].github_id == "alice"
+    assert records[0].source == "snapshot"
+    assert client.log_requests == 0
+
+    client = FakeGitHubClient(
+        [
+            {
+                "id": 41,
+                "name": "QEMU Camp 2026 CI",
+                "event": "push",
+                "head_branch": "main",
+                "head_sha": "cached-missing-job",
+                "path": ".github/workflows/classroom.yml",
+                "run_started_at": "2026-06-17T02:00:00Z",
+                "created_at": "2026-06-17T02:00:00Z",
+                "html_url": "https://example.com/41",
+            }
+        ],
+        {41: []},
+        {},
+        workflow_text="courseId: ${{ secrets.SECRET }}",
+    )
+    records, diagnostics = collect_repository(
+        client,
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+        cached_full_scores,
+    )
+    assert records == []
+    assert len(diagnostics) == 1
+    assert "matching job" in diagnostics[0].reason
+    assert client.log_requests == 0
 
     stale_payload_log = log.replace('"score": 100', '"score": 10')
     records, diagnostics = collect_repository(
@@ -1585,38 +1644,41 @@ def self_test() -> None:
     assert "410" in diagnostics[0].reason
     assert not diagnostic_is_collection_error(diagnostics[0])
 
+    client = FakeGitHubClient(
+        [
+            {
+                "id": 30,
+                "name": "QEMU Camp 2026 CI",
+                "event": "push",
+                "head_branch": "main",
+                "head_sha": "missing-secret",
+                "path": ".github/workflows/classroom.yml",
+                "run_started_at": "2026-06-17T02:00:00Z",
+                "created_at": "2026-06-17T02:00:00Z",
+                "html_url": "https://example.com/30",
+            }
+        ],
+        {
+            30: [{"id": 300, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+        },
+        {
+            300: log.encode("utf-8"),
+        },
+        workflow_text="courseId: ${{ secrets.OTHER_SECRET }}",
+    )
     records, diagnostics = collect_repository(
-        FakeGitHubClient(
-            [
-                {
-                    "id": 30,
-                    "name": "QEMU Camp 2026 CI",
-                    "event": "push",
-                    "head_branch": "main",
-                    "head_sha": "missing-secret",
-                    "path": ".github/workflows/classroom.yml",
-                    "run_started_at": "2026-06-17T02:00:00Z",
-                    "created_at": "2026-06-17T02:00:00Z",
-                    "html_url": "https://example.com/30",
-                }
-            ],
-            {
-                30: [{"id": 300, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
-            },
-            {
-                300: log.encode("utf-8"),
-            },
-            workflow_text="courseId: ${{ secrets.OTHER_SECRET }}",
-        ),
+        client,
         {"organization": "gevico"},
         repo,
         [direction],
         6,
+        cached_full_scores,
     )
     assert records == []
     assert len(diagnostics) == 1
     assert diagnostics[0].kind == "missing"
     assert "course secret" in diagnostics[0].reason
+    assert client.log_requests == 0
 
 
 def parse_args() -> argparse.Namespace:
