@@ -886,6 +886,17 @@ def refresh_snapshot_time(snapshot: dict[str, Any]) -> dict[str, Any]:
     return snapshot
 
 
+def reuse_snapshot_time(snapshot: dict[str, Any], previous_snapshot: dict[str, Any]) -> dict[str, Any]:
+    generated_at = previous_snapshot.get("metadata", {}).get("generated_at")
+    if not generated_at:
+        return snapshot
+    snapshot = dict(snapshot)
+    metadata = dict(snapshot.get("metadata", {}))
+    metadata["generated_at"] = generated_at
+    snapshot["metadata"] = metadata
+    return snapshot
+
+
 def markdown_escape(value: Any) -> str:
     text = str(value)
     return text.replace("|", "\\|").replace("\n", " ")
@@ -911,6 +922,20 @@ def public_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
     cleaned["ranked"] = [public_record(record) for record in snapshot.get("ranked", [])]
     cleaned["diagnostics"] = []
     return cleaned
+
+
+def snapshot_without_generated_at(snapshot: dict[str, Any]) -> dict[str, Any]:
+    cleaned = public_snapshot(snapshot)
+    metadata = dict(cleaned.get("metadata", {}))
+    metadata.pop("generated_at", None)
+    cleaned["metadata"] = metadata
+    return cleaned
+
+
+def leaderboard_content_changed(snapshot: dict[str, Any], previous_snapshot: dict[str, Any] | None) -> bool:
+    if not previous_snapshot:
+        return True
+    return snapshot_without_generated_at(snapshot) != snapshot_without_generated_at(previous_snapshot)
 
 
 def direction_from_snapshot(item: dict[str, Any]) -> Direction:
@@ -987,8 +1012,9 @@ def render_direction_page(
     return text
 
 
-def render(snapshot: dict[str, Any], config: dict[str, Any], root: Path) -> None:
-    snapshot = refresh_snapshot_time(snapshot)
+def render(snapshot: dict[str, Any], config: dict[str, Any], root: Path, refresh_time: bool = True) -> None:
+    if refresh_time:
+        snapshot = refresh_snapshot_time(snapshot)
     snapshot = public_snapshot(snapshot)
     snapshot["max_diagnostics_per_page"] = config.get("max_diagnostics_per_page", 40)
     snapshot_path = root / config["snapshot_path"]
@@ -1366,6 +1392,14 @@ def self_test() -> None:
         render(snapshot, config, root)
         public = json.loads((root / "snapshot.json").read_text(encoding="utf-8"))
         assert public["diagnostics"] == []
+        same_content = json.loads(json.dumps(public))
+        same_content["metadata"]["generated_at"] = "2030-01-01T00:00:00Z"
+        assert not leaderboard_content_changed(same_content, public)
+        reused_time = reuse_snapshot_time(same_content, public)
+        assert reused_time["metadata"]["generated_at"] == public["metadata"]["generated_at"]
+        changed_content = json.loads(json.dumps(public))
+        changed_content["ranked"][0]["score"] = float(changed_content["ranked"][0]["score"]) + 1
+        assert leaderboard_content_changed(changed_content, public)
         page = (root / "pages" / "cpu.md").read_text(encoding="utf-8")
         assert "qemu-camp-2026-exper" not in page.split("| GitHub ID |", 1)[-1].split("完整快照", 1)[0]
         assert "bob" in page and "alice" in page
@@ -1765,6 +1799,8 @@ def main() -> int:
     root = Path(args.output_root)
     preserved_count = 0
     cached_count = 0
+    previous_snapshot: dict[str, Any] | None = None
+    content_changed = True
     if args.render_only:
         snapshot = load_snapshot(Path(args.render_only))
         diagnostics: list[Diagnostic] = []
@@ -1800,22 +1836,26 @@ def main() -> int:
                 print(f"- ... {len(collection_errors) - 20} more errors", file=sys.stderr)
             return 1
         snapshot = build_snapshot(config, records, diagnostics)
+        content_changed = leaderboard_content_changed(snapshot, previous_snapshot)
+        if not content_changed:
+            snapshot = reuse_snapshot_time(snapshot, previous_snapshot or {})
     collection_error_count = len([diagnostic for diagnostic in diagnostics if diagnostic_is_collection_error(diagnostic)])
 
     if args.dry_run:
         with tempfile.TemporaryDirectory() as tmp:
-            render(snapshot, config, Path(tmp))
+            render(snapshot, config, Path(tmp), refresh_time=content_changed)
             print(f"dry-run rendered files under {tmp}")
             print(
                 f"ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
                 f"collection_errors={collection_error_count} cached={cached_count} preserved={preserved_count} "
-                f"generated_at={snapshot['metadata']['generated_at']}"
+                f"content_changed={str(content_changed).lower()} generated_at={snapshot['metadata']['generated_at']}"
             )
     else:
-        render(snapshot, config, root)
+        render(snapshot, config, root, refresh_time=content_changed)
         print(
             f"rendered leaderboards: ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
-            f"collection_errors={collection_error_count} cached={cached_count} preserved={preserved_count}"
+            f"collection_errors={collection_error_count} cached={cached_count} preserved={preserved_count} "
+            f"content_changed={str(content_changed).lower()}"
         )
     return 0
 
