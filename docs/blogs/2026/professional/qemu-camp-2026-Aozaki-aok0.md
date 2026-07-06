@@ -2,9 +2,7 @@
 
 !!! note "主要贡献者"
 
-```
-- 作者：[@Aozaki-aok0](https://github.com/Aozaki-aok0)
-```
+    - 作者：[@Aozaki-aok0](https://github.com/Aozaki-aok0)
 
 ---
 
