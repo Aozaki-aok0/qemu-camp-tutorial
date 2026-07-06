@@ -754,6 +754,7 @@ def collect(
     max_runs: int | None,
     repository_names: list[str] | None = None,
     workers: int | None = None,
+    previous_snapshot: dict[str, Any] | None = None,
 ) -> tuple[list[LeaderboardRecord], list[Diagnostic]]:
     token = os.environ.get("LEADERBOARD_GITHUB_TOKEN") or os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
     client = GitHubClient(token)
@@ -762,7 +763,9 @@ def collect(
     for direction in directions:
         groups.setdefault(direction.repository_prefix, []).append(direction)
 
+    cached_records = full_score_snapshot_records(config, previous_snapshot)
     work_items: list[tuple[dict[str, Any], list[Direction]]] = []
+    records: list[LeaderboardRecord] = []
     for prefix, group_directions in groups.items():
         repos = discover_repositories(
             client,
@@ -771,9 +774,12 @@ def collect(
             repo_limit,
             repository_names=repository_names,
         )
-        work_items.extend((repo, group_directions) for repo in repos)
+        for repo in repos:
+            cached, remaining_directions = split_cached_repo_directions(repo, group_directions, cached_records)
+            records.extend(cached)
+            if remaining_directions:
+                work_items.append((repo, remaining_directions))
 
-    records: list[LeaderboardRecord] = []
     diagnostics: list[Diagnostic] = []
     run_limit = max_runs or int(config.get("max_runs_per_repo", 6))
     worker_count = max(1, int(workers or config.get("workers", 1)))
@@ -1004,6 +1010,62 @@ def snapshot_record(item: dict[str, Any]) -> LeaderboardRecord:
     )
 
 
+def is_full_score_snapshot_item(item: dict[str, Any]) -> bool:
+    try:
+        score = float(item["score"])
+        total_score = float(item["total_score"])
+    except (KeyError, TypeError, ValueError):
+        return False
+    return total_score > 0 and score >= total_score
+
+
+def full_score_snapshot_records(
+    config: dict[str, Any],
+    previous_snapshot: dict[str, Any] | None,
+) -> dict[tuple[str, str, str], LeaderboardRecord]:
+    if not previous_snapshot:
+        return {}
+
+    direction_keys = {(direction.stage, direction.key) for direction in config["directions"]}
+    records: dict[tuple[str, str, str], LeaderboardRecord] = {}
+    for item in previous_snapshot.get("ranked", []):
+        try:
+            stage = str(item["stage"])
+            direction = str(item["direction"])
+            github_id = str(item["github_id"])
+        except KeyError:
+            continue
+        if (stage, direction) not in direction_keys or not is_full_score_snapshot_item(item):
+            continue
+        records[record_identity(stage, direction, github_id)] = snapshot_record(item)
+    return records
+
+
+def cached_record_for_repo(
+    repo: dict[str, Any],
+    direction: Direction,
+    records: dict[tuple[str, str, str], LeaderboardRecord],
+) -> LeaderboardRecord | None:
+    github_id = expected_github_id(str(repo["name"]), direction)
+    return records.get(record_identity(direction.stage, direction.key, github_id))
+
+
+def split_cached_repo_directions(
+    repo: dict[str, Any],
+    directions: list[Direction],
+    records: dict[tuple[str, str, str], LeaderboardRecord],
+) -> tuple[list[LeaderboardRecord], list[Direction]]:
+    cached: list[LeaderboardRecord] = []
+    remaining: list[Direction] = []
+    for direction in directions:
+        record = cached_record_for_repo(repo, direction, records)
+        if record is None:
+            remaining.append(direction)
+        else:
+            cached.append(record)
+    return cached, remaining
+
+
 def diagnostic_identity(
     diagnostic: Diagnostic,
     directions_by_key: dict[str, Direction],
@@ -1175,6 +1237,80 @@ def self_test() -> None:
         ("CPU Experiment (TCG)",),
         "SECRET",
     )
+    soc_direction = Direction(
+        "professional",
+        "专业阶段",
+        "pages",
+        "soc",
+        "SoC 方向",
+        "soc.md",
+        "qemu-camp-2026-exper-",
+        ("QEMU Camp 2026 CI",),
+        ("SoC Experiment (QTest)",),
+        "SOC_SECRET",
+    )
+    cached_snapshot = {
+        "ranked": [
+            {
+                "stage": "professional",
+                "direction": "cpu",
+                "github_id": "alice",
+                "score": 100,
+                "total_score": 100,
+                "run_time": "2026-06-15T02:00:00Z",
+                "completion_time": "2026-06-15T02:10:00Z",
+            },
+            {
+                "stage": "professional",
+                "direction": "soc",
+                "github_id": "alice",
+                "score": 90,
+                "total_score": 100,
+                "run_time": "2026-06-15T02:00:00Z",
+                "completion_time": "2026-06-15T02:10:00Z",
+            },
+            {
+                "stage": "professional",
+                "direction": "cpu",
+                "github_id": "bob",
+                "score": 99,
+                "total_score": 100,
+                "run_time": "2026-06-15T02:00:00Z",
+                "completion_time": "2026-06-15T02:10:00Z",
+            },
+            {
+                "stage": "professional",
+                "direction": "cpu",
+                "github_id": "charlie",
+                "score": 50,
+                "total_score": 50,
+                "run_time": "2026-06-15T02:00:00Z",
+                "completion_time": "2026-06-15T02:10:00Z",
+            },
+        ]
+    }
+    cached_full_scores = full_score_snapshot_records(
+        {"directions": [direction, soc_direction]},
+        cached_snapshot,
+    )
+    cached, remaining = split_cached_repo_directions(repo, [direction, soc_direction], cached_full_scores)
+    assert [record.direction for record in cached] == ["cpu"]
+    assert [item.key for item in remaining] == ["soc"]
+    cached, remaining = split_cached_repo_directions(
+        {"name": "qemu-camp-2026-exper-bob"},
+        [direction],
+        cached_full_scores,
+    )
+    assert cached == []
+    assert [item.key for item in remaining] == ["cpu"]
+    cached, remaining = split_cached_repo_directions(
+        {"name": "qemu-camp-2026-exper-charlie"},
+        [direction],
+        cached_full_scores,
+    )
+    assert [record.github_id for record in cached] == ["charlie"]
+    assert remaining == []
+
     later = record_from_payload(
         payload=payload,
         direction=direction,
@@ -1517,16 +1653,26 @@ def main() -> int:
     config = load_config(Path(args.config))
     root = Path(args.output_root)
     preserved_count = 0
+    cached_count = 0
     if args.render_only:
         snapshot = load_snapshot(Path(args.render_only))
         diagnostics: list[Diagnostic] = []
     else:
-        records, diagnostics = collect(config, args.repo_limit, args.max_runs, args.repository, args.workers)
+        previous_snapshot = load_snapshot_if_exists(root / config["snapshot_path"])
+        records, diagnostics = collect(
+            config,
+            args.repo_limit,
+            args.max_runs,
+            args.repository,
+            args.workers,
+            previous_snapshot,
+        )
+        cached_count = sum(1 for record in records if record.source == "snapshot")
         records, diagnostics, preserved_count = preserve_snapshot_records(
             config,
             records,
             diagnostics,
-            load_snapshot_if_exists(root / config["snapshot_path"]),
+            previous_snapshot,
         )
         collection_errors = [diagnostic for diagnostic in diagnostics if diagnostic_is_collection_error(diagnostic)]
         if args.fail_on_collection_errors and collection_errors:
@@ -1551,14 +1697,14 @@ def main() -> int:
             print(f"dry-run rendered files under {tmp}")
             print(
                 f"ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
-                f"collection_errors={collection_error_count} preserved={preserved_count} "
+                f"collection_errors={collection_error_count} cached={cached_count} preserved={preserved_count} "
                 f"generated_at={snapshot['metadata']['generated_at']}"
             )
     else:
         render(snapshot, config, root)
         print(
             f"rendered leaderboards: ranked={len(snapshot['ranked'])} diagnostics={len(diagnostics)} "
-            f"collection_errors={collection_error_count} preserved={preserved_count}"
+            f"collection_errors={collection_error_count} cached={cached_count} preserved={preserved_count}"
         )
     return 0
 
