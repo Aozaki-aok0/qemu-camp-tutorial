@@ -545,6 +545,18 @@ def record_from_payload(
     )
 
 
+def cached_record_matches_job(record: LeaderboardRecord, run: dict[str, Any], job: dict[str, Any]) -> bool:
+    run_time = run.get("run_started_at") or run.get("created_at") or run.get("updated_at") or ""
+    completion_time = (
+        job.get("completed_at")
+        or run.get("updated_at")
+        or run.get("created_at")
+        or run_time
+        or ""
+    )
+    return bool(record.run_time) and record.run_time == run_time and record.completion_time == completion_time
+
+
 def direction_matches_run(direction: Direction, run: dict[str, Any]) -> bool:
     return not direction.workflow_names or run.get("name") in direction.workflow_names
 
@@ -694,7 +706,7 @@ def collect_repository(
                 continue
 
             cached_record = cached_record_for_repo(repo, direction, cached_records)
-            if cached_record is not None:
+            if cached_record is not None and cached_record_matches_job(cached_record, run, job):
                 records[direction.key] = cached_record
                 continue
 
@@ -1494,13 +1506,13 @@ def self_test() -> None:
                 "head_branch": "main",
                 "head_sha": "cached-valid",
                 "path": ".github/workflows/classroom.yml",
-                "run_started_at": "2026-06-17T02:00:00Z",
-                "created_at": "2026-06-17T02:00:00Z",
+                "run_started_at": "2026-06-15T02:00:00Z",
+                "created_at": "2026-06-15T02:00:00Z",
                 "html_url": "https://example.com/40",
             }
         ],
         {
-            40: [{"id": 400, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+            40: [{"id": 400, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-15T02:10:00Z"}],
         },
         {},
         workflow_text="courseId: ${{ secrets.SECRET }}",
@@ -1518,6 +1530,43 @@ def self_test() -> None:
     assert records[0].github_id == "alice"
     assert records[0].source == "snapshot"
     assert client.log_requests == 0
+
+    updated_payload_log = log.replace('"score": 100', '"score": 80')
+    client = FakeGitHubClient(
+        [
+            {
+                "id": 42,
+                "name": "QEMU Camp 2026 CI",
+                "event": "push",
+                "head_branch": "main",
+                "head_sha": "cached-new-run",
+                "path": ".github/workflows/classroom.yml",
+                "run_started_at": "2026-06-17T02:00:00Z",
+                "created_at": "2026-06-17T02:00:00Z",
+                "html_url": "https://example.com/42",
+            }
+        ],
+        {
+            42: [{"id": 420, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+        },
+        {
+            420: updated_payload_log.encode("utf-8"),
+        },
+        workflow_text="courseId: ${{ secrets.SECRET }}",
+    )
+    records, diagnostics = collect_repository(
+        client,
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+        cached_full_scores,
+    )
+    assert diagnostics == []
+    assert len(records) == 1
+    assert records[0].score == 80
+    assert records[0].source == "log"
+    assert client.log_requests == 1
 
     client = FakeGitHubClient(
         [
