@@ -10,6 +10,7 @@ import os
 import re
 import sys
 import tempfile
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -104,9 +105,13 @@ class StripAuthRedirectHandler(HTTPRedirectHandler):
 
 
 class GitHubClient:
-    def __init__(self, token: str | None):
+    def __init__(self, token: str | None, retries: int | None = None):
         self.token = token
+        self.retries = max(1, retries if retries is not None else int(os.environ.get("LEADERBOARD_GITHUB_RETRIES", "3")))
         self.opener = build_opener(StripAuthRedirectHandler)
+
+    def _retry_sleep(self, attempt: int) -> None:
+        time.sleep(min(2 ** (attempt - 1), 8))
 
     def _request(self, path_or_url: str, params: dict[str, Any] | None = None) -> bytes:
         if path_or_url.startswith("http://") or path_or_url.startswith("https://"):
@@ -124,18 +129,28 @@ class GitHubClient:
         if self.token:
             headers["Authorization"] = f"Bearer {self.token}"
 
-        try:
-            with self.opener.open(Request(url, headers=headers), timeout=60) as response:
-                return response.read()
-        except HTTPError as exc:
-            detail = exc.read().decode("utf-8", errors="replace")
+        for attempt in range(1, self.retries + 1):
             try:
-                message = json.loads(detail).get("message", detail)
-            except json.JSONDecodeError:
-                message = detail
-            raise GitHubError(exc.code, path_or_url, message) from exc
-        except URLError as exc:
-            raise GitHubError(None, path_or_url, str(exc)) from exc
+                with self.opener.open(Request(url, headers=headers), timeout=60) as response:
+                    return response.read()
+            except HTTPError as exc:
+                detail = exc.read().decode("utf-8", errors="replace")
+                try:
+                    message = json.loads(detail).get("message", detail)
+                except json.JSONDecodeError:
+                    message = detail
+                error = GitHubError(exc.code, path_or_url, message)
+                if exc.code >= 500 and attempt < self.retries:
+                    self._retry_sleep(attempt)
+                    continue
+                raise error from exc
+            except (URLError, TimeoutError) as exc:
+                error = GitHubError(None, path_or_url, str(exc))
+                if attempt < self.retries:
+                    self._retry_sleep(attempt)
+                    continue
+                raise error from exc
+        raise AssertionError("unreachable GitHub request retry loop")
 
     def get_json(self, path: str, params: dict[str, Any] | None = None) -> Any:
         return json.loads(self._request(path, params).decode("utf-8"))
@@ -408,6 +423,10 @@ def diagnostic_is_collection_error(diagnostic: Diagnostic) -> bool:
     return diagnostic.kind == "error"
 
 
+def is_expired_log_error(exc: GitHubError) -> bool:
+    return exc.status in {404, 410} and "/logs" in exc.path
+
+
 def list_completed_workflow_runs(
     client: GitHubClient,
     organization: str,
@@ -676,6 +695,7 @@ def collect_repository(
             try:
                 log_bytes = client.get_bytes(f"/repos/{organization}/{repo_name}/actions/jobs/{job['id']}/logs")
             except GitHubError as exc:
+                kind = "missing" if is_expired_log_error(exc) else "error"
                 latest_seen.setdefault(
                     direction.key,
                     Diagnostic(
@@ -685,7 +705,7 @@ def collect_repository(
                         str(exc),
                         run_url=run.get("html_url"),
                         run_time=run.get("run_started_at") or run.get("created_at"),
-                        kind="error",
+                        kind=kind,
                     ),
                 )
                 blocked.add(direction.key)
@@ -999,6 +1019,8 @@ def diagnostic_identity(
 
 def diagnostic_allows_snapshot_preservation(diagnostic: Diagnostic) -> bool:
     reason = diagnostic.reason.lower()
+    if "/logs" in reason and ("404" in reason or "410" in reason or "not found" in reason):
+        return True
     if diagnostic.kind != "error":
         return reason in {
             "no verified opencamp score payload in matching job log",
@@ -1006,7 +1028,7 @@ def diagnostic_allows_snapshot_preservation(diagnostic: Diagnostic) -> bool:
         }
     if "expired" in reason or "gone" in reason:
         return True
-    return "/logs" in reason and ("404" in reason or "410" in reason or "not found" in reason)
+    return False
 
 
 def preserve_snapshot_records(
@@ -1379,6 +1401,53 @@ def self_test() -> None:
     assert len(diagnostics) == 1
     assert diagnostics[0].kind == "error"
     assert "Bad Gateway" in diagnostics[0].reason
+
+    records, diagnostics = collect_repository(
+        FakeGitHubClient(
+            [
+                {
+                    "id": 22,
+                    "name": "QEMU Camp 2026 CI",
+                    "event": "push",
+                    "head_branch": "main",
+                    "head_sha": "expired-log",
+                    "path": ".github/workflows/classroom.yml",
+                    "run_started_at": "2026-06-17T02:00:00Z",
+                    "created_at": "2026-06-17T02:00:00Z",
+                    "html_url": "https://example.com/22",
+                },
+                {
+                    "id": 20,
+                    "name": "QEMU Camp 2026 CI",
+                    "event": "push",
+                    "head_branch": "main",
+                    "head_sha": "old",
+                    "path": ".github/workflows/classroom.yml",
+                    "run_started_at": "2026-06-15T02:00:00Z",
+                    "created_at": "2026-06-15T02:00:00Z",
+                    "html_url": "https://example.com/20",
+                },
+            ],
+            {
+                22: [{"id": 220, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-17T02:10:00Z"}],
+                20: [{"id": 200, "name": "CPU Experiment (TCG)", "completed_at": "2026-06-15T02:10:00Z"}],
+            },
+            {
+                220: GitHubError(410, "/jobs/220/logs", "Gone"),
+                200: stale_payload_log.encode("utf-8"),
+            },
+            workflow_text="courseId: ${{ secrets.SECRET }}",
+        ),
+        {"organization": "gevico"},
+        repo,
+        [direction],
+        6,
+    )
+    assert records == []
+    assert len(diagnostics) == 1
+    assert diagnostics[0].kind == "missing"
+    assert "410" in diagnostics[0].reason
+    assert not diagnostic_is_collection_error(diagnostics[0])
 
     records, diagnostics = collect_repository(
         FakeGitHubClient(
